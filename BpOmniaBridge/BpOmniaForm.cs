@@ -17,11 +17,20 @@ namespace BpOmniaBridge
         public BpOmniaForm()
         {
             InitializeComponent();
-            Create_log_file();
-
+            CreateLogFile();
+            CreateParamsFolder();
         }
 
-        private static void Create_log_file()
+        //folder where the xml files will be exchanged between OMNIA and BP
+        private static void CreateParamsFolder()
+        {
+            var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+            Directory.CreateDirectory(fullpath);
+        }
+
+        //Create utility folder for BpOmniaBridge + log file
+        private static void CreateLogFile()
         {
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge");
