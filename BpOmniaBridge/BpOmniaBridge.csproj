@@ -49,7 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CmdList.cs" />
+    <Compile Include="Commands\CmdUtility.cs" />
     <Compile Include="Form\BpOmniaForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +59,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Utility.cs" />
     <EmbeddedResource Include="Form\BpOmniaForm.resx">
       <DependentUpon>BpOmniaForm.cs</DependentUpon>
     </EmbeddedResource>
