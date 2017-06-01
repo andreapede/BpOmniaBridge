@@ -7,7 +7,3 @@ D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Debug\BpOmniaBridge.Properties.Resources.re
 D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.GenerateResource.Cache
 D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe
 D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Debug\BpOmniaBridge.pdb
-D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Debug\BPDevice.dll
-D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Debug\BPDevice.Data.dll
-D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Debug\EntityFramework.dll
-D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Debug\Ionic.Zip.dll

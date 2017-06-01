@@ -36,12 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>W:\Bp Device API v1.0.6\Bp Device API v1.0.6\BPDevice.dll</HintPath>
     </Reference>
-    <Reference Include="Control">
-      <HintPath>C:\Program Files (x86)\COSMED\Omnia\Standalone\BridgeFilters\Control.dll</HintPath>
-    </Reference>
-    <Reference Include="Legacy">
-      <HintPath>C:\Program Files (x86)\COSMED\Omnia\Standalone\BridgeFilters\Legacy.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,15 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BpOmniaForm.cs">
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Form\BpOmniaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BpOmniaForm.Designer.cs">
+    <Compile Include="Form\BpOmniaForm.Designer.cs">
       <DependentUpon>BpOmniaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BpOmniaForm.resx">
+    <EmbeddedResource Include="Form\BpOmniaForm.resx">
       <DependentUpon>BpOmniaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
