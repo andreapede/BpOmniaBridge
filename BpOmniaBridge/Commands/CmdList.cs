@@ -10,6 +10,7 @@ namespace BpOmniaBridge.CommandList
 {
     public class CommandList
     {
+        #region System Commands
         public void CloseApplication()
         {
             var cmd = new Command("close_app", "System", "CloseApplication");
@@ -48,5 +49,23 @@ namespace BpOmniaBridge.CommandList
             var cmd = new Command("logout", "System", "Logout");
             cmd.Send();
         }
+        #endregion
+
+        #region Archive Commands
+
+        public void ChangeSubject(Guid recordID, string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("change_subj", "Archive", "ChangeSubject");
+            List<string> listNames = subjNames.ToList();
+            List<string> listValues = subjValues.ToList();
+            listNames.Insert(0,"RecordID");
+            listValues.Insert(0, recordID.ToString());
+            string[] parNames = listNames.ToArray();
+            string[] parValues = listValues.ToArray();
+            cmd.AddParams(parNames, parValues);
+            cmd.Send();
+        }
+
+        #endregion
     }
 }

@@ -43,7 +43,9 @@ namespace BpOmniaBridge
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new CommandList.CommandList().Logout();
+            string[] names = new string[] { "Firstname", "Lastname" };
+            string[] values = new string[] { "Ema", "Maglio" };
+            new CommandList.CommandList().ChangeSubject(6546516,names, values);
         }
     }
 }
