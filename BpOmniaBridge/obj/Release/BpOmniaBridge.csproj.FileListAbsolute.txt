@@ -1,0 +1,8 @@
+D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Release\BpOmniaBridge.exe.config
+D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Release\BpOmniaBridge.exe
+D:\BP_OMNIA_bridge\BpOmniaBridge\bin\Release\BpOmniaBridge.pdb
+D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Release\BpOmniaBridge.BpOmniaForm.resources
+D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Release\BpOmniaBridge.Properties.Resources.resources
+D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Release\BpOmniaBridge.csproj.GenerateResource.Cache
+D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Release\BpOmniaBridge.exe
+D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Release\BpOmniaBridge.pdb

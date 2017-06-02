@@ -37,6 +37,7 @@
       <HintPath>W:\Bp Device API v1.0.6\Bp Device API v1.0.6\BPDevice.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CmdList.cs" />
-    <Compile Include="Commands\CmdUtility.cs" />
+    <Compile Include="OmniaCmd\CmdList.cs" />
+    <Compile Include="OmniaCmd\CmdUtility.cs" />
     <Compile Include="Form\BpOmniaForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BP\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

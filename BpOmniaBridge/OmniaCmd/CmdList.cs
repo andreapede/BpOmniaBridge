@@ -35,13 +35,16 @@ namespace BpOmniaBridge.CommandList
             cmd.Send();
         }
 
-        public void Login(string username, string password)
+        public bool Login(string username, string password)
         {
             var cmd = new Command("login", "System", "Login");
             string[] parNames = new string[] { "Username", "Password" };
             string[] parValues = new string[] { username, password};
             cmd.AddParams(parNames, parValues);
             cmd.Send();
+
+            var answer = new ReadCommands("login", "System", "Login", true);
+            return answer.Result=="ACK";
         }
 
         public void Logout()
