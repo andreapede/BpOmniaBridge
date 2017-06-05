@@ -43,8 +43,9 @@ namespace BpOmniaBridge.CommandList
             cmd.AddParams(parNames, parValues);
             cmd.Send();
 
-            var answer = new ReadCommands("login", "System", "Login", true);
-            return answer.Result=="ACK";
+            string[] resultKeys = new string[] { "Result" };
+            var answer = new ReadCommands("login", "System", "Login");
+            return answer.ResultValues[0] == "ACK";
         }
 
         public void Logout()
@@ -56,7 +57,7 @@ namespace BpOmniaBridge.CommandList
 
         #region Archive Commands
 
-        public void ChangeSubject(Guid recordID, string[] subjNames, string[] subjValues)
+        public bool ChangeSubject(Guid recordID, string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("change_subj", "Archive", "ChangeSubject");
             List<string> listNames = subjNames.ToList();
@@ -67,7 +68,36 @@ namespace BpOmniaBridge.CommandList
             string[] parValues = listValues.ToArray();
             cmd.AddParams(parNames, parValues);
             cmd.Send();
+
+            string[] resultKeys = new string[] { "Result" };
+            var answer = new ReadCommands("change_subj", "Archive", "ChangeSubject");
+            return answer.ResultValues[0] == "ACK";
         }
+
+        public string SelectCreateSubject(string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("select_create_subj", "Archive", "SelectCreateSubject");
+            cmd.AddParams(subjNames, subjValues);
+            cmd.Send();
+
+            var answer = new ReadCommands("select_create_subj", "Archive", "SelectCreateSubject");
+            return answer.ResultValues[0];
+        }
+
+        public List<object> GetSubjectVisitList(string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("list_visit_card", "Archive", "GetSubjectVisitList");
+            cmd.AddParams(subjNames, subjValues);
+            cmd.Send();
+
+            var answer = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
+            List<object> result = new List<object> { };
+            result.Add(answer.ResultKeys);
+            result.Add(answer.ResultValues);
+            return result;
+        }
+
+
 
         #endregion
     }

@@ -52,12 +52,12 @@ namespace BpOmniaBridge
                     MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
 
-                if (app != null)
-                    {
-                        Utility.Utility.Log("BP instance created");
-                        app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
-                    }
-                    
+            if (app != null)
+            {
+                Utility.Utility.Log("BP instance created");
+                app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
+             
+            }
             else
                 closeApp();
 
@@ -81,36 +81,44 @@ namespace BpOmniaBridge
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] names = new string[] { "Firstname", "Lastname" };
-            string[] values = new string[] { "Ema", "Maglio" };
-            new CommandList.CommandList().Logout();
+            app.NewTest(1, 1, 4);
         }
 
         #region Method
         public void closeApp()
         {
             this.Close();
-            app.OnTestComplete();
             Utility.Utility.Log("Close bridge");
         }
 
         private void app_eOnNewTest()
         {
+            Utility.Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
-            Utility.Utility.Log(currentTest.ToString());
-            //Invoke(new Action(delegate () { PopulateUser(); }));
-            Invoke(new Action(delegate () { PopulatePatient(); }));
+            patient = currentTest.Patient;
+            NewSpirometryTest();
         }
 
-        private void PopulatePatient()
+        private void NewSpirometryTest()
         {
-            Utility.Utility.Log("PopulatePatient");
-            patient = currentTest.Patient;
-            string[] prmNames = { "Firstname", "LastName", "DayOfBirth", "Gender", "EthnicGroup" };
+            string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup" };
+            var id = patient.InternalId.ToString();
             var name = patient.Name.First;
             var lastname = patient.Name.Last;
+            var dob = patient.DOB.ToString("yyyyMMdd");
+            var gender = patient.Gender.ToString();
+            var ethnicity = "Caucasian";
+            string[] prmValues = {id, name, lastname, dob, gender, ethnicity };
+            
+            //check if user is preset in DB
+             
         }
 
         #endregion
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

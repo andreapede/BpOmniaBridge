@@ -94,12 +94,11 @@ namespace BpOmniaBridge.CommandUtility
         private static string folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
 
         //Initializer name of the file and type of result
-        public ReadCommands(string name, string system, string cmd, bool type)
+        public ReadCommands(string name, string system, string cmd)
         {
             FileName = name;
             CmdSystem = system;
             Cmd = cmd;
-            JustResult = type;
             CheckFileExists();
         }
 
@@ -108,30 +107,38 @@ namespace BpOmniaBridge.CommandUtility
         private string CmdSystem;
         private string Cmd;
         public bool FileExist;
-        public bool JustResult;
-        public string Result;
+        public List<string> ResultValues;
+        public List<string> ResultKeys;
 
         #region Methods
         public void Read()
         {
-            // call this when expect just Result with ACK or NACK
-            if (JustResult && FileExist)
+            ResultValues = new List<string> { };
+            ResultKeys = new List<string> { };
+            if (FileExist)
             {
                 var filePath = Path.Combine(folderPath, FileName + ".out");
-                var resElement = XDocument.Load(filePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements("Result").First();
-                Result = resElement.Value;
+                //get all the elemnts under the command key
+                IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd);
+                foreach( XElement element in elements)
+                {
+                    ResultKeys.Add(element.Name.ToString());
+                    ResultValues.Add(element.Value);
+                }
                 DeleteFile();
-                Utility.Utility.Log(" Read => done");
+                Utility.Utility.Log("Read => done");
             }
+            else
+            { ResultValues.Add("NACK"); }
                 
         }
                 
         private void CheckFileExists()
         {
-            Utility.Utility.Log(" Read => start");
-            // Set timeout to 20 seconds
+            Utility.Utility.Log("Read => start");
+            // Set timeout to 30 seconds
             // ASK: is this ok?
-            var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(20));
+            var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(30));
             var fullPath = Path.Combine(folderPath, FileName + ".out");
             while (!File.Exists(fullPath))
             {
@@ -154,6 +161,52 @@ namespace BpOmniaBridge.CommandUtility
             var filePath = Path.Combine(folderPath, FileName + in_out);
             File.Delete(filePath);
         }
-        #endregion
     }
+    #endregion
+
+    #region Archive Methods
+
+    public class Archive
+    {
+        //Initializer
+        public Archive(string[] keys, string[] values)
+        {
+            keysArray = keys;
+            valuesArrau = values;
+
+        }
+
+        //Properties
+        private string[] keysArray;
+        private string[] valuesArrau;
+
+        public string TodayVisitCard()
+        {
+            List<object> result = new CommandList.CommandList().GetSubjectVisitList(keysArray, valuesArrau);
+            List<object> visitListKeys = new List<object> { };
+            List<object> visitListValues = new List<object> { };
+
+            if (visitList.First() != "NACK")
+            {
+                if (Int32.Parse(visitList.First()) > 0)
+                {
+                    bool found = false;
+                    //existing visit card - check if the one of today exist already
+                    visitList.RemoveAt(0);
+                    foreach (string visit in visitList)
+                    {
+                        if (visit == DateTime.Today.ToString("yyyyMMdd"))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+
+                }
+            }
+
+        }
+    }
+    #endregion
 }

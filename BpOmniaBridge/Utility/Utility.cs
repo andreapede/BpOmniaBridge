@@ -70,5 +70,6 @@ namespace BpOmniaBridge.Utility
                 Process.Start(fullPath);
             return new CommandList.CommandList().Login("ocp", "bp");
         }
+
     }
 }
