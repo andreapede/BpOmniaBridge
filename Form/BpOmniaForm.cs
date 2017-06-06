@@ -23,6 +23,9 @@ namespace BpOmniaBridge
         private IPatient patient;
         private ISpiro spiro;
         private ITest currentTest;
+        private string subjectID;
+        private string visitID;
+        private Archive archive;
        
         public BpOmniaForm()
         {
@@ -70,14 +73,9 @@ namespace BpOmniaBridge
 
         }
 
-        private void statusBar_TextChanged(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            closeApp();
+            archive.ExportTests(visitID);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -108,7 +106,15 @@ namespace BpOmniaBridge
             var middlename = patient.Name.Middle;
             var lastname = patient.Name.Last;
             var dob = patient.DOB.ToString("yyyyMMdd");
-            var gender = patient.Gender.ToString();
+            
+            // handle different in gender lists
+            var bpGender = patient.Gender.ToString();
+            if (bpGender == "Unknown") { bpGender = "Other"; };
+            var gender = bpGender;
+
+            // handle different in ethnicity lists
+            var bpEthnicity = patient.Ethnicity.ToString();
+            // ASK: how to match the ethnicity list in BP with OMNIA's
             var ethnicity = "Caucasian";
             var height = patient.Height.ToString();
             var weight = patient.Weight.ToString();
@@ -116,13 +122,13 @@ namespace BpOmniaBridge
             string[] prmValues = { "", "SUBJECT", "", "DEMO", "19670304", "Male", ethnicity, "180", "80"};
 
             //check if user is preset in DB
-            Archive archive = new Archive(prmNames, prmValues);
-            string subjectID = archive.CreateSubject();
+            archive = new Archive(prmNames, prmValues);
+            subjectID = archive.CreateSubject();
             bool done = false;
             if (subjectID != "NAK")
             {
                 archive.SetRecordID(subjectID);
-                string visitID = archive.TodayVisitCard();
+                visitID = archive.TodayVisitCard();
 
                 if (visitID != "NAK")
                 {
@@ -152,6 +158,11 @@ namespace BpOmniaBridge
             ethnicity.Text = array[6];
             height.Text = array[7];
             weight.Text = array[8];
+        }
+
+        public void StatusBar(string status)
+        {
+            statusBar.Text = status;
         }
 
         #endregion

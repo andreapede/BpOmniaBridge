@@ -245,7 +245,8 @@ namespace BpOmniaBridge.CommandUtility
                     //visitList.RemoveAt(0);
                     for (int i = index + 1; i < visitList.Count; i++)
                     {
-                        if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
+                        //if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
+                        if (visitList.ElementAt(i) == "20130328")
                         {
                             found = true;
                             index = i;
@@ -270,6 +271,17 @@ namespace BpOmniaBridge.CommandUtility
             }
 
             return result;
+        }
+
+        public bool ExportTests(string id)
+        {
+            var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", "tests.xml");
+
+            string[] keys = new string[] { "RecordID", "Filename", "Type" };
+            string[] values = new string[] { id, filePath, "V" };
+
+            return new CommandList.CommandList().ExportData(keys, values);
         }
     }
     #endregion

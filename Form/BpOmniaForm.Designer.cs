@@ -106,7 +106,7 @@ namespace BpOmniaBridge
             this.saveButton.TabIndex = 0;
             this.saveButton.Text = "Save Tests";
             this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // tableLayoutPanel1
             // 
