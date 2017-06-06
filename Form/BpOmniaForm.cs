@@ -133,14 +133,27 @@ namespace BpOmniaBridge
                 }
             }
 
+            if (done)
+            {
+                PopulateSubjectAndVisitCard(prmValues);
+            }
+
             return done;
         }
 
-        #endregion
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        public void PopulateSubjectAndVisitCard(string[] array)
         {
-
+            firstname.Text = array[1];
+            middlename.Text = array[2];
+            lastname.Text = array[3];
+            var dobDateTime = DateTime.ParseExact(array[4], "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            dob.Text = dobDateTime.ToString("dd-MM-yyyy");
+            gender.Text = array[5];
+            ethnicity.Text = array[6];
+            height.Text = array[7];
+            weight.Text = array[8];
         }
+
+        #endregion
     }
 }
