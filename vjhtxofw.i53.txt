@@ -1,0 +1,17 @@
+﻿Create Subject and Visit Card implemented 
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch play_with_ocp
+# Your branch is up-to-date with 'origin/play_with_ocp'.
+#
+# Changes to be committed:
+#	modified:   BpOmniaBridge/Form/BpOmniaForm.cs
+#	modified:   BpOmniaBridge/OmniaCmd/CmdList.cs
+#	modified:   BpOmniaBridge/OmniaCmd/CmdUtility.cs
+#	modified:   BpOmniaBridge/bin/Debug/BpOmniaBridge.exe
+#	modified:   BpOmniaBridge/bin/Debug/BpOmniaBridge.pdb
+#	modified:   BpOmniaBridge/obj/Debug/BpOmniaBridge.csproj.GenerateResource.Cache
+#	modified:   BpOmniaBridge/obj/Debug/BpOmniaBridge.exe
+#	modified:   BpOmniaBridge/obj/Debug/BpOmniaBridge.pdb
+#
+

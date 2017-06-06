@@ -13,6 +13,7 @@ using BPS;
 using BpOmniaBridge.CommandList;
 using BpOmniaBridge.Utility;
 using System.Runtime.InteropServices;
+using BpOmniaBridge.CommandUtility;
 
 namespace BpOmniaBridge
 {
@@ -101,17 +102,32 @@ namespace BpOmniaBridge
 
         private void NewSpirometryTest()
         {
-            string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup" };
+            string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             var id = patient.InternalId.ToString();
             var name = patient.Name.First;
+            var middlename = patient.Name.Middle;
             var lastname = patient.Name.Last;
             var dob = patient.DOB.ToString("yyyyMMdd");
             var gender = patient.Gender.ToString();
             var ethnicity = "Caucasian";
-            string[] prmValues = {id, name, lastname, dob, gender, ethnicity };
-            
+            var height = patient.Height.ToString();
+            var weight = patient.Weight.ToString();
+            //string[] prmValues = {id, name, lastname, dob, gender, ethnicity, height, weight };
+            string[] prmValues = { "", "SUBJECT", "", "DEMO", "19670304", "Male", ethnicity, "180", "80"};
+
             //check if user is preset in DB
-             
+            Archive archive = new Archive(prmNames, prmValues);
+            string subjectID = archive.CreateSubject();
+            if (subjectID != "NAK")
+            {
+                archive.SetRecordID(subjectID);
+                string visitID = archive.TodayVisitCard();
+
+                if (visitID != "NAK")
+                {
+                    //run test
+                }
+            }
         }
 
         #endregion

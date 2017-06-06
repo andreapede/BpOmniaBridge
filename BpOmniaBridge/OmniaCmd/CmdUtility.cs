@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using BpOmniaBridge.CommandList;
 
 namespace BpOmniaBridge.CommandUtility
 {
@@ -31,13 +32,20 @@ namespace BpOmniaBridge.CommandUtility
             command.Element("OmniaXB").Element(system).Add(new XElement(cmd));
         }
 
-        public void AddCommands(string system, string cmd, string[] paramsNames, string[] paramsValues)
+        public void AddCommands(string system, string cmd, string[] paramsNames, string[] paramsValues, bool guidParam = false, int guidIndex = 0)
         {
             BasicCommand(system, cmd);
 
             int index = 0;
             foreach (string prm in paramsNames)
             {
+                if (guidParam && index == guidIndex )
+                {
+                    Guid prmValue;
+                    Guid.TryParse(paramsValues[index], out prmValue);
+                    command.Element("OmniaXB").Element(system).Element(cmd).Add(new XElement(prm, prmValue));
+                }
+
                 command.Element("OmniaXB").Element(system).Element(cmd).Add(new XElement(prm, paramsValues[index]));
                 index += 1;
             }
@@ -57,11 +65,13 @@ namespace BpOmniaBridge.CommandUtility
 
     public class Command
     {   
-        public Command(string name, string sys, string cmmd)
+        public Command(string name, string sys, string cmmd, bool guid = false, int guidIndex = 0)
         {
             FileName = name;
             System = sys;
             Cmd = cmmd;
+            prmGuid = guid;
+            indexGuid = guidIndex;
             ParNames = new string[] { };
             ParValues = new string[] { };
         }
@@ -73,16 +83,18 @@ namespace BpOmniaBridge.CommandUtility
         }
 
         //Properties
-        private string FileName { get; set; }
-        private string System { get; set; }
-        private string Cmd { get; set; }
-        private string[] ParNames { get; set; }
-        private string[] ParValues { get; set; }
+        private string FileName;
+        private string System;
+        private string Cmd;
+        private string[] ParNames;
+        private string[] ParValues;
+        private bool prmGuid;
+        private int indexGuid;
 
         public void Send()
         {
             var command = new WriteCommand(FileName + ".in");
-            command.AddCommands(System, Cmd, ParNames, ParValues);
+            command.AddCommands(System, Cmd, ParNames, ParValues, prmGuid, indexGuid);
             command.Save();
             Utility.Utility.Log("CMD => " + FileName);
         }
@@ -119,7 +131,7 @@ namespace BpOmniaBridge.CommandUtility
             {
                 var filePath = Path.Combine(folderPath, FileName + ".out");
                 //get all the elemnts under the command key
-                IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd);
+                IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
                 foreach( XElement element in elements)
                 {
                     ResultKeys.Add(element.Name.ToString());
@@ -129,7 +141,10 @@ namespace BpOmniaBridge.CommandUtility
                 Utility.Utility.Log("Read => done");
             }
             else
-            { ResultValues.Add("NACK"); }
+            {
+                ResultKeys.Add("Result");
+                ResultValues.Add("NAK");
+            }
                 
         }
                 
@@ -168,43 +183,98 @@ namespace BpOmniaBridge.CommandUtility
 
     public class Archive
     {
-        //Initializer
+        //Initializer: it expect 2 arrays with ID, FirstName, Middlename, LastName, DOB, Gender, Ethnicity, Height and Weight
         public Archive(string[] keys, string[] values)
         {
-            keysArray = keys;
-            valuesArrau = values;
+            //removing the height and weight
+            var keysList = keys.ToList();
+            var valuesList = values.ToList();
+            keysList.RemoveRange(7, 2);
+            valuesList.RemoveRange(7, 2);
+            keysArray = keysList.ToArray();
+            valuesArray = valuesList.ToArray();
 
+            //build array to create visit card (ID, Height, Weight)
+            var visitKeysList = keys.ToList();
+            var visitValuesList = values.ToList();
+            visitKeysList.RemoveRange(0, 7);
+            visitValuesList.RemoveRange(0, 7);
+            visitKeysArray = visitKeysList.ToArray();
+            visitValuesArray = visitValuesList.ToArray();
+        }
+
+        public void SetRecordID(string id)
+        {
+            recordID = id;
+
+            // add the recordID to the array to create a new visit card
+            var visitKeysList = visitKeysArray.ToList();
+            var visitValuesList = visitValuesArray.ToList();
+            visitKeysList.Insert(0, "SubjectID");
+            visitValuesList.Insert(0, recordID);
+            visitKeysArray = visitKeysList.ToArray();
+            visitValuesArray = visitValuesList.ToArray();
         }
 
         //Properties
         private string[] keysArray;
-        private string[] valuesArrau;
+        private string[] valuesArray;
+        private string[] visitKeysArray;
+        private string[] visitValuesArray;
+        private string recordID;
+
+        public string CreateSubject()
+        {
+            return new CommandList.CommandList().SelectCreateSubject(keysArray, valuesArray);
+        }
 
         public string TodayVisitCard()
         {
-            List<object> result = new CommandList.CommandList().GetSubjectVisitList(keysArray, valuesArrau);
-            List<object> visitListKeys = new List<object> { };
-            List<object> visitListValues = new List<object> { };
-
-            if (visitList.First() != "NACK")
+            string[] keys = { "RecordID" };
+            string[] ids = { recordID };
+            List<string> visitList = new CommandList.CommandList().GetSubjectVisitList(keys, ids);
+            int index = visitList.Count / 2;
+            if (visitList.ElementAt(index) != "NAK")
             {
-                if (Int32.Parse(visitList.First()) > 0)
+                if (Int32.Parse(visitList.ElementAt(index)) > 0)
                 {
                     bool found = false;
                     //existing visit card - check if the one of today exist already
-                    visitList.RemoveAt(0);
-                    foreach (string visit in visitList)
+                    //visitList.RemoveAt(0);
+                    for (int i = index + 1; i < visitList.Count; i++)
                     {
-                        if (visit == DateTime.Today.ToString("yyyyMMdd"))
+                        if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
                         {
                             found = true;
+                            index = i;
                             break;
                         }
                     }
 
+                    if (found)
+                    {
+                        //return ID
+                        string id = visitList.ElementAt(index % 2).Remove(0, 3);
+                        return id;
+                    }
+                    else
+                    {
+                        //create new visit card
+                        string id = new CommandList.CommandList().CreateVisit(visitKeysArray, visitValuesArray);
+                        return id;
+                    }
 
                 }
+                else
+                {
+                    return "NAK";
+                }
             }
+            else
+            {
+                return "NAK";
+            }
+            
 
         }
     }

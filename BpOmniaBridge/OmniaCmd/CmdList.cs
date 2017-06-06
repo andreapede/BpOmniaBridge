@@ -84,17 +84,27 @@ namespace BpOmniaBridge.CommandList
             return answer.ResultValues[0];
         }
 
-        public List<object> GetSubjectVisitList(string[] subjNames, string[] subjValues)
+        public List<string> GetSubjectVisitList(string[] subjNames, string[] subjValues)
         {
-            var cmd = new Command("list_visit_card", "Archive", "GetSubjectVisitList");
+            var cmd = new Command("list_visit_card", "Archive", "GetSubjectVisitList", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
             var answer = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
-            List<object> result = new List<object> { };
-            result.Add(answer.ResultKeys);
-            result.Add(answer.ResultValues);
+            List<string> result = new List<string> { };
+            result.AddRange(answer.ResultKeys);
+            result.AddRange(answer.ResultValues);
             return result;
+        }
+
+        public string CreateVisit(string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("create_visit_card", "Archive", "CreateVisit", true, 0);
+            cmd.AddParams(subjNames, subjValues);
+            cmd.Send();
+
+            var answer = new ReadCommands("create_visit_card", "Archive", "CreateVisit");
+            return answer.ResultValues[0];
         }
 
 
