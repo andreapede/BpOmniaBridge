@@ -107,6 +107,16 @@ namespace BpOmniaBridge.CommandList
             return answer.ResultValues[0];
         }
 
+        public bool SelectVisit(string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("select_visit_card", "Archive", "SelectVisit", true, 0);
+            cmd.AddParams(subjNames, subjValues);
+            cmd.Send();
+
+            var answer = new ReadCommands("select_visit_card", "Archive", "SelectVisit");
+            return answer.ResultValues[0] == "ACK";
+        }
+
 
 
         #endregion

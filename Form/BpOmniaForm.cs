@@ -97,10 +97,10 @@ namespace BpOmniaBridge
             Utility.Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
-            NewSpirometryTest();
+            CreateSelectSubjectAndVistCard();
         }
 
-        private void NewSpirometryTest()
+        private bool CreateSelectSubjectAndVistCard()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             var id = patient.InternalId.ToString();
@@ -118,6 +118,7 @@ namespace BpOmniaBridge
             //check if user is preset in DB
             Archive archive = new Archive(prmNames, prmValues);
             string subjectID = archive.CreateSubject();
+            bool done = false;
             if (subjectID != "NAK")
             {
                 archive.SetRecordID(subjectID);
@@ -125,9 +126,14 @@ namespace BpOmniaBridge
 
                 if (visitID != "NAK")
                 {
-                    //run test
+                    //Select visit card
+                    string[] key = new string[] { "RecordID" };
+                    string[] value = new string[] { visitID };
+                    done = new CommandList.CommandList().SelectVisit(key, value);
                 }
             }
+
+            return done;
         }
 
         #endregion

@@ -234,6 +234,8 @@ namespace BpOmniaBridge.CommandUtility
             string[] ids = { recordID };
             List<string> visitList = new CommandList.CommandList().GetSubjectVisitList(keys, ids);
             int index = visitList.Count / 2;
+            int startIndex = index;
+            string result = "NAK";
             if (visitList.ElementAt(index) != "NAK")
             {
                 if (Int32.Parse(visitList.ElementAt(index)) > 0)
@@ -254,28 +256,20 @@ namespace BpOmniaBridge.CommandUtility
                     if (found)
                     {
                         //return ID
-                        string id = visitList.ElementAt(index % 2).Remove(0, 3);
-                        return id;
+                        string id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
+                        result = id;
                     }
                     else
                     {
                         //create new visit card
                         string id = new CommandList.CommandList().CreateVisit(visitKeysArray, visitValuesArray);
-                        return id;
+                        result = id;
                     }
 
                 }
-                else
-                {
-                    return "NAK";
-                }
             }
-            else
-            {
-                return "NAK";
-            }
-            
 
+            return result;
         }
     }
     #endregion
