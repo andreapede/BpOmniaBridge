@@ -76,6 +76,7 @@ namespace BpOmniaBridge
         private void saveButton_Click(object sender, EventArgs e)
         {
             archive.ExportTests(visitID);
+            archive.ReadExportDataFile();
         }
 
         private void button1_Click(object sender, EventArgs e)

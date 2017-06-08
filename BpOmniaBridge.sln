@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BpOmniaBridge", "BpOmniaBridge.csproj", "{DB2F8491-3403-4F8F-86B5-405FDCD1244A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPDeviceSample", "W:\BP - OMNIA bridge\Bp Device API v1.0.6\Bp Device API v1.0.6\BPDeviceSample\BPDeviceSample\BPDeviceSample\BPDeviceSample.csproj", "{864ED65E-5A14-47B9-A9A7-8D77CA3F8D3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPDeviceSample", "..\BPDeviceSample\BPDeviceSample\BPDeviceSample.csproj", "{864ED65E-5A14-47B9-A9A7-8D77CA3F8D3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -283,6 +283,70 @@ namespace BpOmniaBridge.CommandUtility
 
             return new CommandList.CommandList().ExportData(keys, values);
         }
+
+        public bool ReadExportDataFile()
+        {
+            var done = false;
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", "tests.xml");
+            //get all the elemnts under the command key
+            IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements();
+
+            var type = FindTypeOfTest(filePath);
+
+            return done;
+        }
+
+        //return 
+        // BC = bronco costrictor challege when FVCPOSTBD and FCVPOST is found
+        // BD = broco dilator when FVCPOSTBD only is found
+        // PRE = only FVC is found
+        // ASK: double check this
+        private string FindTypeOfTest(string filePath)
+        {
+            string type = "";
+            bool foundFVC = false;
+            bool foundFVCPOSTBD = false;
+            bool foundFVCPOST = false;
+            Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
+            Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
+            Guid FVCPOST = new Guid ("80266DA7-A2DA-4013-B9F6-599FA6169392");
+
+            IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
+
+            foreach (XElement element in elements)
+            {
+                IEnumerable<XElement> testInfos = element.Elements();
+                foreach (XElement info in testInfos)
+                {                 
+                    if (info.Name.ToString()=="TestType")
+                    {
+                        Guid currentTest = new Guid(info.Value);
+                        if (!foundFVC) { foundFVC = (currentTest == FVC); }
+                        if (!foundFVCPOST) { foundFVCPOST = (currentTest == FVCPOST); }
+                        if (!foundFVCPOSTBD) { foundFVCPOSTBD = (currentTest == FVCPOSTBD); }
+                        goto nextElement;
+                    }
+                }
+                nextElement: ;
+
+            }
+
+            if (foundFVCPOST && foundFVCPOSTBD)
+            {
+                type = "BC";
+            }
+            else
+            {
+                if (foundFVCPOSTBD && foundFVC)
+                {
+                    type = "BD";
+                }
+                else { type = "PRE";}
+            }
+
+            return type;
+        }
     }
     #endregion
 }
