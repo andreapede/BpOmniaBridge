@@ -284,9 +284,11 @@ namespace BpOmniaBridge.CommandUtility
             return new CommandList.CommandList().ExportData(keys, values);
         }
 
-        public bool ReadExportDataFile()
+        // first element is the bool to see if everything went well
+        // the rest would be: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/O2sat
+        public List<string> ReadExportDataFile()
         {
-            var done = false;
+            List<string> results = new List<string> { };
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", "tests.xml");
             //get all the elemnts under the command key
@@ -294,7 +296,10 @@ namespace BpOmniaBridge.CommandUtility
 
             var type = FindTypeOfTest(filePath);
 
-            return done;
+            FindTestToPrint();
+            FindDataToImport();
+
+            return results;
         }
 
         //return 
