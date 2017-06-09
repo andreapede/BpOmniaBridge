@@ -222,6 +222,9 @@ namespace BpOmniaBridge.CommandUtility
         private string[] visitKeysArray;
         private string[] visitValuesArray;
         private string recordID;
+        private Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
+        private Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
+        private Guid FVCPOST = new Guid("80266DA7-A2DA-4013-B9F6-599FA6169392");
 
         public string CreateSubject()
         {
@@ -246,7 +249,7 @@ namespace BpOmniaBridge.CommandUtility
                     for (int i = index + 1; i < visitList.Count; i++)
                     {
                         //if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
-                        if (visitList.ElementAt(i) == "20130328")
+                        if (visitList.ElementAt(i) == "20140130")
                         {
                             found = true;
                             index = i;
@@ -273,6 +276,7 @@ namespace BpOmniaBridge.CommandUtility
             return result;
         }
 
+        // export the full test xml
         public bool ExportTests(string id)
         {
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -284,8 +288,7 @@ namespace BpOmniaBridge.CommandUtility
             return new CommandList.CommandList().ExportData(keys, values);
         }
 
-        // first element is the bool to see if everything went well
-        // the rest would be: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/O2sat
+        // List of results: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/testID
         public List<string> ReadExportDataFile()
         {
             List<string> results = new List<string> { };
@@ -295,14 +298,14 @@ namespace BpOmniaBridge.CommandUtility
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements();
 
             var type = FindTypeOfTest(filePath);
+            results.Add(FindDiagnosis(filePath));
+            results.AddRange(FindDataToImport(filePath, type));
 
-            FindTestToPrint();
-            FindDataToImport();
+            //File.Delete(filePath);
 
             return results;
         }
-
-        //return 
+ 
         // BC = bronco costrictor challege when FVCPOSTBD and FCVPOST is found
         // BD = broco dilator when FVCPOSTBD only is found
         // PRE = only FVC is found
@@ -313,9 +316,7 @@ namespace BpOmniaBridge.CommandUtility
             bool foundFVC = false;
             bool foundFVCPOSTBD = false;
             bool foundFVCPOST = false;
-            Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
-            Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
-            Guid FVCPOST = new Guid ("80266DA7-A2DA-4013-B9F6-599FA6169392");
+            
 
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
 
@@ -351,6 +352,140 @@ namespace BpOmniaBridge.CommandUtility
             }
 
             return type;
+        }
+
+        // Search for the correct data to import
+        // if PRE get only data from PRE and recordID from PRE
+        // BC get the data from FVCPOSTBD but get recordID from test FVCPOST
+        // BD get the data and recordID from FVCPOSTBD
+        private List<string> FindDataToImport(string filePath, string type)
+        {
+            List<string> results = new List<string> { };
+            List<string> resultPRE = new List<string> { };
+            List<string> resultPOST = new List<string> { };
+            string testID = "";
+            bool foundPRE = false;
+            bool foundPOSTBD = false;
+            bool foundPOSTBC = false;
+
+            // reset the flags to skip all the elements that we don't need
+            if (type == "PRE") { foundPOSTBD = true; };
+            if (type == "BD") { foundPOSTBC = true; };
+
+            
+            IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
+            foreach (XElement element in elements)
+            {
+                IEnumerable<XElement> testInfos = element.Elements();
+                foreach (XElement info in testInfos)
+                {
+                    
+                    if (info.Name.ToString() == "TestType")
+                    {
+                        Guid currentTest = new Guid(info.Value);
+                        if (currentTest == FVCPOSTBD && type != "PRE") {
+                            resultPOST = GetParamsValues(info);
+                            if (type == "BD") { testID = GetRecordID(info); }
+                            foundPOSTBD = true;
+                        }
+                        if (currentTest == FVC) {
+                            resultPRE = GetParamsValues(info);
+                            if(type == "PRE") {
+                                testID = GetRecordID(info);
+                                resultPOST = new List<string> { "", "", "" };
+                            }
+                            foundPRE = true;
+                        }
+
+                        if (currentTest == FVCPOST && type == "BC")
+                        {
+                            testID = GetRecordID(info);
+                            foundPOSTBC = true;
+                        }
+                        goto nextElement;
+                    }
+
+                    if(foundPOSTBD && foundPOSTBC && foundPRE) { goto done; }
+                }
+            nextElement:;
+                
+
+            }
+        done:;
+            results.AddRange(resultPRE.ToArray());
+            results.AddRange(resultPOST.ToArray());
+            results.Add(testID);
+
+            return results;
+        }
+
+        //return list of 3 elements
+        private List<string> GetParamsValues(XElement testInfo)
+        {
+            List<string> results = new List<string> { };
+            string PEF = "";
+            string FEV1 = "";
+            string FVC = "";
+            IEnumerable<XElement> parameters = testInfo.Ancestors().Elements("AdditionalData").Elements("Parameters").Elements();
+            foreach (XElement prm in parameters)
+            {
+                if (prm.Attribute("Name").Value == "PEF")
+                {
+                    PEF = prm.Attribute("Value").Value;
+                }
+
+                if (prm.Attribute("Name").Value == "FEV1")
+                {
+                    FEV1 = prm.Attribute("Value").Value;
+                }
+
+                if (prm.Attribute("Name").Value == "FVC")
+                {
+                    FVC = prm.Attribute("Value").Value;
+                }
+            }
+
+            results.Add(PEF);
+            results.Add(FEV1);
+            results.Add(FVC);
+
+            return results;
+        }
+
+        // return Diagnosis
+        private string FindDiagnosis(string filePath)
+        {
+            return XDocument.Load(filePath).Element("COSMED_OMNIA_EXPORT").Element("Subject").Element("Visit").Element("Diagnosis").Value;
+        }
+        
+        // return test recordID
+        private string GetRecordID(XElement testInfo)
+        {
+            string id = "";
+            IEnumerable<XElement> testInfos = testInfo.Ancestors().Elements();
+            foreach (XElement info in testInfos)
+            {
+                if (info.Name.ToString() == "RecordID")
+                {
+                    id = info.Value;
+                    break;
+                }
+            }
+
+            return id;
+
+        }
+
+        // create PDF test file
+        public bool GeneratePDF(string patientFullName, string recordID)
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patientFullName + ".pdf";
+            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
+            string[] keys = { "RecordID", "Filename" };
+            string[] values = { recordID, filePath };
+
+            return new CommandList.CommandList().ExportReport(keys, values);
         }
     }
     #endregion

@@ -26,7 +26,10 @@ namespace BpOmniaBridge
         private string subjectID;
         private string visitID;
         private Archive archive;
-       
+        private List<string> results = new List<string> { };
+        private bool pdfCreated = false;
+
+
         public BpOmniaForm()
         {
             InitializeComponent();
@@ -76,7 +79,9 @@ namespace BpOmniaBridge
         private void saveButton_Click(object sender, EventArgs e)
         {
             archive.ExportTests(visitID);
-            archive.ReadExportDataFile();
+            results = archive.ReadExportDataFile();
+            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), results.ElementAt(7));
+            SaveTest();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -164,6 +169,11 @@ namespace BpOmniaBridge
         public void StatusBar(string status)
         {
             statusBar.Text = status;
+        }
+
+        private void SaveTest()
+        {
+
         }
 
         #endregion

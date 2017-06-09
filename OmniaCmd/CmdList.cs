@@ -127,6 +127,16 @@ namespace BpOmniaBridge.CommandList
             return answer.ResultValues[0] == "ACK";
         }
 
+        public bool ExportReport(string[] subjNames, string[] subjValues)
+        {
+            var cmd = new Command("export_report", "Archive", "ExportReport", true, 0);
+            cmd.AddParams(subjNames, subjValues);
+            cmd.Send();
+
+            var answer = new ReadCommands("export_report", "Archive", "ExportReport");
+            return answer.ResultValues[0] == "ACK";
+        }
+
 
 
         #endregion
