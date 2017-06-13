@@ -249,7 +249,7 @@ namespace BpOmniaBridge.CommandUtility
                     for (int i = index + 1; i < visitList.Count; i++)
                     {
                         //if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
-                        if (visitList.ElementAt(i) == "20140130")
+                        if (visitList.ElementAt(i) == "20130328")
                         {
                             found = true;
                             index = i;

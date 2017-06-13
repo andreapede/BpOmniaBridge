@@ -82,9 +82,9 @@ namespace BpOmniaBridge
             StatusBar("Elaborating data...please wait");
             results = archive.ReadExportDataFile();
             StatusBar("Generating PDF file...please wait");
-            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd/MM/yyyy"), results.ElementAt(7));
+            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
             StatusBar("Saving data in BP...please wait");
-            SaveTest();
+            //SaveTest();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -178,7 +178,7 @@ namespace BpOmniaBridge
         {
             bool success;
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd/MM/yyyy") + ")" + ".pdf";
+            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd-MM-yyyy") + ")" + ".pdf";
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
             spiro = new Spiro();
             spiro.Patient = patient;
