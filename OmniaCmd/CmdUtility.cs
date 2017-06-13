@@ -477,10 +477,10 @@ namespace BpOmniaBridge.CommandUtility
         }
 
         // create PDF test file
-        public bool GeneratePDF(string patientFullName, string recordID)
+        public bool GeneratePDF(string patientFullName, string patientDateOfBirth, string recordID)
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patientFullName + ".pdf";
+            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patientFullName + " (" + patientDateOfBirth + ")" + ".pdf";
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
             string[] keys = { "RecordID", "Filename" };
             string[] values = { recordID, filePath };

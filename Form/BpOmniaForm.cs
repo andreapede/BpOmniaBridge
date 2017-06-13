@@ -26,6 +26,7 @@ namespace BpOmniaBridge
         private string subjectID;
         private string visitID;
         private Archive archive;
+        // List of results: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/testID
         private List<string> results = new List<string> { };
         private bool pdfCreated = false;
 
@@ -63,12 +64,10 @@ namespace BpOmniaBridge
             {
                 Utility.Utility.Log("BP instance created");
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
-             
+                StatusBar("After performing the tests in OMNIA, press Save Tests button");
             }
             else
                 closeApp();
-
-
         }
 
         private void BpOmniaForm_Load(object sender, EventArgs e)
@@ -78,9 +77,13 @@ namespace BpOmniaBridge
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            StatusBar("Exporting data...please wait");
             archive.ExportTests(visitID);
+            StatusBar("Elaborating data...please wait");
             results = archive.ReadExportDataFile();
-            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), results.ElementAt(7));
+            StatusBar("Generating PDF file...please wait");
+            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd/MM/yyyy"), results.ElementAt(7));
+            StatusBar("Saving data in BP...please wait");
             SaveTest();
         }
 
@@ -173,7 +176,34 @@ namespace BpOmniaBridge
 
         private void SaveTest()
         {
+            bool success;
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd/MM/yyyy") + ")" + ".pdf";
+            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
+            spiro = new Spiro();
+            spiro.Patient = patient;
+            if (pdfCreated) { spiro.ImageFile = filePath; }
+            if(results.Count < 6)
+            {
+                success = false;
+                goto noResults;
+            }
+            spiro.PEFR = results.ElementAt(1);
+            spiro.PEFRPost = results.ElementAt(4);
+            spiro.FEV1 = results.ElementAt(2);
+            spiro.FEV1Post = results.ElementAt(5);
+            spiro.FVC = results.ElementAt(3);
+            spiro.FVCPost = results.ElementAt(6);
+            spiro.Device = "COSMED Spiro";
+            spiro.Comment = results.ElementAt(0);
+            spiro.DateTime = DateTime.Now;
 
+            success = spiro.SaveTest();
+        noResults:;
+            MessageBox.Show(success ? "Data saved successfully." : "Failed saving data.");
+
+            if (success)
+                app.OnTestComplete();
         }
 
         #endregion
