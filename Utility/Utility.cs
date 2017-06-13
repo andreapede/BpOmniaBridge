@@ -44,10 +44,9 @@ namespace BpOmniaBridge.Utility
             using (StreamWriter w = File.AppendText(filePath))
             {
                 w.Write("\r\n Log Entry: ");
-                w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
+                w.Write("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
-                w.WriteLine(" action: {0}", message);
-                w.WriteLine("-------------------------------");
+                w.Write(" -- action: {0}", message);
             }
         }
 
