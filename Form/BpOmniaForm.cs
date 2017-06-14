@@ -34,6 +34,7 @@ namespace BpOmniaBridge
         public BpOmniaForm()
         {
             InitializeComponent();
+            IntPtr myHandle = this.Handle;
             Utility.Utility.CreateUtilityFolders();
             Utility.Utility.CreateLogFile();
             bool omnia = Utility.Utility.RunOmnia();
@@ -62,9 +63,9 @@ namespace BpOmniaBridge
 
             if (app != null)
             {
-                Utility.Utility.Log("BP instance created");
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
+                
             }
             else
                 closeApp();
@@ -77,26 +78,21 @@ namespace BpOmniaBridge
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            StatusBar("Exporting data...please wait");
+            Invoke(new Action(delegate () { StatusBar("Exporting data...please wait"); }));
             archive.ExportTests(visitID);
-            StatusBar("Elaborating data...please wait");
+            Invoke(new Action(delegate () { StatusBar("Elaborating data...please wait"); })); 
             results = archive.ReadExportDataFile();
-            StatusBar("Generating PDF file...please wait");
+            Invoke(new Action(delegate () { StatusBar("Generating PDF file...please wait"); }));
             pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
             StatusBar("Saving data in BP...please wait");
-            //SaveTest();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            app.NewTest(1, 1, 4);
+            SaveCurrentTest();
         }
 
         #region Method
         public void closeApp()
         {
             this.Close();
-            Utility.Utility.Log("Close bridge");
+            Utility.Utility.Log("Bridge => Closed");
         }
 
         private void app_eOnNewTest()
@@ -107,7 +103,7 @@ namespace BpOmniaBridge
             CreateSelectSubjectAndVistCard();
         }
 
-        private bool CreateSelectSubjectAndVistCard()
+        private void CreateSelectSubjectAndVistCard()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             var id = patient.InternalId.ToString();
@@ -127,8 +123,7 @@ namespace BpOmniaBridge
             var ethnicity = "Caucasian";
             var height = patient.Height.ToString();
             var weight = patient.Weight.ToString();
-            //string[] prmValues = {id, name, lastname, dob, gender, ethnicity, height, weight };
-            string[] prmValues = { "", "SUBJECT", "", "DEMO", "19670304", "Male", ethnicity, "180", "80"};
+            string[] prmValues = {id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
 
             //check if user is preset in DB
             archive = new Archive(prmNames, prmValues);
@@ -146,14 +141,19 @@ namespace BpOmniaBridge
                     string[] value = new string[] { visitID };
                     done = new CommandList.CommandList().SelectVisit(key, value);
                 }
+                
             }
 
             if (done)
             {
                 PopulateSubjectAndVisitCard(prmValues);
             }
-
-            return done;
+            else
+            {
+                Utility.Utility.Log("error: Visit card not created/found");
+                MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                closeApp();
+            }
         }
 
         public void PopulateSubjectAndVisitCard(string[] array)
@@ -174,8 +174,9 @@ namespace BpOmniaBridge
             statusBar.Text = status;
         }
 
-        private void SaveTest()
+        private void SaveCurrentTest()
         {
+            Utility.Utility.Log("action: Bridge => Saving Test");
             bool success;
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd-MM-yyyy") + ")" + ".pdf";
@@ -188,14 +189,14 @@ namespace BpOmniaBridge
                 success = false;
                 goto noResults;
             }
-            spiro.PEFR = results.ElementAt(1);
-            spiro.PEFRPost = results.ElementAt(4);
-            spiro.FEV1 = results.ElementAt(2);
-            spiro.FEV1Post = results.ElementAt(5);
-            spiro.FVC = results.ElementAt(3);
-            spiro.FVCPost = results.ElementAt(6);
+            spiro.PEFR = results.ElementAt(1).ToString();
+            spiro.PEFRPost = results.ElementAt(4).ToString();
+            spiro.FEV1 = results.ElementAt(2).ToString();
+            spiro.FEV1Post = results.ElementAt(5).ToString();
+            spiro.FVC = results.ElementAt(3).ToString();
+            spiro.FVCPost = results.ElementAt(6).ToString();
             spiro.Device = "COSMED Spiro";
-            spiro.Comment = results.ElementAt(0);
+            spiro.Comment = results.ElementAt(0).ToString();
             spiro.DateTime = DateTime.Now;
 
             success = spiro.SaveTest();

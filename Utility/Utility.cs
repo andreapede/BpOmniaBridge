@@ -29,7 +29,7 @@ namespace BpOmniaBridge.Utility
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullpath);
-            Log("Bridge started");
+            Log("Bridge => Started");
         }
 
         //log file

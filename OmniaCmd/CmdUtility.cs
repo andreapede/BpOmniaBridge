@@ -248,8 +248,7 @@ namespace BpOmniaBridge.CommandUtility
                     //visitList.RemoveAt(0);
                     for (int i = index + 1; i < visitList.Count; i++)
                     {
-                        //if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
-                        if (visitList.ElementAt(i) == "20130328")
+                        if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
                         {
                             found = true;
                             index = i;
@@ -270,6 +269,12 @@ namespace BpOmniaBridge.CommandUtility
                         result = id;
                     }
 
+                }
+                else
+                {
+                    // create new visit card
+                    string id = new CommandList.CommandList().CreateVisit(visitKeysArray, visitValuesArray);
+                    result = id;
                 }
             }
 
@@ -302,6 +307,8 @@ namespace BpOmniaBridge.CommandUtility
             results.AddRange(FindDataToImport(filePath, type));
 
             //File.Delete(filePath);
+            var params_string = String.Join(" - ", results.ToArray());
+            Utility.Utility.Log("action: Bridge => DataFound: " + params_string);
 
             return results;
         }
@@ -455,7 +462,14 @@ namespace BpOmniaBridge.CommandUtility
         // return Diagnosis
         private string FindDiagnosis(string filePath)
         {
-            return XDocument.Load(filePath).Element("COSMED_OMNIA_EXPORT").Element("Subject").Element("Visit").Element("Diagnosis").Value;
+            string diagnosis = " ";
+            try
+            {
+                diagnosis = XDocument.Load(filePath).Element("COSMED_OMNIA_EXPORT").Element("Subject").Element("Visit").Element("Diagnosis").Value;
+            }
+            catch { }
+            return diagnosis;
+             
         }
         
         // return test recordID
