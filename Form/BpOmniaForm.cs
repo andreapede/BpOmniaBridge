@@ -76,17 +76,7 @@ namespace BpOmniaBridge
 
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            Invoke(new Action(delegate () { StatusBar("Exporting data...please wait"); }));
-            archive.ExportTests(visitID);
-            Invoke(new Action(delegate () { StatusBar("Elaborating data...please wait"); })); 
-            results = archive.ReadExportDataFile();
-            Invoke(new Action(delegate () { StatusBar("Generating PDF file...please wait"); }));
-            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
-            StatusBar("Saving data in BP...please wait");
-            SaveCurrentTest();
-        }
+        
 
         #region Method
         public void closeApp()
@@ -174,7 +164,19 @@ namespace BpOmniaBridge
             statusBar.Text = status;
         }
 
-        private void SaveCurrentTest()
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            Invoke(new Action(delegate () { StatusBar("Exporting data...please wait"); }));
+            archive.ExportTests(visitID);
+            Invoke(new Action(delegate () { StatusBar("Elaborating data...please wait"); }));
+            results = archive.ReadExportDataFile();
+            Invoke(new Action(delegate () { StatusBar("Generating PDF file...please wait"); }));
+            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
+            StatusBar("Saving data in BP...please wait");
+            SaveCurrentTest(sender, e);
+        }
+
+        private void SaveCurrentTest(object sender, EventArgs e)
         {
             Utility.Utility.Log("action: Bridge => Saving Test");
             bool success;
@@ -183,27 +185,38 @@ namespace BpOmniaBridge
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
             spiro = new Spiro();
             spiro.Patient = patient;
-            if (pdfCreated) { spiro.ImageFile = filePath; }
+            spiro.User = currentTest.User;
+            if (pdfCreated) { spiro.ImageFile = filePath.ToString(); }
             if(results.Count < 6)
             {
                 success = false;
                 goto noResults;
             }
-            spiro.PEFR = results.ElementAt(1).ToString();
-            spiro.PEFRPost = results.ElementAt(4).ToString();
-            spiro.FEV1 = results.ElementAt(2).ToString();
-            spiro.FEV1Post = results.ElementAt(5).ToString();
-            spiro.FVC = results.ElementAt(3).ToString();
-            spiro.FVCPost = results.ElementAt(6).ToString();
-            spiro.Device = "COSMED Spiro";
-            spiro.Comment = results.ElementAt(0).ToString();
+
+            if (results.ElementAt(1).ToString() != "")
+                spiro.PEFR = results.ElementAt(1);
+            if (results.ElementAt(4).ToString() != "")
+                spiro.PEFRPost = results.ElementAt(4);
+            if (results.ElementAt(2).ToString() != "")
+                spiro.FEV1 = results.ElementAt(2).ToString();
+            if (results.ElementAt(5).ToString() != "")
+                spiro.FEV1Post = results.ElementAt(5);
+            if (results.ElementAt(3).ToString() != "")
+                spiro.FVC = results.ElementAt(3);
+            if (results.ElementAt(6).ToString() != "")
+                spiro.FVCPost = results.ElementAt(6);
+            if (results.ElementAt(0).ToString() != "")
+                spiro.Comment = results.ElementAt(0);
+            
             spiro.DateTime = DateTime.Now;
+            spiro.Device = "COSMED Spiro";
 
             success = spiro.SaveTest();
         noResults:;
             MessageBox.Show(success ? "Data saved successfully." : "Failed saving data.");
 
             if (success)
+                Utility.Utility.Log("action: Bridge => Data successfully saved");
                 app.OnTestComplete();
         }
 
