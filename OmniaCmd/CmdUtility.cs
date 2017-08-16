@@ -430,15 +430,15 @@ namespace BpOmniaBridge.CommandUtility
         private List<string> GetParamsValues(XElement testInfo)
         {
             List<string> results = new List<string> { };
-            string PEF = "";
+            string PEFR = "";
             string FEV1 = "";
             string FVC = "";
             IEnumerable<XElement> parameters = testInfo.Ancestors().Elements("AdditionalData").Elements("Parameters").Elements();
             foreach (XElement prm in parameters)
             {
-                if (prm.Attribute("Name").Value == "PEF")
+                if (prm.Attribute("Name").Value == "PEFr")
                 {
-                    PEF = prm.Attribute("Value").Value;
+                    PEFR = Math.Round(Convert.ToDouble(prm.Attribute("Value").Value)).ToString();
                 }
 
                 if (prm.Attribute("Name").Value == "FEV1")
@@ -452,7 +452,7 @@ namespace BpOmniaBridge.CommandUtility
                 }
             }
 
-            results.Add(PEF);
+            results.Add(PEFR);
             results.Add(FEV1);
             results.Add(FVC);
 

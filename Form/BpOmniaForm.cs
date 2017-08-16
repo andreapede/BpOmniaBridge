@@ -182,30 +182,30 @@ namespace BpOmniaBridge
             bool success;
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd-MM-yyyy") + ")" + ".pdf";
-            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
+            string filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
             spiro = new Spiro();
             spiro.Patient = patient;
             spiro.User = currentTest.User;
-            if (pdfCreated) { spiro.ImageFile = filePath.ToString(); }
+            if (pdfCreated) { spiro.ImageFile = filePath; }
             if(results.Count < 6)
             {
                 success = false;
                 goto noResults;
             }
 
-            if (results.ElementAt(1).ToString() != "")
+            if (results.ElementAt(1) != "")
                 spiro.PEFR = results.ElementAt(1);
-            if (results.ElementAt(4).ToString() != "")
+            if (results.ElementAt(4) != "")
                 spiro.PEFRPost = results.ElementAt(4);
-            if (results.ElementAt(2).ToString() != "")
-                spiro.FEV1 = results.ElementAt(2).ToString();
-            if (results.ElementAt(5).ToString() != "")
+            if (results.ElementAt(2) != "")
+                spiro.FEV1 = results.ElementAt(2);
+            if (results.ElementAt(5) != "")
                 spiro.FEV1Post = results.ElementAt(5);
-            if (results.ElementAt(3).ToString() != "")
+            if (results.ElementAt(3) != "")
                 spiro.FVC = results.ElementAt(3);
-            if (results.ElementAt(6).ToString() != "")
+            if (results.ElementAt(6) != "")
                 spiro.FVCPost = results.ElementAt(6);
-            if (results.ElementAt(0).ToString() != "")
+            if (results.ElementAt(0) != "")
                 spiro.Comment = results.ElementAt(0);
             
             spiro.DateTime = DateTime.Now;
@@ -219,7 +219,7 @@ namespace BpOmniaBridge
                 Utility.Utility.Log("action: Bridge => Data successfully saved");
                 app.OnTestComplete();
         }
-
+        
         #endregion
     }
 }
