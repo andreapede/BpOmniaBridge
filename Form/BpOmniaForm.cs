@@ -26,7 +26,7 @@ namespace BpOmniaBridge
         private string subjectID;
         private string visitID;
         private Archive archive;
-        // List of results: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/testID
+        // List of results: Diasgnosis/PEFR/FEV1/FVC/PEFRPOST/FEV1POST/FVCPOST/testID
         private List<string> results = new List<string> { };
         private bool pdfCreated = false;
 
@@ -110,7 +110,7 @@ namespace BpOmniaBridge
             // handle different in ethnicity lists
             var bpEthnicity = patient.Ethnicity.ToString();
             // ASK: how to match the ethnicity list in BP with OMNIA's
-            var ethnicity = "Caucasian";
+            var ethnicity = MatchEthnicity(bpEthnicity);
             var height = patient.Height.ToString();
             var weight = patient.Weight.ToString();
             string[] prmValues = {id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
@@ -144,6 +144,12 @@ namespace BpOmniaBridge
                 MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 closeApp();
             }
+        }
+
+        private string MatchEthnicity(string value)
+        {
+            //TODO: contact COSMED to undertand how to match nation to ethnicity group
+            return "Caucasian";
         }
 
         public void PopulateSubjectAndVisitCard(string[] array)
