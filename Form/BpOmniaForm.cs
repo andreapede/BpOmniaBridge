@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using BPS;
 using BpOmniaBridge.CommandList;
-using BpOmniaBridge.Utility;
 using System.Runtime.InteropServices;
 using BpOmniaBridge.CommandUtility;
 
@@ -35,9 +34,9 @@ namespace BpOmniaBridge
         {
             InitializeComponent();
             IntPtr myHandle = this.Handle;
-            Utility.Utility.CreateUtilityFolders();
-            Utility.Utility.CreateLogFile();
-            bool omnia = Utility.Utility.RunOmnia();
+            Utility.CreateUtilityFolders();
+            Utility.CreateLogFile();
+            bool omnia = Utility.RunOmnia();
             if (omnia)
                 try
                 {
@@ -82,12 +81,12 @@ namespace BpOmniaBridge
         public void closeApp()
         {
             this.Close();
-            Utility.Utility.Log("Bridge => Closed");
+            Utility.Log("Bridge => Closed");
         }
 
         private void app_eOnNewTest()
         {
-            Utility.Utility.Log("BP => new_test");
+            Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
             CreateSelectSubjectAndVistCard();
@@ -140,7 +139,7 @@ namespace BpOmniaBridge
             }
             else
             {
-                Utility.Utility.Log("error: Visit card not created/found");
+                Utility.Log("error: Visit card not created/found");
                 MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 closeApp();
             }
@@ -184,7 +183,7 @@ namespace BpOmniaBridge
 
         private void SaveCurrentTest(object sender, EventArgs e)
         {
-            Utility.Utility.Log("action: Bridge => Saving Test");
+            Utility.Log("action: Bridge => Saving Test");
             bool success;
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd-MM-yyyy") + ")" + ".pdf";
@@ -222,7 +221,7 @@ namespace BpOmniaBridge
             MessageBox.Show(success ? "Data saved successfully." : "Failed saving data.");
 
             if (success)
-                Utility.Utility.Log("action: Bridge => Data successfully saved");
+                Utility.Log("action: Bridge => Data successfully saved");
                 app.OnTestComplete();
         }
         

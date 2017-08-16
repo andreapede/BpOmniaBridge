@@ -11,6 +11,7 @@ using BpOmniaBridge.CommandList;
 
 namespace BpOmniaBridge.CommandUtility
 {
+    #region WriteCommand
     public class WriteCommand
     {
         private static string cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -63,6 +64,10 @@ namespace BpOmniaBridge.CommandUtility
 
     }
 
+    #endregion WriteCommand
+
+    #region Command
+
     public class Command
     {   
         public Command(string name, string sys, string cmmd, bool guid = false, int guidIndex = 0)
@@ -96,9 +101,13 @@ namespace BpOmniaBridge.CommandUtility
             var command = new WriteCommand(FileName + ".in");
             command.AddCommands(System, Cmd, ParNames, ParValues, prmGuid, indexGuid);
             command.Save();
-            Utility.Utility.Log("CMD => " + FileName);
+            Utility.Log("CMD => " + FileName);
         }
     }
+
+    #endregion Command
+
+    #region ReadCommands
 
     public class ReadCommands
     {
@@ -138,7 +147,7 @@ namespace BpOmniaBridge.CommandUtility
                     ResultValues.Add(element.Value);
                 }
                 DeleteFile();
-                Utility.Utility.Log("Read => done");
+                Utility.Log("Read => done");
             }
             else
             {
@@ -150,7 +159,7 @@ namespace BpOmniaBridge.CommandUtility
                 
         private void CheckFileExists()
         {
-            Utility.Utility.Log("Read => start");
+            Utility.Log("Read => start");
             // Set timeout to 30 seconds
             // ASK: is this ok?
             var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(30));
@@ -159,7 +168,7 @@ namespace BpOmniaBridge.CommandUtility
             {
                 if (DateTime.Now > timeout)
                 {
-                    Utility.Utility.Log("timeout => " + FileName + ".out has not been created within 20 secs");
+                    Utility.Log("timeout => " + FileName + ".out has not been created within 20 secs");
                     FileExist = false;
                     MessageBox.Show("Omnia is not answering. Check Bridge log file", "Communication Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     DeleteFile(".in");
@@ -178,6 +187,8 @@ namespace BpOmniaBridge.CommandUtility
         }
     }
     #endregion
+
+    #endregion ReadCommands
 
     #region Archive Methods
 
@@ -308,7 +319,7 @@ namespace BpOmniaBridge.CommandUtility
 
             //File.Delete(filePath);
             var params_string = String.Join(" - ", results.ToArray());
-            Utility.Utility.Log("action: Bridge => DataFound: " + params_string);
+            Utility.Log("action: Bridge => DataFound: " + params_string);
 
             return results;
         }

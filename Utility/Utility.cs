@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace BpOmniaBridge.Utility
+namespace BpOmniaBridge
 {
     public class Utility
     {
@@ -50,6 +50,7 @@ namespace BpOmniaBridge.Utility
             }
         }
 
+        // NOT SURE IF THIS IS NECESSARY - WE COULD JUST MAKE AS PRE-REQUISITES THAT OMNIA IS RUNNING ALREADY
         public static bool RunOmnia()
         {
             //TODO: get the omniaPath from a config file ConfigurationManager.AppSettings["key"]

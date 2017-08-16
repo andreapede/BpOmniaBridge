@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BpOmniaBridge.CommandUtility;
-using BpOmniaBridge.Utility;
 
 namespace BpOmniaBridge.CommandList
 {
