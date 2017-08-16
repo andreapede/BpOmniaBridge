@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using BpOmniaBridge.CommandList;
 
-namespace BpOmniaBridge.CommandUtility
+namespace BpOmniaBridge
 {
     #region WriteCommand
     public class WriteCommand
@@ -239,14 +238,14 @@ namespace BpOmniaBridge.CommandUtility
 
         public string CreateSubject()
         {
-            return new CommandList.CommandList().SelectCreateSubject(keysArray, valuesArray);
+            return new CommandList().SelectCreateSubject(keysArray, valuesArray);
         }
 
         public string TodayVisitCard()
         {
             string[] keys = { "RecordID" };
             string[] ids = { recordID };
-            List<string> visitList = new CommandList.CommandList().GetSubjectVisitList(keys, ids);
+            List<string> visitList = new CommandList().GetSubjectVisitList(keys, ids);
             int index = visitList.Count / 2;
             int startIndex = index;
             string result = "NAK";
@@ -276,7 +275,7 @@ namespace BpOmniaBridge.CommandUtility
                     else
                     {
                         //create new visit card
-                        string id = new CommandList.CommandList().CreateVisit(visitKeysArray, visitValuesArray);
+                        string id = new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
                         result = id;
                     }
 
@@ -284,7 +283,7 @@ namespace BpOmniaBridge.CommandUtility
                 else
                 {
                     // create new visit card
-                    string id = new CommandList.CommandList().CreateVisit(visitKeysArray, visitValuesArray);
+                    string id = new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
                     result = id;
                 }
             }
@@ -301,7 +300,7 @@ namespace BpOmniaBridge.CommandUtility
             string[] keys = new string[] { "RecordID", "Filename", "Type" };
             string[] values = new string[] { id, filePath, "V" };
 
-            return new CommandList.CommandList().ExportData(keys, values);
+            return new CommandList().ExportData(keys, values);
         }
 
         // List of results: Diasgnosis/PEF/FEV1/FVC/PEFPOST/FEV1POST/FVCPOST/testID
@@ -510,7 +509,7 @@ namespace BpOmniaBridge.CommandUtility
             string[] keys = { "RecordID", "Filename" };
             string[] values = { recordID, filePath };
 
-            return new CommandList.CommandList().ExportReport(keys, values);
+            return new CommandList().ExportReport(keys, values);
         }
     }
     #endregion

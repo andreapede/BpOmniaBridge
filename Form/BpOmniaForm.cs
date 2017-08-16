@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using BPS;
-using BpOmniaBridge.CommandList;
 using System.Runtime.InteropServices;
-using BpOmniaBridge.CommandUtility;
 
 namespace BpOmniaBridge
 {
@@ -128,7 +126,7 @@ namespace BpOmniaBridge
                     //Select visit card
                     string[] key = new string[] { "RecordID" };
                     string[] value = new string[] { visitID };
-                    done = new CommandList.CommandList().SelectVisit(key, value);
+                    done = new CommandList().SelectVisit(key, value);
                 }
                 
             }
