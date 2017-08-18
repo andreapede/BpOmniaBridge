@@ -26,7 +26,7 @@ namespace BpOmniaBridgeTest
         public void CreateLogFileTest()
         {
             // test if the Log file is created in the BpOmniaBridge folder
-            // test if the Bridge => started and the correct date is written in the log
+            // test if the Bridge => Started and the correct date is written in the log
             Utility.CreateLogFile();
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filepath = Path.Combine(cmnDocPath, "BpOmniaBridge", "log.txt");

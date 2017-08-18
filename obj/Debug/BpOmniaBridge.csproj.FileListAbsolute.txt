@@ -10,9 +10,10 @@ D:\BP_OMNIA_bridge\BpOmniaBridge\obj\Debug\BpOmniaBridge.pdb
 D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.config
 D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe
 D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.pdb
-D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.BpOmniaForm.resources
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.Properties.Resources.resources
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.GenerateResource.Cache
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.pdb
+D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.CodeAnalysisLog.xml
+D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.lastcodeanalysissucceeded

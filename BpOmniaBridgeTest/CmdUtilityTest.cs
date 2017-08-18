@@ -115,7 +115,7 @@ namespace BpOmniaBridgeTest
 
             Assert.AreEqual(3, num_params);
 
-            File.Delete(filePath);
+            //File.Delete(filePath);
 
             // test log file
             var logFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "log.txt");
@@ -124,6 +124,72 @@ namespace BpOmniaBridgeTest
             string lastline = lines.GetValue(lines.Length - 1).ToString();
             Assert.AreEqual(true, lastline.Contains(DateTime.Today.ToLongDateString()), "Log not working");
             Assert.AreEqual(true, lastline.Contains("CMD => use_command"), "Log not working");
+        }
+
+        private string CopyFileToTest(string fileName)
+        {
+            var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
+            string fileToMove = Path.Combine(currentFolder, "toTest", fileName + ".out");
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var destFileName = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", fileName + ".out");
+
+            File.Copy(fileToMove, destFileName, true);
+
+            return destFileName;
+        }
+
+
+        [TestMethod]
+        public void ReadCommandTest()
+        {
+            // read basic command with ACK
+            var filePath = CopyFileToTest("login_ack");
+
+            var read = new ReadCommands("login_ack", "System", "Login");
+            Assert.AreEqual("ACK", read.ResultValues[0]);
+            // test file is deleted after been read
+            Assert.AreEqual(false, File.Exists(filePath));
+
+            // read basic command with NAK
+            filePath = CopyFileToTest("login_nak");
+
+            read = new ReadCommands("login_nak", "System", "Login");
+            Assert.AreEqual("NAK", read.ResultValues[0]);
+
+            // read complex command with list of params
+            filePath = CopyFileToTest("subject_visit_card");
+
+            read = new ReadCommands("subject_visit_card", "Archive", "GetSubjectVisitList");
+            // test keys
+            int index = 0;
+            foreach(string key in read.ResultKeys)
+            {   
+                if(index == 0)
+                {
+                    Assert.AreEqual("NumVisits", key);
+                }else
+                {
+                    Assert.AreEqual("ID_00000000-0000-0000-0000-00000000000" + index.ToString(), key);
+                }
+                index += 1;
+            }
+            // test values
+            index = 0;
+            int firstVisit = 20131029;
+            foreach (string value in read.ResultValues)
+            {
+                if (index == 0)
+                {
+                    Assert.AreEqual("8", value);
+                }
+                else
+                {
+                    Assert.AreEqual(firstVisit.ToString() , value);
+                    firstVisit += 1;
+                }
+                index += 1;
+            }
+
         }
     }
 }

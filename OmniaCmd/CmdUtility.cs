@@ -117,12 +117,12 @@ namespace BpOmniaBridge
         private static string folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
 
         //Initializer name of the file and type of result
-        public ReadCommands(string name, string system, string cmd)
+        public ReadCommands(string name, string system, string cmd, int sec = 20)
         {
             FileName = name;
             CmdSystem = system;
             Cmd = cmd;
-            CheckFileExists();
+            CheckFileExists(sec);
         }
 
         //Properties
@@ -159,12 +159,12 @@ namespace BpOmniaBridge
                 
         }
                 
-        private void CheckFileExists()
+        private void CheckFileExists(int sec)
         {
             Utility.Log("Read => start");
             // Set timeout to 20 seconds
             // ASK: is this ok?
-            var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(30));
+            var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(sec));
             var fullPath = Path.Combine(folderPath, FileName + ".out");
             while (!File.Exists(fullPath))
             {
