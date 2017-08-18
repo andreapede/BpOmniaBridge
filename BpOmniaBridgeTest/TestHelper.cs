@@ -9,12 +9,18 @@ namespace BpOmniaBridgeTest
 {
     class TestHelper
     {
+
+        public string TempFileFolder()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            return Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+        }
+
         public string CopyFileToTest(string fileName)
         {
             var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
             string fileToMove = Path.Combine(currentFolder, "toTest", fileName + ".out");
-            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var destFileName = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", fileName + ".out");
+            var destFileName = Path.Combine(TempFileFolder(), fileName + ".out");
 
             File.Copy(fileToMove, destFileName, true);
 
@@ -23,9 +29,9 @@ namespace BpOmniaBridgeTest
 
         public void DeleteTempFileIN(string fileName)
         {
-            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", fileName + ".in");
+            var filePath = Path.Combine(TempFileFolder(), fileName + ".in");
             File.Delete(filePath);
         }
+
     }
 }

@@ -31,7 +31,9 @@ namespace BpOmniaBridgeTest
             archive.SetRecordID(subjectID);
             // simulate OMNIA's reply
             testHelper.CopyFileToTest("list_visit_card");
-            
+
+            //TODO: Test file without other visit card
+
             // simulate visit card already present
             var visitID = archive.TodayVisitCard("20131029");
             // test read correct ID from out file
@@ -41,7 +43,11 @@ namespace BpOmniaBridgeTest
             // delete *.in file
             testHelper.DeleteTempFileIN("list_visit_card");
 
+            //TODO: need to simulate OMNIA's reply first
+            // new visit card for today
+            visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
 
+            Assert.AreEqual(true, File.Exists(Path.Combine(testHelper.TempFileFolder(), "create_visit_card.in")));
         }
     }
 }
