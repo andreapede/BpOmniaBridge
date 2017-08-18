@@ -116,7 +116,7 @@ namespace BpOmniaBridgeTest
 
             Assert.AreEqual(3, num_params);
 
-            //File.Delete(filePath);
+            File.Delete(filePath);
 
             // test log file
             var logFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "log.txt");
@@ -127,24 +127,11 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual(true, lastline.Contains("CMD => use_command"), "Log not working");
         }
 
-        private string CopyFileToTest(string fileName)
-        {
-            var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
-            string fileToMove = Path.Combine(currentFolder, "toTest", fileName + ".out");
-            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var destFileName = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", fileName + ".out");
-
-            File.Copy(fileToMove, destFileName, true);
-
-            return destFileName;
-        }
-
-
         [TestMethod]
         public void ReadCommandTest()
         {
             // read basic command with ACK
-            var filePath = CopyFileToTest("login_ack");
+            var filePath = new TestHelper().CopyFileToTest("login_ack");
 
             var read = new ReadCommands("login_ack", "System", "Login");
             Assert.AreEqual("ACK", read.ResultValues[0]);
@@ -152,15 +139,15 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual(false, File.Exists(filePath));
 
             // read basic command with NAK
-            CopyFileToTest("login_nak");
+            new TestHelper().CopyFileToTest("login_nak");
 
             read = new ReadCommands("login_nak", "System", "Login");
             Assert.AreEqual("NAK", read.ResultValues[0]);
 
             // read complex command with list of params
-            CopyFileToTest("subject_visit_card");
+            new TestHelper().CopyFileToTest("list_visit_card");
 
-            read = new ReadCommands("subject_visit_card", "Archive", "GetSubjectVisitList");
+            read = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
             // test keys
             int index = 0;
             foreach(string key in read.ResultKeys)
@@ -176,12 +163,12 @@ namespace BpOmniaBridgeTest
             }
             // test values
             index = 0;
-            int firstVisit = 20131029;
+            int firstVisit = 20131028;
             foreach (string value in read.ResultValues)
             {
                 if (index == 0)
                 {
-                    Assert.AreEqual("8", value);
+                    Assert.AreEqual("4", value);
                 }
                 else
                 {
