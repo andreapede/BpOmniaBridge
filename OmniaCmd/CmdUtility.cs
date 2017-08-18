@@ -117,12 +117,12 @@ namespace BpOmniaBridge
         private static string folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
 
         //Initializer name of the file and type of result
-        public ReadCommands(string name, string system, string cmd, int sec = 20)
+        public ReadCommands(string name, string system, string cmd, int sec = 20, bool test = false)
         {
             FileName = name;
             CmdSystem = system;
             Cmd = cmd;
-            CheckFileExists(sec);
+            CheckFileExists(sec, test);
         }
 
         //Properties
@@ -159,7 +159,7 @@ namespace BpOmniaBridge
                 
         }
                 
-        private void CheckFileExists(int sec)
+        private void CheckFileExists(int sec, bool test)
         {
             Utility.Log("Read => start");
             // Set timeout to 20 seconds
@@ -172,7 +172,8 @@ namespace BpOmniaBridge
                 {
                     Utility.Log("timeout => " + FileName + ".out has not been created within 20 secs");
                     FileExist = false;
-                    MessageBox.Show("Omnia is not answering. Check Bridge log file", "Communication Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    if(!test)
+                        MessageBox.Show("Omnia is not answering. Check Bridge log file", "Communication Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     DeleteFile(".in");
                     break;
                 }
@@ -197,7 +198,7 @@ namespace BpOmniaBridge
     public class Archive
     {
         //Initializer: it expect 2 arrays with ID, FirstName, Middlename, LastName, DOB, Gender, Ethnicity, Height and Weight
-        public Archive(string[] keys, string[] values)
+        public Archive(string[] keys, string[] values, bool mytest = false)
         {
             //removing the height and weight
             var keysList = keys.ToList();
@@ -214,6 +215,8 @@ namespace BpOmniaBridge
             visitValuesList.RemoveRange(0, 7);
             visitKeysArray = visitKeysList.ToArray();
             visitValuesArray = visitValuesList.ToArray();
+
+            test = mytest;
         }
 
         public void SetRecordID(string id)
@@ -238,13 +241,14 @@ namespace BpOmniaBridge
         private Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
         private Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
         private Guid FVCPOST = new Guid("80266DA7-A2DA-4013-B9F6-599FA6169392");
+        public bool test;
 
         public string CreateSubject()
         {
             return new CommandList().SelectCreateSubject(keysArray, valuesArray);
         }
 
-        public string TodayVisitCard()
+        public string TodayVisitCard(string today)
         {
             string[] keys = { "RecordID" };
             string[] ids = { recordID };
@@ -252,40 +256,33 @@ namespace BpOmniaBridge
             int index = visitList.Count / 2;
             int startIndex = index;
             string result = "NAK";
+            bool found = false;
             if (visitList.ElementAt(index) != "NAK")
             {
                 if (Int32.Parse(visitList.ElementAt(index)) > 0)
                 {
-                    bool found = false;
                     //existing visit card - check if the one of today exist already
                     //visitList.RemoveAt(0);
                     for (int i = index + 1; i < visitList.Count; i++)
                     {
-                        if (visitList.ElementAt(i) == DateTime.Today.ToString("yyyyMMdd"))
+                        if (visitList.ElementAt(i) == today)
                         {
                             found = true;
                             index = i;
                             break;
                         }
                     }
+                }
 
-                    if (found)
-                    {
-                        //return ID
-                        string id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
-                        result = id;
-                    }
-                    else
-                    {
-                        //create new visit card
-                        string id = new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
-                        result = id;
-                    }
-
+                if (found)
+                {
+                    //return ID
+                    string id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
+                    result = id;
                 }
                 else
                 {
-                    // create new visit card
+                    //create new visit card
                     string id = new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
                     result = id;
                 }

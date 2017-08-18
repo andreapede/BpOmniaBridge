@@ -119,7 +119,7 @@ namespace BpOmniaBridge
             if (subjectID != "NAK")
             {
                 archive.SetRecordID(subjectID);
-                visitID = archive.TodayVisitCard();
+                visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
 
                 if (visitID != "NAK")
                 {
@@ -145,7 +145,7 @@ namespace BpOmniaBridge
 
         private string MatchEthnicity(string value)
         {
-            //TODO: contact COSMED to undertand how to match nation to ethnicity group
+            //TODO: contact COSMED to undertand how to match nation to ethnicity group - COSMED doesn't have anything, need to find something online :(
             return "Caucasian";
         }
 

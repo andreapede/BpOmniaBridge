@@ -4,6 +4,7 @@ using BpOmniaBridge;
 using System.IO;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace BpOmniaBridgeTest
 {
@@ -151,13 +152,13 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual(false, File.Exists(filePath));
 
             // read basic command with NAK
-            filePath = CopyFileToTest("login_nak");
+            CopyFileToTest("login_nak");
 
             read = new ReadCommands("login_nak", "System", "Login");
             Assert.AreEqual("NAK", read.ResultValues[0]);
 
             // read complex command with list of params
-            filePath = CopyFileToTest("subject_visit_card");
+            CopyFileToTest("subject_visit_card");
 
             read = new ReadCommands("subject_visit_card", "Archive", "GetSubjectVisitList");
             // test keys
@@ -190,6 +191,11 @@ namespace BpOmniaBridgeTest
                 index += 1;
             }
 
+            //test timeout
+            // set time to 1 sec
+            read = new ReadCommands("login_ack", "System", "Login", 1, true);
+            Assert.AreEqual(false, read.FileExist);
+            Assert.AreEqual("NAK", read.ResultValues[0]);
         }
     }
 }

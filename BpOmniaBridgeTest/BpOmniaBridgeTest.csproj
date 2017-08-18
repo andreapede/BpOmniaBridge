@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdUtilityTest.cs" />
+    <Compile Include="CmdUtilityArchiveTest.cs" />
     <Compile Include="UtilityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
