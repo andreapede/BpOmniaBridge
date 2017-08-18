@@ -45,8 +45,11 @@ namespace BpOmniaBridge
                     Guid.TryParse(paramsValues[index], out prmValue);
                     command.Element("OmniaXB").Element(system).Element(cmd).Add(new XElement(prm, prmValue));
                 }
+                else
+                {
+                    command.Element("OmniaXB").Element(system).Element(cmd).Add(new XElement(prm, paramsValues[index]));
+                }
 
-                command.Element("OmniaXB").Element(system).Element(cmd).Add(new XElement(prm, paramsValues[index]));
                 index += 1;
             }
         }
@@ -159,7 +162,7 @@ namespace BpOmniaBridge
         private void CheckFileExists()
         {
             Utility.Log("Read => start");
-            // Set timeout to 30 seconds
+            // Set timeout to 20 seconds
             // ASK: is this ok?
             var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(30));
             var fullPath = Path.Combine(folderPath, FileName + ".out");
