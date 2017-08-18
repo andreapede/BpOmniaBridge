@@ -11,6 +11,8 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void CreateUtilityFoldersTest()
         {
+            // test that in the Public Doc folder, the BpOmniaBridge folder is created
+            // test if inside the BpOmniaBridge temp_files and pdf_files folders are created
             Utility.CreateUtilityFolders();
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var tempFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
@@ -23,6 +25,8 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void CreateLogFileTest()
         {
+            // test if the Log file is created in the BpOmniaBridge folder
+            // test if the Bridge => started and the correct date is written in the log
             Utility.CreateLogFile();
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filepath = Path.Combine(cmnDocPath, "BpOmniaBridge", "log.txt");

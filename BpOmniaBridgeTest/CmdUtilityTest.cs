@@ -13,6 +13,7 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void WriteCommandNoParamsTest()
         {   
+            // test basic command for WriteCommand
             var command = new WriteCommand("no_params.in");
             command.AddCommands("TestSystem", "TestCmd", new string[] {}, new string[] { });
             command.Save();
@@ -21,7 +22,9 @@ namespace BpOmniaBridgeTest
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", "no_params.in");
 
             Assert.AreEqual(true, File.Exists(filePath));
-
+            
+            // test if maine root is OmniaXB
+            // test system and command elements
             var root = XDocument.Load(filePath).Element("OmniaXB");
             var system = XDocument.Load(filePath).Element("OmniaXB").Element("TestSystem");
             var cmd = XDocument.Load(filePath).Element("OmniaXB").Element("TestSystem").Element("TestCmd");
@@ -35,6 +38,7 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void WriteCommandWithParamsTest()
         {
+            // test WriteCommand with parameters with Guid as well
             var command = new WriteCommand("with_params.in");
             Guid my_guid = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
 
@@ -49,6 +53,8 @@ namespace BpOmniaBridgeTest
             var elements = XDocument.Load(filePath).Element("OmniaXB").Element("TestSystem").Element("TestCmd").Elements();
             int num_params = 0;
 
+            // test each parameter has the correct name and value
+            // Important to test the GUID otherwise you get NACK from OMNIA
             foreach(XElement element in elements)
             {
                 if(num_params == 2)
@@ -73,6 +79,7 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void CommandTest()
         {
+            // same test of WriteCommandWithParams but using the higer lever class Command
             Guid my_guid = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
             string[] names = new string[] { "Param0", "Param1", "Param2" };
             string[] values = new string[] { "Value0", "Value1", my_guid.ToString() };
