@@ -221,6 +221,7 @@ namespace BpOmniaBridge
             if (success)
                 Utility.Log("action: Bridge => Data successfully saved");
                 app.OnTestComplete();
+                closeApp();
         }
         
         #endregion
