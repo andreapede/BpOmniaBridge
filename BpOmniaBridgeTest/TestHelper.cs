@@ -16,20 +16,22 @@ namespace BpOmniaBridgeTest
             return Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
         }
 
-        public string CopyFileToTest(string fileName)
+        public string CopyFileToTest(string fileFrom, string fileTo = "same", string ext = ".out")
         {
+            if (fileTo == "same")
+                fileTo = fileFrom;
             var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
-            string fileToMove = Path.Combine(currentFolder, "toTest", fileName + ".out");
-            var destFileName = Path.Combine(TempFileFolder(), fileName + ".out");
+            string fileToMove = Path.Combine(currentFolder, "toTest", fileFrom + ext);
+            var destFileName = Path.Combine(TempFileFolder(), fileTo + ext);
 
             File.Copy(fileToMove, destFileName, true);
 
             return destFileName;
         }
 
-        public void DeleteTempFileIN(string fileName)
+        public void DeleteTempFileIN(string fileName, string ext = ".in")
         {
-            var filePath = Path.Combine(TempFileFolder(), fileName + ".in");
+            var filePath = Path.Combine(TempFileFolder(), fileName + ext);
             File.Delete(filePath);
         }
 
