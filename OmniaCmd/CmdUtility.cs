@@ -198,7 +198,7 @@ namespace BpOmniaBridge
     public class Archive
     {
         //Initializer: it expect 2 arrays with ID, FirstName, Middlename, LastName, DOB, Gender, Ethnicity, Height and Weight
-        public Archive(string[] keys, string[] values, bool mytest = false)
+        public Archive(string[] keys, string[] values)
         {
             //removing the height and weight
             var keysList = keys.ToList();
@@ -215,8 +215,6 @@ namespace BpOmniaBridge
             visitValuesList.RemoveRange(0, 7);
             visitKeysArray = visitKeysList.ToArray();
             visitValuesArray = visitValuesList.ToArray();
-
-            test = mytest;
         }
 
         public void SetRecordID(string id)
@@ -312,11 +310,12 @@ namespace BpOmniaBridge
             //get all the elemnts under the command key
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements();
 
-            var type = FindTypeOfTest(filePath);
+            var testType = FindTypeOfTest(filePath);
             results.Add(FindDiagnosis(filePath));
-            results.AddRange(FindDataToImport(filePath, type));
+            results.AddRange(FindDataToImport(filePath, testType));
+            results.Add(testType);
 
-            //File.Delete(filePath);
+            File.Delete(filePath);
             var params_string = String.Join(" - ", results.ToArray());
             Utility.Log("action: Bridge => DataFound: " + params_string);
 
@@ -355,7 +354,7 @@ namespace BpOmniaBridge
 
             }
 
-            if (foundFVCPOST && foundFVCPOSTBD)
+            if (foundFVCPOST && foundFVCPOST)
             {
                 type = "BC";
             }
@@ -381,14 +380,14 @@ namespace BpOmniaBridge
             List<string> resultPRE = new List<string> { };
             List<string> resultPOST = new List<string> { };
             string testID = "";
+            long time = 0;
             bool foundPRE = false;
             bool foundPOSTBD = false;
-            bool foundPOSTBC = false;
 
             // reset the flags to skip all the elements that we don't need
             if (type == "PRE") { foundPOSTBD = true; };
-            if (type == "BD") { foundPOSTBC = true; };
-
+            // in case is BC instead I need to controll all the test to get the latest POST which
+            // should be the Salbutamol or any other bronchodilator used
             
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
             foreach (XElement element in elements)
@@ -416,13 +415,18 @@ namespace BpOmniaBridge
 
                         if (currentTest == FVCPOST && type == "BC")
                         {
-                            testID = GetRecordID(info);
-                            foundPOSTBC = true;
+                            long currentTime = Convert.ToInt64(info.Ancestors().Elements("Time").First().FirstAttribute.Value);
+                            if (time == 0 || time < currentTime)
+                            {
+                                time = currentTime;
+                                resultPOST = GetParamsValues(info);
+                                testID = GetRecordID(info);
+                            }
                         }
                         goto nextElement;
                     }
 
-                    if(foundPOSTBD && foundPOSTBC && foundPRE) { goto done; }
+                    if(foundPOSTBD && foundPRE) { goto done; }
                 }
             nextElement:;
                 

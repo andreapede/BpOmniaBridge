@@ -20,8 +20,7 @@
       <Smoker>255</Smoker>
       <Height>180</Height>
       <Weight>80</Weight>
-      <Diagnosis>The subject has a FEV1/FVC%‎ ratio of 80.6% which is within the normal limit and a FVC‎ value of 4.06 L which is below the LLN. Test results indicate a POSSIBLE RESTRICTION.
-Additional test to measure Total Lung Capacity is required to confirm or exclude this interpretation.</Diagnosis>
+      <Diagnosis>Diagnosis PRE + POST BD</Diagnosis>
       <ConfirmedDiag>True</ConfirmedDiag>
       <Diabetes>False</Diabetes>
       <Resync>0</Resync>

@@ -20,8 +20,7 @@
       <Smoker>255</Smoker>
       <Height>180</Height>
       <Weight>80</Weight>
-      <Diagnosis>The subject has a FEV1/FVC%‎ ratio of 77.2% and a FVC‎ value of 4.66 L which are within the normal limits.
-Test results indicate a NORMAL SPIROMETRY</Diagnosis>
+      <Diagnosis>Diagnosis only PRE</Diagnosis>
       <ConfirmedDiag>True</ConfirmedDiag>
       <Diabetes>False</Diabetes>
       <Resync>0</Resync>
