@@ -16,7 +16,7 @@ namespace BpOmniaBridge
         //folder where the xml files will be exchanged between OMNIA and BP
         public static void CreateUtilityFolders()
         {
-            var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var tempFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
             var pdfFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
             Directory.CreateDirectory(tempFilePath);
@@ -26,7 +26,7 @@ namespace BpOmniaBridge
         //Create utility folder for BpOmniaBridge + log file
         public static void CreateLogFile()
         {
-            var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullpath);
             Log("Bridge => Started");
@@ -36,7 +36,7 @@ namespace BpOmniaBridge
         public static void Log(string message)
         {
             //create the file if doesn't exist
-            var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullPath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullPath);
             var filePath = Path.Combine(fullPath, "log.txt");

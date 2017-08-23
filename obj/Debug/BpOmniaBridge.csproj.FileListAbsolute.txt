@@ -15,4 +15,8 @@ D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.Properties.Resources.resources
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.GenerateResource.Cache
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.pdb
+D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.manifest
+D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.application
+D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.manifest
+D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache

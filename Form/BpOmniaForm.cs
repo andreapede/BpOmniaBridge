@@ -34,6 +34,7 @@ namespace BpOmniaBridge
             IntPtr myHandle = this.Handle;
             Utility.CreateUtilityFolders();
             Utility.CreateLogFile();
+            
             bool omnia = Utility.RunOmnia();
             if (omnia)
                 try
@@ -68,12 +69,7 @@ namespace BpOmniaBridge
                 closeApp();
         }
 
-        private void BpOmniaForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        
+      
 
         #region Method
         public void closeApp()

@@ -533,10 +533,8 @@ namespace BpOmniaBridge
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(527, 321);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BpOmniaForm";
-            this.Text = "BP - OMNIA Bridge";
-            this.Load += new System.EventHandler(this.BpOmniaForm_Load);
+            this.Text = "BP/Omnia Bridge v" + Application.ProductVersion;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
