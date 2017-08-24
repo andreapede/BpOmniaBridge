@@ -56,11 +56,13 @@ namespace BpOmniaBridge
                 }
                 catch (Exception ex)
                 {
+                    Utility.Log("Error => " + ex.Message);
                     MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
 
             if (app != null)
             {
+                Utility.Log("Bridge => Communication with BP OK");
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
                 

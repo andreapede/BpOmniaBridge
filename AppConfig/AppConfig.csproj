@@ -50,11 +50,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BpOmniaBridge.csproj">
-      <Project>{db2f8491-3403-4f8f-86b5-405fdcd1244a}</Project>
-      <Name>BpOmniaBridge</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

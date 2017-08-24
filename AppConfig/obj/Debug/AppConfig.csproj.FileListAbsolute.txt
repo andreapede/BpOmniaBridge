@@ -3,7 +3,4 @@ D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe
 D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.pdb
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb
-D:\BpOmniaBridge\AppConfig\bin\Debug\BpOmniaBridge.exe
-D:\BpOmniaBridge\AppConfig\bin\Debug\BpOmniaBridge.pdb
-D:\BpOmniaBridge\AppConfig\bin\Debug\BpOmniaBridge.exe.config
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csprojResolveAssemblyReference.cache

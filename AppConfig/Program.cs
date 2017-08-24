@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Xml.Linq;
@@ -25,23 +26,23 @@ namespace AppConfig
                 XDocument doc = XDocument.Load(acsFile);
                 XElement bridgeControl = doc.Element("ExtendedConfiguration").Element("Bridge").Element("Control");
                 bridgeControl.Attribute("ID").Value = "file";
-                Console.WriteLine("... ID -> file ...");
+                Console.WriteLine("  ID -> file  ");
                 log.WriteLog("ID -> file");
                 Thread.Sleep(500);
                 bridgeControl.Attribute("Value").Value = "xml";
-                Console.WriteLine("... Value -> xml ...");
+                Console.WriteLine("  Value -> xml  ");
                 log.WriteLog("Value -> xml");
                 Thread.Sleep(500);
                 bridgeControl.Attribute("Item2").Value = "utf-8";
-                Console.WriteLine("... Item2 -> utf-8 ...");
+                Console.WriteLine("  Item2 -> utf-8  ");
                 log.WriteLog("Item2 -> utf-8");
                 Thread.Sleep(500);
                 bridgeControl.Attribute("Item3").Value = bridgeTempFile;
-                Console.WriteLine("... Item3 -> " + bridgeTempFile + " ...");
+                Console.WriteLine("  Item3 -> " + bridgeTempFile + "  ");
                 log.WriteLog("Item3 -> " + bridgeTempFile);
                 Thread.Sleep(500);
                 bridgeControl.Attribute("Item4").Value = "OmniaXB";
-                Console.WriteLine("... Item4 -> OmniaXB ...");
+                Console.WriteLine("  Item4 -> OmniaXB  ");
                 log.WriteLog("Item4 -> OmniaXB");
                 Thread.Sleep(500);
 
@@ -86,17 +87,18 @@ namespace AppConfig
                     bpRegestry.Write("SpiroPath", bridgePath);
                 }
 
-                Console.WriteLine("... SpiroPath -> " + bridgePath + "...");
-                log.WriteLog("... SpiroPath -> " + bridgePath);
+                Console.WriteLine("  SpiroPath -> " + bridgePath + "  ");
+                log.WriteLog("SpiroPath -> " + bridgePath);
                 Thread.Sleep(500);
                 
                 bpRegestry.Write("SpiroClass", "WindowsForms10.Window.8.app.0.13965fa_r11_ad1");
-                Console.WriteLine("... SpiroClass -> WindowsForms10.Window.8.app.0.13965fa_r11_ad1...");
+                Console.WriteLine("  SpiroClass -> WindowsForms10.Window.8.app.0.13965fa_r11_ad1 ");
                 log.WriteLog("SpiroClass -> WindowsForms10.Window.8.app.0.13965fa_r11_ad1");
                 Thread.Sleep(500);
-                bpRegestry.Write("SpiroName", "BP-OMNIA Bridge");
-                Console.WriteLine("... SpiroName -> BP-OMNIA Bridge...");
-                log.WriteLog("SpiroName -> BP-OMNIA Bridge");
+                var fileVersion = FileVersionInfo.GetVersionInfo(bridgePath).FileVersion;
+                bpRegestry.Write("SpiroName", "BP/Omnia Bridge v" + fileVersion);
+                Console.WriteLine("  SprioName -> BP/Omnia Bridge v" + fileVersion +" ");
+                log.WriteLog("SprioName -> BP/Omnia Bridge v" + fileVersion);
                 Thread.Sleep(500);
 
                 Console.WriteLine("");
