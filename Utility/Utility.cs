@@ -68,7 +68,7 @@ namespace BpOmniaBridge
             //ASK: is that a way to know when OMNIA is running?
             if (pname.Length == 0)
                 Process.Start(fullPath);
-            return new CommandList().Login("ocp", "bp");
+            return true;
         }
 
     }

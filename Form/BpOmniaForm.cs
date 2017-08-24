@@ -86,6 +86,7 @@ namespace BpOmniaBridge
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
             CreateSelectSubjectAndVistCard();
+            new CommandList().Login("ocp", "bp");
         }
 
         private void CreateSelectSubjectAndVistCard()
@@ -221,7 +222,8 @@ namespace BpOmniaBridge
                 app.OnTestComplete();
                 closeApp();
         }
-        
+
         #endregion
+
     }
 }
