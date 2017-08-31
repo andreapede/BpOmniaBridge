@@ -16,13 +16,30 @@ namespace BpOmniaBridgeTest
             return Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
         }
 
-        public string CopyFileToTest(string fileFrom, string fileTo = "same", string ext = ".out")
+        public string BpOmniaFolder()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            return Path.Combine(cmnDocPath, "BpOmniaBridge");
+        }
+
+        public string PdfFileFolder()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            return Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
+        }
+
+        public string CopyFileToTest(string fileFrom, string fileTo = "same", string ext = ".out", string destFolder = "tempFileFolder")
         {
             if (fileTo == "same")
                 fileTo = fileFrom;
             var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
             string fileToMove = Path.Combine(currentFolder, "toTest", fileFrom + ext);
-            var destFileName = Path.Combine(TempFileFolder(), fileTo + ext);
+            if (destFolder == "tempFileFolder")
+            {
+                destFolder = TempFileFolder();
+            }
+
+            var destFileName = Path.Combine(destFolder, fileTo + ext); 
 
             File.Copy(fileToMove, destFileName, true);
 

@@ -62,14 +62,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BpOmniaBridge.exe" size="41952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BpOmniaBridge.exe" size="42464">
       <assemblyIdentity name="BpOmniaBridge" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bHnnRQWXeE862qdJxhDNPnYqdOsWN9WlqPjh6wGGyrg=</dsig:DigestValue>
+        <dsig:DigestValue>Yraiw5IP2v0Gq2UVxD1DL/62foq7euN9h4SFI8J8Lvk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

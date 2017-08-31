@@ -29,24 +29,37 @@ namespace BpOmniaBridge
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullpath);
-            Log("Bridge => Started");
+            Log("Bridge => Started", true);
         }
 
-        //log file
-        public static void Log(string message)
+        //log file, using the clean flag to run the cleaning only when requested (bridge started only)
+        public static void Log(string message, bool clean = false)
         {
             //create the file if doesn't exist
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fullPath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullPath);
             var filePath = Path.Combine(fullPath, "log.txt");
-            //write the log
-            using (StreamWriter w = File.AppendText(filePath))
+
+            //clean if necessary (rows more than 1000)
+            if (clean)
             {
-                w.Write("\r\n Log Entry: ");
-                w.Write("{0} {1}", DateTime.Now.ToLongTimeString(),
+                if (File.ReadLines(filePath).Count() > 1000)
+                {
+                    var lines = File.ReadAllLines(filePath).Skip(800);
+                    File.WriteAllLines(filePath, lines);
+                    // empty line will be created but it won't create any issue
+                }
+            }
+            
+            //write log
+            using (StreamWriter writer = File.AppendText(filePath))
+            {
+                //write log
+                writer.Write("\r\n Log Entry: ");
+                writer.Write("{0} {1}", DateTime.Now.ToLongTimeString(),
                 DateTime.Now.ToLongDateString());
-                w.Write(" -- action: {0}", message);
+                writer.Write(" -- action: {0}", message);
             }
         }
 
