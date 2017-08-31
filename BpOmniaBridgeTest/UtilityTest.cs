@@ -44,27 +44,19 @@ namespace BpOmniaBridgeTest
             var bpOmniaFolder = helper.BpOmniaFolder();
             var correctLog = Path.Combine(bpOmniaFolder, "log.txt");
             var tempLog = Path.Combine(bpOmniaFolder , "temp_log.txt");
-            var filePath = Path.Combine(bpOmniaFolder, "log.txt");
 
-            // keeping the real log file safe - is that really necessary?
-            try
-            {
-                File.Move(correctLog, tempLog);
-            }
-            catch
-            {
-                File.Delete(correctLog);
-                File.Move(tempLog, correctLog);
-                File.Move(correctLog, tempLog);
-            }
-            
+            // in case the test has failed before
+            if(File.Exists(tempLog))
+                File.Delete(tempLog);
+
+            File.Move(correctLog, tempLog);
             
             helper.CopyFileToTest("test_log", "log", ".txt", bpOmniaFolder);
 
             Utility.Log("Clean", true);
-            Assert.AreEqual(477, File.ReadLines(filePath).Count());
+            Assert.AreEqual(477, File.ReadLines(correctLog).Count());
 
-            File.Delete(filePath);
+            File.Delete(correctLog);
             File.Move(tempLog, correctLog); 
         }
     }

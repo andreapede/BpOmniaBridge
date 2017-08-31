@@ -13,6 +13,15 @@ namespace BpOmniaBridge
 {
     public class Utility
     {
+        public static void Initialize()
+        {
+            CreateUtilityFolders();
+            if(Convert.ToBoolean(ConfigurationManager.AppSettings["LogEnabled"]))
+            {
+                CreateLogFile();
+            }
+        }
+
         //folder where the xml files will be exchanged between OMNIA and BP
         public static void CreateUtilityFolders()
         {
@@ -40,27 +49,31 @@ namespace BpOmniaBridge
             var fullPath = Path.Combine(cmnDocPath, "BpOmniaBridge");
             Directory.CreateDirectory(fullPath);
             var filePath = Path.Combine(fullPath, "log.txt");
-
-            //clean if necessary (rows more than 1000)
-            if (clean)
+            
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings["LogEnabled"]))
             {
-                if (File.ReadLines(filePath).Count() > 1000)
+                //clean if necessary (rows more than 1000)
+                if (clean)
                 {
-                    var lines = File.ReadAllLines(filePath).Skip(800);
-                    File.WriteAllLines(filePath, lines);
-                    // empty line will be created but it won't create any issue
+                    if (File.ReadLines(filePath).Count() > 1000)
+                    {
+                        var lines = File.ReadAllLines(filePath).Skip(800);
+                        File.WriteAllLines(filePath, lines);
+                        // empty line will be created but it won't create any issue
+                    }
+                }
+      
+                //write log
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    //write log
+                    writer.Write("\r\n Log Entry: ");
+                    writer.Write("{0} {1}", DateTime.Now.ToLongTimeString(),
+                    DateTime.Now.ToLongDateString());
+                    writer.Write(" -- action: {0}", message);
                 }
             }
             
-            //write log
-            using (StreamWriter writer = File.AppendText(filePath))
-            {
-                //write log
-                writer.Write("\r\n Log Entry: ");
-                writer.Write("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-                writer.Write(" -- action: {0}", message);
-            }
         }
 
         public static bool IsOmniaRunning()

@@ -13,3 +13,4 @@ D:\BpOmniaBridge\BpOmniaBridgeTest\obj\Debug\BpOmniaBridgeTest.pdb
 D:\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\BpOmniaBridge.exe
 D:\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\BpOmniaBridge.pdb
 D:\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\BpOmniaBridge.exe.config
+D:\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\BpOmniaBridgeTest.dll.config

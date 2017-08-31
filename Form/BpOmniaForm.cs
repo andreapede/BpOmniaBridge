@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using BPS;
 using System.Runtime.InteropServices;
+using System.Configuration;
 
 namespace BpOmniaBridge
 {
@@ -32,10 +33,8 @@ namespace BpOmniaBridge
         {
             InitializeComponent();
             IntPtr myHandle = this.Handle;
-            Utility.CreateUtilityFolders();
-            Utility.CreateLogFile();
+            Utility.Initialize();
             
-
             try
             {
                 Type type = Type.GetTypeFromProgID("BPS.BPDevice");
@@ -61,7 +60,6 @@ namespace BpOmniaBridge
 
             if (app != null)
             {
-                Utility.Log("Bridge => Communication with BP OK");
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
                 
@@ -213,11 +211,16 @@ namespace BpOmniaBridge
 
             success = spiro.SaveTest();
         noResults:;
-            MessageBox.Show(success ? "Data saved successfully." : "Failed saving data.");
+            MessageBox.Show(success ? "Data saved successfully." : "Failed saving data, try to click Save Tests again");
 
             if (success)
                 Utility.Log("action: Bridge => Data successfully saved");
                 app.OnTestComplete();
+                // delete PDF file if requested
+                if (!Convert.ToBoolean(ConfigurationManager.AppSettings["SavePdfFiles"]) && pdfCreated)
+                {
+                    File.Delete(filePath);
+                }
                 closeApp();
         }
 
