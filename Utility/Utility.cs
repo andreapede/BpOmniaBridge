@@ -63,26 +63,36 @@ namespace BpOmniaBridge
             }
         }
 
-        // NOT SURE IF THIS IS NECESSARY - WE COULD JUST MAKE AS PRE-REQUISITES THAT OMNIA IS RUNNING ALREADY
+        public static bool IsOmniaRunning()
+        {
+            Mutex mutex;
+            bool rv = Mutex.TryOpenExisting("{67F958EF-778C-4327-9285-43280B6891A7}", out mutex);
+            mutex?.Close();
+
+            return rv;
+        }
+
         public static bool RunOmnia()
         {
-            //TODO: get the omniaPath from a config file ConfigurationManager.AppSettings["key"]
-            //ASK: it will always be into Standalone?
-            string promFileX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            var fullPath = Path.Combine(promFileX86, "COSMED", "Omnia", "Standalone", "CosmedLab.exe");
-            if (!File.Exists(fullPath))
+            if (IsOmniaRunning())
+            {
+                return true;
+            }
+
+            //string promFileX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            //var fullPath = Path.Combine(promFileX86, "COSMED", "Omnia", "Standalone", "CosmedLab.exe");
+            var omniaPath = ConfigurationManager.AppSettings["OmniaPath"];
+            if (!File.Exists(omniaPath))
             {
                 Log("error => incorrect OmniaPath");
-                MessageBox.Show("Omnia is not installed in the default folder!", "Omnia not found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please run Omnia before starting the Spirometry test from Best Practice", "Omnia not found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
 
-            var pname = Process.GetProcessesByName("CosmedLab");
-            //ASK: is that a way to know when OMNIA is running?
-            if (pname.Length == 0)
-                Process.Start(fullPath);
+            Process.Start(omniaPath);
             return true;
         }
+
 
     }
 }

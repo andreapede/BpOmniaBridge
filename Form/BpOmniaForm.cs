@@ -35,30 +35,29 @@ namespace BpOmniaBridge
             Utility.CreateUtilityFolders();
             Utility.CreateLogFile();
             
-            bool omnia = Utility.RunOmnia();
-            if (omnia)
+
+            try
+            {
+                Type type = Type.GetTypeFromProgID("BPS.BPDevice");
+                app = (BPS.BPDevice)Activator.CreateInstance(type);
+            }
+            catch (COMException)
+            {
                 try
                 {
                     Type type = Type.GetTypeFromProgID("BPS.BPDevice");
-                    app = (BPS.BPDevice)Activator.CreateInstance(type);
-                }
-                catch (COMException)
-                {
-                    try
-                    {
-                        Type type = Type.GetTypeFromProgID("BPS.BPDevice");
-                        app = new BPS.BPDevice();// (BPDevice.Device.BPDevice)Activator.CreateInstance(type);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
-                    }
+                    app = new BPS.BPDevice();// (BPDevice.Device.BPDevice)Activator.CreateInstance(type);
                 }
                 catch (Exception ex)
                 {
-                    Utility.Log("Error => " + ex.Message);
-                    MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
                 }
+            }
+            catch (Exception ex)
+            {
+                Utility.Log("Error => " + ex.Message);
+                MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
 
             if (app != null)
             {
@@ -67,8 +66,7 @@ namespace BpOmniaBridge
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
                 
             }
-            else
-                closeApp();
+                           
         }
 
       
@@ -76,8 +74,8 @@ namespace BpOmniaBridge
         #region Method
         public void closeApp()
         {
-            this.Close();
             Utility.Log("Bridge => Closed");
+            this.Close();
         }
 
         private void app_eOnNewTest()

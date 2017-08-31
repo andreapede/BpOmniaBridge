@@ -16,7 +16,11 @@ namespace BpOmniaBridge
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BpOmniaForm());
+            if (Utility.RunOmnia())
+            {
+                Application.Run(new BpOmniaForm());
+            }
+
         }
     }
 }
