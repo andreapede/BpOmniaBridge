@@ -70,7 +70,7 @@ namespace BpOmniaBridgeTest
             }
             xml.Save(filePath);
             // refresh appSettings
-            new BpOmniaBridge.Utility().RefreshConfig();
+            BpOmniaBridge.Utility.RefreshConfig();
         }
     }
 }

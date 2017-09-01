@@ -81,8 +81,8 @@ namespace BpOmniaBridge
             Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
-            CreateSelectSubjectAndVistCard();
             new CommandList().Login("ocp", "bp");
+            CreateSelectSubjectAndVistCard();
         }
 
         private void CreateSelectSubjectAndVistCard()
@@ -98,11 +98,7 @@ namespace BpOmniaBridge
             var bpGender = patient.Gender.ToString();
             if (bpGender == "Unknown") { bpGender = "Other"; };
             var gender = bpGender;
-
-            // handle different in ethnicity lists
-            var bpEthnicity = patient.Ethnicity.ToString();
-            // ASK: how to match the ethnicity list in BP with OMNIA's
-            var ethnicity = MatchEthnicity(bpEthnicity);
+            var ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
             var height = patient.Height.ToString();
             var weight = patient.Weight.ToString();
             string[] prmValues = {id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
@@ -136,12 +132,6 @@ namespace BpOmniaBridge
                 MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 closeApp();
             }
-        }
-
-        private string MatchEthnicity(string value)
-        {
-            //TODO: contact COSMED to undertand how to match nation to ethnicity group - COSMED doesn't have anything, need to find something online :(
-            return "Caucasian";
         }
 
         public void PopulateSubjectAndVisitCard(string[] array)

@@ -61,6 +61,17 @@ namespace BpOmniaBridgeTest
             File.Move(tempLog, correctLog); 
         }
 
+        [TestMethod]
+        public void MatchEthnicityTest()
+        {
+            Assert.AreEqual("Other", Utility.MatchEthnicity("Other"));
+            Assert.AreEqual("Other", Utility.MatchEthnicity("TSI"));
+            Assert.AreEqual("Other", Utility.MatchEthnicity("ATSI"));
+            Assert.AreEqual("Other", Utility.MatchEthnicity("9999"));
+            Assert.AreEqual("Caucasian", Utility.MatchEthnicity("Australian"));
+            Assert.AreEqual("Caucasian", Utility.MatchEthnicity("anything else", true));
+        }
+
         /*
         This test is not running because it changes the LogEnabledFlag in the App.config file but
         there is not a way to reload the appSettings between tests (apparently).

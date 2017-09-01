@@ -105,7 +105,7 @@ namespace AppConfig
                 Console.WriteLine("Configuration's process successfully done!");
                 log.WriteLog("Configuration's process successfully done!");
                 Console.WriteLine("");
-                Console.WriteLine("...Click any key to go close this...");
+                Console.WriteLine("...Click enter to close this...");
                 Console.ReadLine();
             }
             catch (Exception ex)

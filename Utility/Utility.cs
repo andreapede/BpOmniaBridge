@@ -107,11 +107,39 @@ namespace BpOmniaBridge
         }
 
         // used in the UnitTest to test the flags
-        public void RefreshConfig()
+        public static void RefreshConfig()
         {
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+
+        // mathcing ethinicity, basically aboriginal don't have specific etnicity so they will be in Other group
+        // Australian in Caucasian
+        // any other nation will be Caucasian with message box to redifine that into Omnia if needed
+        public static string MatchEthnicity(string value, bool test = false)
+        {
+            Dictionary<string, string> ethnicity = new Dictionary<string, string>();
+            ethnicity.Add("Aboroginal", "Other");
+            ethnicity.Add("TSI", "Other");
+            ethnicity.Add("ATSI", "Other");
+            ethnicity.Add("9999", "Other");
+            ethnicity.Add("Australian", "Caucasian");
+            
+            try
+            {
+                return ethnicity[value];
+            }
+            catch (KeyNotFoundException)
+            {
+                if (!test) {
+                                MessageBox.Show("The ethnicity has been set to Caucasian, please change it in OMNIA if needed", 
+                                "Matching the ethnicity",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning );
+                            }
+                return "Caucasian";
+            }
+        }
 
     }
 }
