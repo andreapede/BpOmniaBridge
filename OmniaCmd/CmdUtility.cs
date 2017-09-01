@@ -56,7 +56,6 @@ namespace BpOmniaBridge
 
         public void Save()
         {
-            //TODO: make this smarter!!! XDocument creates the first line with xml details which are not required 
             var filePath = Path.Combine(folderPath, fileName);
             command.Save(filePath);
             string[] lines = File.ReadAllLines(filePath);

@@ -69,17 +69,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>RF6H3h6zdD/BKedBARNaiyvpWKz6JhYWBRzqsQWolEA=</dsig:DigestValue>
+        <dsig:DigestValue>Y5zsex9+AHdyuUE/MydCF+JHuA3d+iPTq0i5TzmR348=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="BpOmniaBridge.exe.config" size="1229">
+  <file name="BpOmniaBridge.exe.config" size="1228">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>QORFfKgEZAUo6YGIKrrk3kLRKwuzIWZMo10m4LMbh/g=</dsig:DigestValue>
+      <dsig:DigestValue>TDbo+sveHLWci9Z9fZ3PfMr6dOavvV8QA047ljxWaiI=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

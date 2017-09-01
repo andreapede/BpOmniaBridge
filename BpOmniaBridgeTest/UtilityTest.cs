@@ -10,6 +10,7 @@ namespace BpOmniaBridgeTest
     public class UtilityTest
     {
         TestHelper helper = new TestHelper();
+
         [TestMethod]
         public void CreateUtilityFoldersTest()
         {
@@ -59,5 +60,39 @@ namespace BpOmniaBridgeTest
             File.Delete(correctLog);
             File.Move(tempLog, correctLog); 
         }
+
+        /*
+        This test is not running because it changes the LogEnabledFlag in the App.config file but
+        there is not a way to reload the appSettings between tests (apparently).
+        TODO: FIX ME!!!!!!!!
+        [TestMethod]
+        public void LogEnabledFlagTest()
+        {
+            //test if the log file is not touched if LogEnabled flag is false
+            Utility.CreateLogFile();
+            var bpOmniaFolder = helper.BpOmniaFolder();
+            var correctLog = Path.Combine(bpOmniaFolder, "log.txt");
+            var tempLog = Path.Combine(bpOmniaFolder, "temp_log.txt");
+
+            // in case the test has failed before
+            if (File.Exists(tempLog))
+                File.Delete(tempLog);
+
+            File.Move(correctLog, tempLog);
+
+            helper.CopyFileToTest("test_log", "log", ".txt", bpOmniaFolder);
+
+            //set flag to false
+            helper.SetAppConfigFlag("LogEnabled", "false");
+
+            Utility.Log("Clean", true);
+            Assert.AreEqual(1275, File.ReadLines(correctLog).Count());
+            
+            File.Delete(correctLog);
+            File.Move(tempLog, correctLog);
+
+            //set flag to true
+            helper.SetAppConfigFlag("LogEnabled", "true");
+        }*/
     }
 }

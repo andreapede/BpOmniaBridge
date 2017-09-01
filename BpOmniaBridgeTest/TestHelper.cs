@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Xml.Linq;
+using System.Threading;
 
 namespace BpOmniaBridgeTest
 {
@@ -52,5 +55,22 @@ namespace BpOmniaBridgeTest
             File.Delete(filePath);
         }
 
+        public void SetAppConfigFlag(string key, string value)
+        {
+            var currentFolder = Directory.GetCurrentDirectory().Replace("\\BpOmniaBridgeTest\\bin\\Debug", "");
+            string filePath = Path.Combine(currentFolder, "App.config");
+            XDocument xml = XDocument.Load(filePath);
+            IEnumerable<XElement> elements = xml.Elements("configuration").Elements("appSettings").Elements();
+            foreach(XElement element in elements)
+            {
+                if(element.FirstAttribute.Value == key)
+                {
+                    element.SetAttributeValue("value", value);
+                }
+            }
+            xml.Save(filePath);
+            // refresh appSettings
+            new BpOmniaBridge.Utility().RefreshConfig();
+        }
     }
 }

@@ -106,6 +106,12 @@ namespace BpOmniaBridge
             return true;
         }
 
+        // used in the UnitTest to test the flags
+        public void RefreshConfig()
+        {
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
 
     }
 }
