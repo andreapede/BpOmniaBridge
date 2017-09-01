@@ -63,6 +63,8 @@ namespace BpOmniaBridge
             File.WriteAllLines(filePath, lines);
         }
 
+
+
     }
 
     #endregion WriteCommand
@@ -104,6 +106,11 @@ namespace BpOmniaBridge
             command.Save();
             Utility.Log("CMD => " + FileName);
         }
+
+        public string Receive()
+        {
+            return "answer";
+        }
     }
 
     #endregion Command
@@ -121,7 +128,8 @@ namespace BpOmniaBridge
             FileName = name;
             CmdSystem = system;
             Cmd = cmd;
-            CheckFileExists(sec, test);
+            FilePath = Path.Combine(folderPath, FileName + ".out");
+            WatchOutFile();
         }
 
         //Properties
@@ -129,6 +137,7 @@ namespace BpOmniaBridge
         private string CmdSystem;
         private string Cmd;
         public bool FileExist;
+        private string FilePath;
         public List<string> ResultValues;
         public List<string> ResultKeys;
 
@@ -139,9 +148,8 @@ namespace BpOmniaBridge
             ResultKeys = new List<string> { };
             if (FileExist)
             {
-                var filePath = Path.Combine(folderPath, FileName + ".out");
                 //get all the elemnts under the command key
-                IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
+                IEnumerable<XElement> elements = XDocument.Load(FilePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
                 foreach( XElement element in elements)
                 {
                     ResultKeys.Add(element.Name.ToString());
@@ -157,7 +165,22 @@ namespace BpOmniaBridge
             }
                 
         }
-                
+
+        private void WatchOutFile()
+        {
+            FileSystemWatcher watcher = new FileSystemWatcher();
+            watcher.Path = folderPath;
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.Filter = "*.*";
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void OnChanged(object source, FileSystemEventArgs e)
+        {
+            Read();
+        }
+
         private void CheckFileExists(int sec, bool test)
         {
             Utility.Log("Read => start");
@@ -184,8 +207,7 @@ namespace BpOmniaBridge
 
         private void DeleteFile(string in_out = ".out")
         {
-            var filePath = Path.Combine(folderPath, FileName + in_out);
-            File.Delete(filePath);
+            File.Delete(FilePath);
         }
     }
     #endregion

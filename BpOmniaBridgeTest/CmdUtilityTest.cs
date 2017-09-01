@@ -131,9 +131,9 @@ namespace BpOmniaBridgeTest
         public void ReadCommandTest()
         {
             // read basic command with ACK
+            var read = new ReadCommands("login_ack", "System", "Login");
             var filePath = new TestHelper().CopyFileToTest("login_ack");
 
-            var read = new ReadCommands("login_ack", "System", "Login");
             Assert.AreEqual("ACK", read.ResultValues[0]);
             // test file is deleted after been read
             Assert.AreEqual(false, File.Exists(filePath));

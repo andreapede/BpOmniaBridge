@@ -32,7 +32,7 @@ namespace BpOmniaBridge
         public BpOmniaForm()
         {
             InitializeComponent();
-            IntPtr myHandle = this.Handle;
+            //IntPtr myHandle = this.Handle; NOT SURE ABOUT THIS
             Utility.Initialize();
             
             try
@@ -60,6 +60,7 @@ namespace BpOmniaBridge
 
             if (app != null)
             {
+                new CommandList().Login("ocp", "bp");
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
                 
