@@ -141,5 +141,15 @@ namespace BpOmniaBridge
             }
         }
 
+        public static string ErrorList(int index)
+        {
+            Dictionary<int, string> errors = new Dictionary<int, string>();
+            errors.Add(1, "Something went wrong with the login");
+            errors.Add(1, "Something went wrong during the creation of the Subject");
+
+            return errors[index];
+        }
+
+
     }
 }

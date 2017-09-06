@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using BPS;
 using System.Runtime.InteropServices;
 using System.Configuration;
+using System.Reflection;
 
 namespace BpOmniaBridge
 {
@@ -27,14 +28,20 @@ namespace BpOmniaBridge
         // List of results: Diasgnosis/PEFR/FEV1/FVC/PEFRPOST/FEV1POST/FVCPOST/testID
         private List<string> results = new List<string> { };
         private bool pdfCreated = false;
-
+        private Command currentCommand;
+        private List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "SaveTest", "ExportData", "ReadData", "GeneratePDF", "CloseApp"};
+        private int errorCode = 0;
+        private string errorMessage;
+        private int currentStateIndex;
+        private Dictionary<string, List<string>> currentResult;
 
         public BpOmniaForm()
         {
             InitializeComponent();
             //IntPtr myHandle = this.Handle; NOT SURE ABOUT THIS
             Utility.Initialize();
-            
+            currentStateIndex = 0;
+
             try
             {
                 Type type = Type.GetTypeFromProgID("BPS.BPDevice");
@@ -60,20 +67,59 @@ namespace BpOmniaBridge
 
             if (app != null)
             {
-                new CommandList().Login("ocp", "bp");
+                WatchForFileDotOut();
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
-                
+                currentCommand = new CommandList().Login("ocp", "bp");
             }
-                           
         }
 
-      
+
 
         #region Method
+        // Folder watcher to create the reading event 
+        private void WatchForFileDotOut()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+
+            FileSystemWatcher watcher = new FileSystemWatcher();
+            watcher.Path = folderPath;
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.Filter = "*.out*";
+            watcher.Changed += new FileSystemEventHandler(Read);
+            watcher.EnableRaisingEvents = true;
+        }
+
+        // read out file and invoke correct method
+        private void Read(object source, FileSystemEventArgs e)
+        {
+            currentResult = currentCommand.Receive();
+            if (currentResult["values"][0] != "NACK")
+            {
+                string nextState = States[currentStateIndex+1];
+                var type = this.GetType();
+                MethodInfo method = this.GetType().GetMethod(nextState);
+                method.Invoke(this, null);
+            }
+            else
+            {
+                errorCode = currentStateIndex;
+                closeApp();
+            }
+        }
+
         public void closeApp()
         {
-            Utility.Log("Bridge => Closed");
+            if(errorCode != 0)
+            {   
+                Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
+                MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Utility.Log("Bridge => Closed");
+            }
             this.Close();
         }
 
@@ -82,11 +128,10 @@ namespace BpOmniaBridge
             Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
-            new CommandList().Login("ocp", "bp");
-            CreateSelectSubjectAndVistCard();
+            currentCommand = new CommandList().Login("ocp", "bp");
         }
 
-        private void CreateSelectSubjectAndVistCard()
+        public void Subject()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             var id = patient.InternalId.ToString();
@@ -94,7 +139,7 @@ namespace BpOmniaBridge
             var middlename = patient.Name.Middle;
             var lastname = patient.Name.Last;
             var dob = patient.DOB.ToString("yyyyMMdd");
-            
+
             // handle different in gender lists
             var bpGender = patient.Gender.ToString();
             if (bpGender == "Unknown") { bpGender = "Other"; };
@@ -102,15 +147,21 @@ namespace BpOmniaBridge
             var ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
             var height = patient.Height.ToString();
             var weight = patient.Weight.ToString();
-            string[] prmValues = {id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
+            string[] prmValues = { id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
 
             //check if user is preset in DB
             archive = new Archive(prmNames, prmValues);
-            subjectID = archive.CreateSubject();
-            bool done = false;
-            if (subjectID != "NAK")
-            {
-                archive.SetRecordID(subjectID);
+            currentCommand = archive.CreateSubject();
+        }
+
+        public void VisitCard()
+        {
+            subjectID = currentResult["values"][0];
+            archive.SetRecordID(subjectID);
+            currentCommand = archive.GetVisitCardList();
+
+            /*{
+               
                 visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
 
                 if (visitID != "NAK")
@@ -132,8 +183,9 @@ namespace BpOmniaBridge
                 Utility.Log("error: Visit card not created/found");
                 MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 closeApp();
-            }
+            }*/
         }
+
 
         public void PopulateSubjectAndVisitCard(string[] array)
         {

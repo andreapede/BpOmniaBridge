@@ -33,7 +33,7 @@ namespace BpOmniaBridge
             cmd.Send();
         }
 
-        public bool Login(string username, string password)
+        public Command Login(string username, string password)
         {
             var cmd = new Command("login", "System", "Login");
             string[] parNames = new string[] { "Username", "Password" };
@@ -41,9 +41,7 @@ namespace BpOmniaBridge
             cmd.AddParams(parNames, parValues);
             cmd.Send();
 
-            string[] resultKeys = new string[] { "Result" };
-            var answer = new ReadCommands("login", "System", "Login");
-            return answer.ResultValues[0] == "ACK";
+            return cmd;
         }
 
         public void Logout()
@@ -72,27 +70,28 @@ namespace BpOmniaBridge
             return answer.ResultValues[0] == "ACK";
         }
 
-        public string SelectCreateSubject(string[] subjNames, string[] subjValues)
+        public Command SelectCreateSubject(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("select_create_subj", "Archive", "SelectCreateSubject");
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("select_create_subj", "Archive", "SelectCreateSubject");
-            return answer.ResultValues[0];
+            return cmd;
         }
 
-        public List<string> GetSubjectVisitList(string[] subjNames, string[] subjValues)
+        public Command GetSubjectVisitList(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("list_visit_card", "Archive", "GetSubjectVisitList", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
+            return cmd;
+
+            /*var answer = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
             List<string> result = new List<string> { };
             result.AddRange(answer.ResultKeys);
             result.AddRange(answer.ResultValues);
-            return result;
+            return result;*/
         }
 
         public string CreateVisit(string[] subjNames, string[] subjValues)

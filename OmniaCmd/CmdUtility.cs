@@ -107,9 +107,14 @@ namespace BpOmniaBridge
             Utility.Log("CMD => " + FileName);
         }
 
-        public string Receive()
+        public Dictionary<string, List<string>> Receive()
         {
-            return "answer";
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            var command = new ReadCommands(FileName, System, Cmd);
+            command.Read();
+            result["keys"] = command.ResultKeys;
+            result["values"] = command.ResultValues;
+            return result;
         }
     }
 
@@ -129,7 +134,6 @@ namespace BpOmniaBridge
             CmdSystem = system;
             Cmd = cmd;
             FilePath = Path.Combine(folderPath, FileName + ".out");
-            WatchOutFile();
         }
 
         //Properties
@@ -164,45 +168,6 @@ namespace BpOmniaBridge
                 ResultValues.Add("NAK");
             }
                 
-        }
-
-        private void WatchOutFile()
-        {
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = folderPath;
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
-            watcher.Filter = "*.*";
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.EnableRaisingEvents = true;
-        }
-
-        private void OnChanged(object source, FileSystemEventArgs e)
-        {
-            Read();
-        }
-
-        private void CheckFileExists(int sec, bool test)
-        {
-            Utility.Log("Read => start");
-            // Set timeout to 20 seconds
-            // ASK: is this ok?
-            var timeout = DateTime.Now.Add(TimeSpan.FromSeconds(sec));
-            var fullPath = Path.Combine(folderPath, FileName + ".out");
-            while (!File.Exists(fullPath))
-            {
-                if (DateTime.Now > timeout)
-                {
-                    Utility.Log("timeout => " + FileName + ".out has not been created within 20 secs");
-                    FileExist = false;
-                    if(!test)
-                        MessageBox.Show("Omnia is not answering. Check Bridge log file", "Communication Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    DeleteFile(".in");
-                    break;
-                }
-                Thread.Sleep(200);
-            }
-            FileExist = File.Exists(fullPath);
-            Read();
         }
 
         private void DeleteFile(string in_out = ".out")
@@ -262,16 +227,20 @@ namespace BpOmniaBridge
         private Guid FVCPOST = new Guid("80266DA7-A2DA-4013-B9F6-599FA6169392");
         public bool test;
 
-        public string CreateSubject()
+        public Command CreateSubject()
         {
             return new CommandList().SelectCreateSubject(keysArray, valuesArray);
         }
 
-        public string TodayVisitCard(string today)
+        public Command GetVisitCardList()
         {
             string[] keys = { "RecordID" };
             string[] ids = { recordID };
-            List<string> visitList = new CommandList().GetSubjectVisitList(keys, ids);
+            return new CommandList().GetSubjectVisitList(keys, ids);
+        }
+
+        public string TodayVisitCard(string today)
+        {
             int index = visitList.Count / 2;
             int startIndex = index;
             string result = "NAK";
