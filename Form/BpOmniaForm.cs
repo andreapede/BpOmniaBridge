@@ -29,11 +29,12 @@ namespace BpOmniaBridge
         private List<string> results = new List<string> { };
         private bool pdfCreated = false;
         private Command currentCommand;
-        private List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "SaveTest", "ExportData", "ReadData", "GeneratePDF", "CloseApp"};
+        private List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
         private int errorCode = 0;
         private string errorMessage;
         private int currentStateIndex;
         private Dictionary<string, List<string>> currentResult;
+        private string[] patientDetails;
 
         public BpOmniaForm()
         {
@@ -70,7 +71,7 @@ namespace BpOmniaBridge
                 WatchForFileDotOut();
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
-                currentCommand = new CommandList().Login("ocp", "bp");
+                Login();
             }
         }
 
@@ -114,7 +115,7 @@ namespace BpOmniaBridge
             if(errorCode != 0)
             {   
                 Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
-                MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error));
             }
             else
             {
@@ -128,6 +129,10 @@ namespace BpOmniaBridge
             Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
+        }
+
+        public void Login()
+        {
             currentCommand = new CommandList().Login("ocp", "bp");
         }
 
@@ -149,43 +154,51 @@ namespace BpOmniaBridge
             var weight = patient.Weight.ToString();
             string[] prmValues = { id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
 
+            patientDetails = prmValues;
+
             //check if user is preset in DB
             archive = new Archive(prmNames, prmValues);
             currentCommand = archive.CreateSubject();
         }
 
-        public void VisitCard()
+        public void GetVisitCardList()
         {
             subjectID = currentResult["values"][0];
             archive.SetRecordID(subjectID);
             currentCommand = archive.GetVisitCardList();
+        }
 
-            /*{
-               
-                visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
+        public void VisitCard()
+        {
+            archive.SetVisitList(currentResult["values"]);
+            visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
 
-                if (visitID != "NAK")
-                {
-                    //Select visit card
-                    string[] key = new string[] { "RecordID" };
-                    string[] value = new string[] { visitID };
-                    done = new CommandList().SelectVisit(key, value);
-                }
-                
-            }
-
-            if (done)
+            if (visitID == "not found")
             {
-                PopulateSubjectAndVisitCard(prmValues);
+                currentCommand = archive.NewVisitCard();
             }
             else
             {
-                Utility.Log("error: Visit card not created/found");
-                MessageBox.Show("Something went wrong during the Subject/Visit selectiong or creating. Please try to run the test again from BP.", "OMNIA Archive Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                closeApp();
-            }*/
+                //Select visit card
+                string[] key = new string[] { "RecordID" };
+                string[] value = new string[] { visitID };
+                currentCommand = new CommandList().SelectVisit(key, value);
+                currentStateIndex += 1; // need to skip the Select Visit card method
+            }
         }
 
+        public void SelectVisitCard()
+        {
+            visitID = currentResult["values"][0];
+            string[] key = new string[] { "RecordID" };
+            string[] value = new string[] { visitID };
+            currentCommand = new CommandList().SelectVisit(key, value);
+        }
+
+        public void ShowResultAndWait()
+        {
+            PopulateSubjectAndVisitCard(patientDetails);
+        }
 
         public void PopulateSubjectAndVisitCard(string[] array)
         {
@@ -207,19 +220,28 @@ namespace BpOmniaBridge
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            Invoke(new Action(delegate () { StatusBar("Exporting data...please wait"); }));
-            archive.ExportTests(visitID);
-            Invoke(new Action(delegate () { StatusBar("Elaborating data...please wait"); }));
-            results = archive.ReadExportDataFile();
-            Invoke(new Action(delegate () { StatusBar("Generating PDF file...please wait"); }));
-            pdfCreated = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
-            StatusBar("Saving data in BP...please wait");
-            SaveCurrentTest(sender, e);
+            ExportData();
         }
 
-        private void SaveCurrentTest(object sender, EventArgs e)
+        public void ExportData()
         {
+            StatusBar("Exporting data...please wait");
+            currentCommand = archive.ExportTests(visitID);
+        }
+
+        public void ReadDataAndGeneratePDF()
+        {
+            StatusBar("Elaborating data and generating PDF file...please wait");
+            results = archive.ReadExportDataFile();
+            currentCommand = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
+        }
+
+        private void SaveInBP()
+        {
+            StatusBar("Saving data in BP...please wait");
             Utility.Log("action: Bridge => Saving Test");
+            pdfCreated = (currentResult["values"][0] == "ACK");
+
             bool success;
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patient.Name.FullName + " (" + patient.DOB.ToString("dd-MM-yyyy") + ")" + ".pdf";

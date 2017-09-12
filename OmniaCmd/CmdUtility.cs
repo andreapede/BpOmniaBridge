@@ -221,6 +221,7 @@ namespace BpOmniaBridge
         private string[] valuesArray;
         private string[] visitKeysArray;
         private string[] visitValuesArray;
+        private List<string> visitList;
         private string recordID;
         private Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
         private Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
@@ -239,48 +240,49 @@ namespace BpOmniaBridge
             return new CommandList().GetSubjectVisitList(keys, ids);
         }
 
+        public void SetVisitList(List<string> list)
+        {
+            visitList = list;
+        }
+
         public string TodayVisitCard(string today)
         {
             int index = visitList.Count / 2;
             int startIndex = index;
-            string result = "NAK";
+            string id = "not found";
             bool found = false;
-            if (visitList.ElementAt(index) != "NAK")
-            {
-                if (Int32.Parse(visitList.ElementAt(index)) > 0)
-                {
-                    //existing visit card - check if the one of today exist already
-                    //visitList.RemoveAt(0);
-                    for (int i = index + 1; i < visitList.Count; i++)
-                    {
-                        if (visitList.ElementAt(i) == today)
-                        {
-                            found = true;
-                            index = i;
-                            break;
-                        }
-                    }
-                }
 
-                if (found)
+            if (Int32.Parse(visitList.ElementAt(index)) > 0)
+            {
+                //existing visit card - check if the one of today exist already
+                //visitList.RemoveAt(0);
+                for (int i = index + 1; i < visitList.Count; i++)
                 {
-                    //return ID
-                    string id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
-                    result = id;
-                }
-                else
-                {
-                    //create new visit card
-                    string id = new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
-                    result = id;
+                    if (visitList.ElementAt(i) == today)
+                    {
+                        found = true;
+                        index = i;
+                        break;
+                    }
                 }
             }
 
-            return result;
+            if (found)
+            {
+                //return ID
+                id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
+            }
+
+            return id;
+        }
+
+        public Command NewVisitCard()
+        {
+            return new CommandList().CreateVisit(visitKeysArray, visitValuesArray);
         }
 
         // export the full test xml
-        public bool ExportTests(string id)
+        public Command ExportTests(string id)
         {
             var cmnDocPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files", "tests.xml");
@@ -495,7 +497,7 @@ namespace BpOmniaBridge
         }
 
         // create PDF test file
-        public bool GeneratePDF(string patientFullName, string patientDateOfBirth, string recordID)
+        public Command GeneratePDF(string patientFullName, string patientDateOfBirth, string recordID)
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patientFullName + " (" + patientDateOfBirth + ")" + ".pdf";

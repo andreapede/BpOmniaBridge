@@ -144,8 +144,9 @@ namespace BpOmniaBridge
         public static string ErrorList(int index)
         {
             Dictionary<int, string> errors = new Dictionary<int, string>();
-            errors.Add(1, "Something went wrong with the login");
+            errors.Add(0, "Something went wrong with the login");
             errors.Add(1, "Something went wrong during the creation of the Subject");
+            errors.Add(2, "Something went wrong when retriving visti card list from Omnia");
 
             return errors[index];
         }

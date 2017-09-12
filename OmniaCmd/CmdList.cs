@@ -86,52 +86,42 @@ namespace BpOmniaBridge
             cmd.Send();
 
             return cmd;
-
-            /*var answer = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
-            List<string> result = new List<string> { };
-            result.AddRange(answer.ResultKeys);
-            result.AddRange(answer.ResultValues);
-            return result;*/
         }
 
-        public string CreateVisit(string[] subjNames, string[] subjValues)
+        public Command CreateVisit(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("create_visit_card", "Archive", "CreateVisit", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("create_visit_card", "Archive", "CreateVisit");
-            return answer.ResultValues[0];
+            return cmd;
         }
 
-        public bool SelectVisit(string[] subjNames, string[] subjValues)
+        public Command SelectVisit(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("select_visit_card", "Archive", "SelectVisit", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("select_visit_card", "Archive", "SelectVisit");
-            return answer.ResultValues[0] == "ACK";
+            return cmd;
         }
 
-        public bool ExportData(string[] subjNames, string[] subjValues)
+        public Command ExportData(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("export_data", "Archive", "ExportData", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("export_data", "Archive", "ExportData");
-            return answer.ResultValues[0] == "ACK";
+            return cmd;
         }
 
-        public bool ExportReport(string[] subjNames, string[] subjValues)
+        public Command ExportReport(string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("export_report", "Archive", "ExportReport", true, 0);
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 
-            var answer = new ReadCommands("export_report", "Archive", "ExportReport");
-            return answer.ResultValues[0] == "ACK";
+            return cmd;
         }
 
 
