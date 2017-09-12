@@ -31,7 +31,6 @@ namespace BpOmniaBridge
         private Command currentCommand;
         private List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
         private int errorCode = 0;
-        private string errorMessage;
         private int currentStateIndex;
         private Dictionary<string, List<string>> currentResult;
         private string[] patientDetails;
@@ -96,8 +95,9 @@ namespace BpOmniaBridge
         private void Read(object source, FileSystemEventArgs e)
         {
             currentResult = currentCommand.Receive();
-            if (currentResult["values"][0] != "NACK")
+            if (currentResult["values"][0] != "NACK" && currentStateIndex != 8)
             {
+                Utility.Log("Trigger => " + States[currentStateIndex]);
                 string nextState = States[currentStateIndex+1];
                 var type = this.GetType();
                 MethodInfo method = this.GetType().GetMethod(nextState);

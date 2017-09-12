@@ -147,6 +147,12 @@ namespace BpOmniaBridge
             errors.Add(0, "Something went wrong with the login");
             errors.Add(1, "Something went wrong during the creation of the Subject");
             errors.Add(2, "Something went wrong when retriving visti card list from Omnia");
+            errors.Add(3, "Something went wrong during TodayVisitCard elaboration");
+            errors.Add(4, "Something went wrong in creating a visit card");
+            errors.Add(5, "Something went wrong in selecting a visit card");
+            errors.Add(6, "Something went wrong in populating the user interface");
+            errors.Add(7, "Something went wrong in exporting the tests");
+            errors.Add(8, "Something went wrong in elaborating the results");
 
             return errors[index];
         }

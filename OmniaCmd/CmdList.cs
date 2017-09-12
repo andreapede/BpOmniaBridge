@@ -9,24 +9,28 @@ namespace BpOmniaBridge
     public class CommandList
     {
         #region System Commands
+        // not used
         public void CloseApplication()
         {
             var cmd = new Command("close_app", "System", "CloseApplication");
             cmd.Send();
         }
-
+        
+        // not used
         public void CreateSessionKey()
         {
             var cmd = new Command("create_key", "System", "CreateSessionKey");
             cmd.Send();
         }
-
+        
+        // not used
         public void GetCurrentUser()
         {
             var cmd = new Command("current_user", "System", "GetCurrentUser");
             cmd.Send();
         }
-
+        
+        // not used
         public void GetPermissionLevel()
         {
             var cmd = new Command("perm_level", "System", "GetPermissionLevel");
@@ -44,6 +48,7 @@ namespace BpOmniaBridge
             return cmd;
         }
 
+        // not used
         public void Logout()
         {
             var cmd = new Command("logout", "System", "Logout");
@@ -53,6 +58,7 @@ namespace BpOmniaBridge
 
         #region Archive Commands
 
+        // not used
         public bool ChangeSubject(Guid recordID, string[] subjNames, string[] subjValues)
         {
             var cmd = new Command("change_subj", "Archive", "ChangeSubject");
