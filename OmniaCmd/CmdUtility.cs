@@ -140,7 +140,6 @@ namespace BpOmniaBridge
         private string FileName;
         private string CmdSystem;
         private string Cmd;
-        public bool FileExist;
         private string FilePath;
         public List<string> ResultValues;
         public List<string> ResultKeys;
@@ -150,7 +149,7 @@ namespace BpOmniaBridge
         {
             ResultValues = new List<string> { };
             ResultKeys = new List<string> { };
-            if (FileExist)
+            if (File.Exists(FilePath))
             {
                 //get all the elemnts under the command key
                 IEnumerable<XElement> elements = XDocument.Load(FilePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
@@ -221,7 +220,7 @@ namespace BpOmniaBridge
         private string[] valuesArray;
         private string[] visitKeysArray;
         private string[] visitValuesArray;
-        private List<string> visitList;
+        private Dictionary<string, List<string>> visitList;
         private string recordID;
         private Guid FVC = new Guid("11A4801F-7977-4D3E-8D1E-6CA0BE52E604");
         private Guid FVCPOSTBD = new Guid("EEF9F5EE-605F-4E4A-AFE3-43E6E57C6C4A");
@@ -240,25 +239,26 @@ namespace BpOmniaBridge
             return new CommandList().GetSubjectVisitList(keys, ids);
         }
 
-        public void SetVisitList(List<string> list)
+        public void SetVisitList(Dictionary<string, List<string>> list)
         {
             visitList = list;
         }
 
         public string TodayVisitCard(string today)
         {
-            int index = visitList.Count / 2;
-            int startIndex = index;
+            var visitListValues = visitList["values"];
+            var visitListKeys = visitList["keys"];
+            int index = 0;
             string id = "not found";
             bool found = false;
 
-            if (Int32.Parse(visitList.ElementAt(index)) > 0)
+            if (Int32.Parse(visitListValues.ElementAt(index)) > 0)
             {
                 //existing visit card - check if the one of today exist already
                 //visitList.RemoveAt(0);
-                for (int i = index + 1; i < visitList.Count; i++)
+                for (int i = index + 1; i < visitListValues.Count; i++)
                 {
-                    if (visitList.ElementAt(i) == today)
+                    if (visitListValues.ElementAt(i) == today)
                     {
                         found = true;
                         index = i;
@@ -270,7 +270,7 @@ namespace BpOmniaBridge
             if (found)
             {
                 //return ID
-                id = visitList.ElementAt((index - startIndex)).Remove(0, 3);
+                id = visitListKeys.ElementAt((index)).Remove(0, 3);
             }
 
             return id;

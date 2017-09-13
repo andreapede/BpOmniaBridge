@@ -177,12 +177,6 @@ namespace BpOmniaBridgeTest
                 }
                 index += 1;
             }
-
-            //test timeout
-            // set time to 1 sec
-            read = new ReadCommands("login_ack", "System", "Login", 1, true);
-            Assert.AreEqual(false, read.FileExist);
-            Assert.AreEqual("NAK", read.ResultValues[0]);
         }
     }
 }

@@ -170,7 +170,7 @@ namespace BpOmniaBridge
 
         public void VisitCard()
         {
-            archive.SetVisitList(currentResult["values"]);
+            archive.SetVisitList(currentResult);
             visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
 
             if (visitID == "not found")

@@ -18,10 +18,13 @@ namespace BpOmniaBridgeTest
             string[] prmValues = { "001", "BP", "Omnia", "Bridge", "19800101", "Male", "Caucasian", "180", "80" };
             var archive = new Archive(prmNames, prmValues);
 
+            Command currentCommand;
+
+            // create subject
+            currentCommand = archive.CreateSubject();
             // simulate OMNIA's reply
             testHelper.CopyFileToTest("select_create_subj");
-            // create subject
-            var subjectID = archive.CreateSubject();
+            var subjectID = currentCommand.Receive()["values"][0];
 
             // delete *.in file
             testHelper.DeleteTempFileIN("select_create_subj");
@@ -30,8 +33,10 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("12000000-3000-4000-5000-600000000001", subjectID);
 
             archive.SetRecordID(subjectID);
+            currentCommand = archive.GetVisitCardList();
             // simulate OMNIA's reply
             testHelper.CopyFileToTest("list_visit_card");
+            archive.SetVisitList(currentCommand.Receive());
 
             // simulate visit card already present
             var visitID = archive.TodayVisitCard("20131029");
@@ -42,13 +47,20 @@ namespace BpOmniaBridgeTest
             // delete *.in file
             testHelper.DeleteTempFileIN("list_visit_card");
 
+            currentCommand = archive.GetVisitCardList();
             // simulate OMNIA's reply
             testHelper.CopyFileToTest("list_visit_card");
-            testHelper.CopyFileToTest("create_visit_card");
+            archive.SetVisitList(currentCommand.Receive());
+
             // new visit card for today
             visitID = archive.TodayVisitCard(DateTime.Today.ToString("yyyyMMdd"));
             // test read correct ID from out file
-            Assert.AreEqual("00000000-0000-0000-0000-000000000001", visitID);
+            Assert.AreEqual("not found", visitID);
+
+            currentCommand = archive.NewVisitCard();
+            // simulate OMNIA's reply
+            testHelper.CopyFileToTest("create_visit_card");
+            Assert.AreEqual("00000000-0000-0000-0000-000000000001", currentCommand.Receive()["values"][0]);
 
             // delete *.in file
             testHelper.DeleteTempFileIN("create_visit_card");
