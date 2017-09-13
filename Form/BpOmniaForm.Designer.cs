@@ -569,7 +569,6 @@ namespace BpOmniaBridge
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button saveButton;
-        private PaintEventHandler tableLayoutPanel2_Paint;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
         private Label statusBar;

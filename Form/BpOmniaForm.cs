@@ -22,18 +22,18 @@ namespace BpOmniaBridge
         private IPatient patient;
         private ISpiro spiro;
         private ITest currentTest;
-        private string subjectID;
-        private string visitID;
-        private Archive archive;
+        public string subjectID;
+        public string visitID;
+        public Archive archive;
         // List of results: Diasgnosis/PEFR/FEV1/FVC/PEFRPOST/FEV1POST/FVCPOST/testID
-        private List<string> results = new List<string> { };
-        private bool pdfCreated = false;
-        private Command currentCommand;
-        private List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
-        private int errorCode = 0;
-        private int currentStateIndex;
-        private Dictionary<string, List<string>> currentResult;
-        private string[] patientDetails;
+        public List<string> results = new List<string> { };
+        public bool pdfCreated = false;
+        public Command currentCommand;
+        public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
+        public int errorCode = 0;
+        public int currentStateIndex;
+        public Dictionary<string, List<string>> currentResult;
+        public string[] patientDetails;
 
         public BpOmniaForm()
         {
@@ -134,6 +134,7 @@ namespace BpOmniaBridge
         public void Login()
         {
             currentCommand = new CommandList().Login("ocp", "bp");
+            currentStateIndex = 0;
         }
 
         public void Subject()
@@ -291,5 +292,11 @@ namespace BpOmniaBridge
 
         #endregion
 
+        #region TestUtility
+        public void SetPatient(IPatient bppatient)
+        {
+            patient = bppatient;
+        }
+        #endregion
     }
 }

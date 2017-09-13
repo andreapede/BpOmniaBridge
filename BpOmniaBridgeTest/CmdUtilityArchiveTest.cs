@@ -10,10 +10,11 @@ namespace BpOmniaBridgeTest
     [TestClass]
     public class CmdUtilityArchiveTest
     {
+        TestHelper testHelper = new TestHelper();
+
         [TestMethod]
         public void ArchiveTest()
         {
-            var testHelper = new TestHelper();
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             string[] prmValues = { "001", "BP", "Omnia", "Bridge", "19800101", "Male", "Caucasian", "180", "80" };
             var archive = new Archive(prmNames, prmValues);
@@ -70,7 +71,6 @@ namespace BpOmniaBridgeTest
         [TestMethod]
         public void DataElaborationTest()
         {
-            var testHelper = new TestHelper();
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             string[] prmValues = { "001", "BP", "Omnia", "Bridge", "19800101", "Male", "Caucasian", "180", "80" };
             var archive = new Archive(prmNames, prmValues);

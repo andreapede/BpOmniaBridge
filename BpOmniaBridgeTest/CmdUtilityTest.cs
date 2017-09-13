@@ -11,6 +11,8 @@ namespace BpOmniaBridgeTest
     [TestClass]
     public class CmdUtilityTest
     {
+        TestHelper testHelper = new TestHelper();
+
         [TestMethod]
         public void WriteCommandNoParamsTest()
         {   
@@ -132,7 +134,7 @@ namespace BpOmniaBridgeTest
         {
             // read basic command with ACK
             var read = new ReadCommands("login_ack", "System", "Login");
-            var filePath = new TestHelper().CopyFileToTest("login_ack");
+            var filePath = testHelper.CopyFileToTest("login_ack");
 
             read.Read();
             Assert.AreEqual("ACK", read.ResultValues[0]);
@@ -140,14 +142,14 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual(false, File.Exists(filePath));
 
             // read basic command with NAK
-            new TestHelper().CopyFileToTest("login_nak");
+            testHelper.CopyFileToTest("login_nak");
 
             read = new ReadCommands("login_nak", "System", "Login");
             read.Read();
             Assert.AreEqual("NAK", read.ResultValues[0]);
 
             // read complex command with list of params
-            new TestHelper().CopyFileToTest("list_visit_card");
+            testHelper.CopyFileToTest("list_visit_card");
 
             read = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
             read.Read();
