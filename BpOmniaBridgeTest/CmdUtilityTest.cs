@@ -134,6 +134,7 @@ namespace BpOmniaBridgeTest
             var read = new ReadCommands("login_ack", "System", "Login");
             var filePath = new TestHelper().CopyFileToTest("login_ack");
 
+            read.Read();
             Assert.AreEqual("ACK", read.ResultValues[0]);
             // test file is deleted after been read
             Assert.AreEqual(false, File.Exists(filePath));
@@ -142,12 +143,14 @@ namespace BpOmniaBridgeTest
             new TestHelper().CopyFileToTest("login_nak");
 
             read = new ReadCommands("login_nak", "System", "Login");
+            read.Read();
             Assert.AreEqual("NAK", read.ResultValues[0]);
 
             // read complex command with list of params
             new TestHelper().CopyFileToTest("list_visit_card");
 
             read = new ReadCommands("list_visit_card", "Archive", "GetSubjectVisitList");
+            read.Read();
             // test keys
             int index = 0;
             foreach(string key in read.ResultKeys)

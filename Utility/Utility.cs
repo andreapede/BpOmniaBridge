@@ -123,6 +123,7 @@ namespace BpOmniaBridge
             ethnicity.Add("TSI", "Other");
             ethnicity.Add("ATSI", "Other");
             ethnicity.Add("9999", "Other");
+            ethnicity.Add("Other", "Other");
             ethnicity.Add("Australian", "Caucasian");
             
             try
