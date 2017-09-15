@@ -34,6 +34,7 @@ namespace BpOmniaBridge
         public int currentStateIndex;
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
+        FileSystemWatcher watcher;
 
         public BpOmniaForm()
         {
@@ -83,23 +84,27 @@ namespace BpOmniaBridge
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
 
-            FileSystemWatcher watcher = new FileSystemWatcher();
+            watcher = new FileSystemWatcher();
             watcher.Path = folderPath;
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = "*.out*";
-            watcher.Changed += new FileSystemEventHandler(Read);
+            watcher.Created += new FileSystemEventHandler(Read);
             watcher.EnableRaisingEvents = true;
         }
 
         // read out file and invoke correct method
         private void Read(object source, FileSystemEventArgs e)
         {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+
             currentResult = currentCommand.Receive();
             if (currentResult["values"][0] != "NACK" && currentStateIndex != 8)
             {
                 Utility.Log("Trigger => " + States[currentStateIndex]);
-                string nextState = States[currentStateIndex+1];
-                var type = this.GetType();
+                currentStateIndex += 1;
+                var nextState = States[currentStateIndex];
                 MethodInfo method = this.GetType().GetMethod(nextState);
                 method.Invoke(this, null);
             }
@@ -109,7 +114,7 @@ namespace BpOmniaBridge
                 closeApp();
             }
         }
-
+        
         public void closeApp()
         {
             if(errorCode != 0)
@@ -134,7 +139,6 @@ namespace BpOmniaBridge
         public void Login()
         {
             currentCommand = new CommandList().Login("ocp", "bp");
-            currentStateIndex = 0;
         }
 
         public void Subject()
