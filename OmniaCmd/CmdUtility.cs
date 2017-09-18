@@ -320,13 +320,18 @@ namespace BpOmniaBridge
         // ASK: double check this
         private string FindTypeOfTest(string filePath)
         {
-            string type = "";
+            string type = "no_tests";
             bool foundFVC = false;
             bool foundFVCPOSTBD = false;
             bool foundFVCPOST = false;
             
 
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
+
+            if(elements.Count() == 0)
+            {
+                return type;
+            }
 
             foreach (XElement element in elements)
             {

@@ -29,7 +29,7 @@ namespace BpOmniaBridge
         public List<string> results = new List<string> { };
         public bool pdfCreated = false;
         public Command currentCommand;
-        public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "NewVisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
+        public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
         public int errorCode = 0;
         public int currentStateIndex;
         public Dictionary<string, List<string>> currentResult;
@@ -71,7 +71,6 @@ namespace BpOmniaBridge
                 WatchForFileDotOut();
                 app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
-                Login();
             }
         }
 
@@ -100,10 +99,10 @@ namespace BpOmniaBridge
             var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
 
             currentResult = currentCommand.Receive();
-            if (currentResult["values"][0] != "NACK" && currentStateIndex != 8)
+            if (currentResult["values"][0] != "NAK" && currentStateIndex != 8)
             {
-                Utility.Log("Trigger => " + States[currentStateIndex]);
                 currentStateIndex += 1;
+                Utility.Log("Trigger => " + States[currentStateIndex]);
                 var nextState = States[currentStateIndex];
                 MethodInfo method = this.GetType().GetMethod(nextState);
                 method.Invoke(this, null);
@@ -120,7 +119,8 @@ namespace BpOmniaBridge
             if(errorCode != 0)
             {   
                 Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
-                MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error));
+                this.TopMost = true;
+                MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -134,6 +134,19 @@ namespace BpOmniaBridge
             Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
             patient = currentTest.Patient;
+            PatientPreliminaryCheck();
+        }
+
+        private void PatientPreliminaryCheck()
+        {
+            if(patient.DOB.ToString("yyyyMMdd") == "00010101" || patient.Gender.ToString() == "0")
+            {
+                MessageBox.Show("Date of birth and gender can't be blank, please update the details and try again",
+                    "DOB and Gender blank issue", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                closeApp();
+                return;
+            }
+            Login();
         }
 
         public void Login()
@@ -144,26 +157,33 @@ namespace BpOmniaBridge
         public void Subject()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
-            var id = patient.InternalId.ToString();
-            var name = patient.Name.First;
-            var middlename = patient.Name.Middle;
-            var lastname = patient.Name.Last;
-            var dob = patient.DOB.ToString("yyyyMMdd");
+            try // this is to prevent ISSUE https://github.com/emaglio/BpOmniaBridge/issues/15
+            {
+                var id = patient.InternalId.ToString();
+                var name = patient.Name.First;
+                var middlename = patient.Name.Middle;
+                var lastname = patient.Name.Last;
+                var dob = patient.DOB.ToString("yyyyMMdd");
 
-            // handle different in gender lists
-            var bpGender = patient.Gender.ToString();
-            if (bpGender == "Unknown") { bpGender = "Other"; };
-            var gender = bpGender;
-            var ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
-            var height = patient.Height.ToString();
-            var weight = patient.Weight.ToString();
-            string[] prmValues = { id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
+                // handle different in gender lists
+                var bpGender = patient.Gender.ToString();
+                if (bpGender == "Unknown") { bpGender = "Other"; };
+                var gender = bpGender;
+                var ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
+                var height = patient.Height.ToString();
+                var weight = patient.Weight.ToString();
+                string[] prmValues = { id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
+                patientDetails = prmValues;
 
-            patientDetails = prmValues;
-
-            //check if user is preset in DB
-            archive = new Archive(prmNames, prmValues);
-            currentCommand = archive.CreateSubject();
+                //check if user is preset in DB
+                archive = new Archive(prmNames, prmValues);
+                currentCommand = archive.CreateSubject();
+            }
+            catch
+            {
+                errorCode = 1;
+                closeApp();
+            }
         }
 
         public void GetVisitCardList()
@@ -203,6 +223,7 @@ namespace BpOmniaBridge
         public void ShowResultAndWait()
         {
             PopulateSubjectAndVisitCard(patientDetails);
+            this.TopMost = true;
         }
 
         public void PopulateSubjectAndVisitCard(string[] array)
@@ -238,10 +259,20 @@ namespace BpOmniaBridge
         {
             StatusBar("Elaborating data and generating PDF file...please wait");
             results = archive.ReadExportDataFile();
-            currentCommand = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
+            if(results[2] == "no_tests")
+            {
+                MessageBox.Show("An error occured in exporting the tests xml file.\n" +
+                    "Please make sure to perform at least 1 test before pressing the Save Tests button", "Exporting test error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                currentStateIndex = 6;
+                ShowResultAndWait();
+            }
+            else
+            {
+                currentCommand = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), results.ElementAt(7));
+            }
         }
-
-        private void SaveInBP()
+        
+        public void SaveInBP()
         {
             StatusBar("Saving data in BP...please wait");
             Utility.Log("action: Bridge => Saving Test");
@@ -294,13 +325,6 @@ namespace BpOmniaBridge
                 closeApp();
         }
 
-        #endregion
-
-        #region TestUtility
-        public void SetPatient(IPatient bppatient)
-        {
-            patient = bppatient;
-        }
         #endregion
     }
 }

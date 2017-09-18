@@ -77,6 +77,11 @@ namespace BpOmniaBridgeTest
             List<string> result = new List<string> { };
             string filePath;
 
+            //test no error raise in case of no test.xml file preset
+            filePath = testHelper.CopyFileToTest("no_tests", "tests", ".xml");
+            result = archive.ReadExportDataFile();
+            Assert.AreEqual(" ", result[0]);
+
             // Only PRE test
             filePath = testHelper.CopyFileToTest("test_only_PRE", "tests", ".xml");
             result = archive.ReadExportDataFile();

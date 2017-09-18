@@ -72,6 +72,21 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("Caucasian", Utility.MatchEthnicity("anything else", true));
         }
 
+        [TestMethod]
+        public void ErrorTestList()
+        {
+            Assert.AreEqual("Something went wrong during the login", Utility.ErrorList(0));
+            Assert.AreEqual("Something went wrong during the creation of the Subject", Utility.ErrorList(1));
+            Assert.AreEqual("Something went wrong when retriving visit card list from Omnia", Utility.ErrorList(2));
+            Assert.AreEqual("Something went wrong during TodayVisitCard elaboration", Utility.ErrorList(3));
+            Assert.AreEqual("Something went wrong in creating a visit card", Utility.ErrorList(4));
+            Assert.AreEqual("Something went wrong in selecting a visit card", Utility.ErrorList(5));
+            Assert.AreEqual("Something went wrong in populating the user interface", Utility.ErrorList(6));
+            Assert.AreEqual("Something went wrong in exporting the tests", Utility.ErrorList(7));
+            Assert.AreEqual("Something went wrong during result's elaboration", Utility.ErrorList(8));
+        }
+
+
         /*
         This test is not running because it changes the LogEnabledFlag in the App.config file but
         there is not a way to reload the appSettings between tests (apparently).

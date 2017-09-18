@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<COSMED_OMNIA_EXPORT>
+  <Information>
+    <Export Version="1.6.3" Type="Visit" S_Data="281474976710664">SQ4+kw==$I9K7S25xPjUiOk5jS8t5Fw==$00oNKhJkKlUPYbmANJwMLg==</Export>
+  </Information>
+  <Subject>
+    <LastEdit>636398368832500000</LastEdit>
+    <ethnicID ExtendedInfo="Caucasian">0196cd1b-76ef-450a-80f1-b5c18115f2cf</ethnicID>
+    <RecordID>86797990-4498-4c40-a0d0-0655218fa5df</RecordID>
+    <Resync>0</Resync>
+    <DayOfBirth ExtendedInfo="19850601000000">626220288000000000</DayOfBirth>
+    <FirstName>James</FirstName>
+    <GenderID ExtendedInfo="Male">e293ca60-b25c-4a40-b9a9-13a7d4d2b821</GenderID>
+    <ID>1</ID>
+    <LastName>Bond</LastName>
+    <Visit>
+      <RecordID>cbfa32ba-8a43-4d46-afe3-f84412b72bb5</RecordID>
+      <LastEdit>636412949535630000</LastEdit>
+      <CreatedOn ExtendedInfo="20170918000000">636412896000000000</CreatedOn>
+      <Smoker>255</Smoker>
+      <Height>0</Height>
+      <Weight>0</Weight>
+      <ConfirmedDiag>False</ConfirmedDiag>
+      <Diabetes>False</Diabetes>
+      <Resync>0</Resync>
+      <Predicteds>
+        <PredSet GroupID="81b6760e-9b05-459d-b78d-daf105707e37" GroupExtendedInfo="Exercise Testing (Performance)" SetID="073ef814-d691-41f8-8c9a-37669f30f9c1" SetExtendedInfo="CPET Performance" Resync="0" LastEdit="636412949535630000" RecordID="dcd7b325-993a-4ed4-a5c6-1668d5ca6002" />
+        <PredSet GroupID="5e9649f4-5333-4134-a46e-d15922e3e0a8" GroupExtendedInfo="DLCO" SetID="1abf0a67-1163-48b7-a502-bb46619993d9" SetExtendedInfo="ECCS extended" Resync="0" LastEdit="636412949535630000" RecordID="a549042c-7269-41f3-ad8e-1d783583550a" />
+        <PredSet GroupID="379b5b87-3c57-4f52-9fb2-2bce71fb2268" GroupExtendedInfo="Exercise Testing (Healthy)" SetID="7eede6c7-4a08-4177-91d8-ee069265cfdd" SetExtendedInfo="ACSM" Resync="0" LastEdit="636412949535630000" RecordID="ea80f470-a94f-4e06-b1f6-2105cda96481" />
+        <PredSet GroupID="90eaa493-f17d-4e29-ba79-c2880c1a0744" GroupExtendedInfo="Exercise Testing (Clinical)" SetID="dcddcfb8-9695-424d-95f7-56425ffe2bc7" SetExtendedInfo="Wasserman extended" Resync="0" LastEdit="636412949535630000" RecordID="8a070c9d-07f5-41f2-a91c-366cdbfd9098" />
+        <PredSet GroupID="98f04714-bdd3-4ca4-976a-976f621b2ebf" GroupExtendedInfo="Nitrogen Washout (Multi and Single Breath)" SetID="518d111c-70f6-405b-bb52-8d94aae1d114" SetExtendedInfo="ERS 93 (N2WO)" Resync="0" LastEdit="636412949535630000" RecordID="28e769d7-6745-4879-9c05-3db2712ebb3d" />
+        <PredSet GroupID="e3ced476-6c50-4ba2-a520-7137979d7156" GroupExtendedInfo="Six Minutes Walk Test" SetID="a0e5031b-ce91-4bfa-bd55-5ddc6db1cdec" SetExtendedInfo="Enright and Sherrill" Resync="0" LastEdit="636412949535630000" RecordID="566a77f3-5c5c-4a82-bf89-86d3a6e015ea" />
+        <PredSet GroupID="b7690826-98eb-4354-a5d8-add1f71f19f1" GroupExtendedInfo="Body Pletysmography" SetID="c480650d-cfed-4a29-8e51-9d9d41402944" SetExtendedInfo="ERS93/ECCS" Resync="0" LastEdit="636412949535630000" RecordID="92e0d2c0-a9ed-47d7-8420-9996717c1da9" />
+        <PredSet GroupID="13bfc869-a487-45d3-8a76-992e9c744fd3" GroupExtendedInfo="Respiratory Mechanics (MIP MEP)" SetID="4706c637-ea6f-49b0-bd17-30b4a959975a" SetExtendedInfo="Evans" Resync="0" LastEdit="636412949535630000" RecordID="fd85d98a-6ec3-40fb-bb54-a9ae6e9a3793" />
+        <PredSet GroupID="1add76e1-0d88-4082-9ef4-c79a8cdbb7eb" GroupExtendedInfo="Airways Resistance (Rocc)" SetID="c5ec142e-86af-4159-b015-df66f04a2f78" SetExtendedInfo="Asthma UK Initiative" Resync="0" LastEdit="636412949535630000" RecordID="959a7cc9-4d93-4147-91ba-be5cc6c52984" />
+        <PredSet GroupID="9cfcd8ab-8970-498b-9d35-90f5b60d9baa" GroupExtendedInfo="Spirometry" SetID="d4292854-28dc-4638-afb1-19c05e77a8b8" SetExtendedInfo="GLI" Resync="0" LastEdit="636412949535630000" RecordID="9da38f4b-6d20-431f-b327-c19745708bc5" />
+        <PredSet GroupID="55878303-7d71-4f43-8ac2-0f4804179503" GroupExtendedInfo="Resting Metabolism" SetID="0c83cf21-b60b-41d9-a0be-09ca148766b7" SetExtendedInfo="Harris Benedict" Resync="0" LastEdit="636412949535630000" RecordID="8ef26966-969b-42db-b57f-c5fcfed19e7b" />
+      </Predicteds>
+    </Visit>
+  </Subject>
+</COSMED_OMNIA_EXPORT>
