@@ -85,7 +85,7 @@ namespace BpOmniaBridgeTest
             // Only PRE test
             filePath = testHelper.CopyFileToTest("test_only_PRE", "tests", ".xml");
             result = archive.ReadExportDataFile();
-            Assert.AreEqual("Diagnosis only PRE", result[0]);
+            Assert.AreEqual("Diagnosis only PRE with FVC/FEV1% withing the normal range", result[0]);
             Assert.AreEqual("442", result[1]);
             Assert.AreEqual("3.60", result[2]);
             Assert.AreEqual("4.66", result[3]);
@@ -120,6 +120,19 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("4.65", result[6]);
             Assert.AreEqual("5f117269-4e80-41bc-bd8a-6a3b044c654f", result[7]);
             Assert.AreEqual("BC", result[8]);
+
+            // Only Multi tests type
+            filePath = testHelper.CopyFileToTest("multi_test_type", "tests", ".xml");
+            result = archive.ReadExportDataFile();
+            Assert.AreEqual("Multi test types", result[0]);
+            Assert.AreEqual("878", result[1]);
+            Assert.AreEqual("4.80", result[2]);
+            Assert.AreEqual("6.07", result[3]);
+            Assert.AreEqual("", result[4]);
+            Assert.AreEqual("", result[5]);
+            Assert.AreEqual("", result[6]);
+            Assert.AreEqual("5f117269-4e80-41bc-bd8a-6a3b044c654f", result[7]);
+            Assert.AreEqual("PRE_SUMMARY", result[8]);
         }   
     }
 }

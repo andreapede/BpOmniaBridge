@@ -307,7 +307,7 @@ namespace BpOmniaBridge
             results.AddRange(FindDataToImport(filePath, testType));
             results.Add(testType);
 
-            File.Delete(filePath);
+            //File.Delete(filePath);
             var params_string = String.Join(" - ", results.ToArray());
             Utility.Log("action: Bridge => DataFound: " + params_string);
 
@@ -317,6 +317,7 @@ namespace BpOmniaBridge
         // BC = bronco costrictor challege when FVCPOSTBD and FCVPOST is found
         // BD = broco dilator when FVCPOSTBD only is found
         // PRE = only FVC is found
+        // SUMMARY = Multiple test types in the same visit card
         // ASK: double check this
         private string FindTypeOfTest(string filePath)
         {
@@ -324,7 +325,7 @@ namespace BpOmniaBridge
             bool foundFVC = false;
             bool foundFVCPOSTBD = false;
             bool foundFVCPOST = false;
-            
+            bool summary = false;
 
             IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("COSMED_OMNIA_EXPORT").Elements("Subject").Elements("Visit").Elements("Test");
 
@@ -341,6 +342,7 @@ namespace BpOmniaBridge
                     if (info.Name.ToString()=="TestType")
                     {
                         Guid currentTest = new Guid(info.Value);
+                        if( !summary) { summary = (currentTest != FVC && currentTest != FVCPOST && currentTest != FVCPOSTBD); }
                         if (!foundFVC) { foundFVC = (currentTest == FVC); }
                         if (!foundFVCPOST) { foundFVCPOST = (currentTest == FVCPOST); }
                         if (!foundFVCPOSTBD) { foundFVCPOSTBD = (currentTest == FVCPOSTBD); }
@@ -364,6 +366,11 @@ namespace BpOmniaBridge
                 else { type = "PRE";}
             }
 
+            if (summary)
+            {
+                type = type + "_SUMMARY";
+            }
+
             return type;
         }
 
@@ -371,15 +378,24 @@ namespace BpOmniaBridge
         // if PRE get only data from PRE and recordID from PRE
         // BC get the data from FVCPOSTBD but get recordID from test FVCPOST
         // BD get the data and recordID from FVCPOSTBD
+        // if SUMMARY found in type testID will be the list of all the tests.
         private List<string> FindDataToImport(string filePath, string type)
         {
             List<string> results = new List<string> { };
             List<string> resultPRE = new List<string> { };
             List<string> resultPOST = new List<string> { };
-            string testID = "";
+            List<string> testID = new List<string> { "" };
             long time = 0;
             bool foundPRE = false;
             bool foundPOSTBD = false;
+            bool summary = false;
+
+            if (type.Contains("SUMMARY"))
+            {
+                summary = true;
+                type = type.Replace("_SUMMARY", "");
+                testID.RemoveAt(0);
+            }
 
             // reset the flags to skip all the elements that we don't need
             if (type == "PRE") { foundPOSTBD = true; };
@@ -392,19 +408,28 @@ namespace BpOmniaBridge
                 IEnumerable<XElement> testInfos = element.Elements();
                 foreach (XElement info in testInfos)
                 {
-                    
+                    if (summary)
+                    {
+                        testID.Add(GetRecordID(info));
+                    }
+
                     if (info.Name.ToString() == "TestType")
                     {
                         Guid currentTest = new Guid(info.Value);
                         if (currentTest == FVCPOSTBD && type != "PRE") {
                             resultPOST = GetParamsValues(info);
-                            if (type == "BD") { testID = GetRecordID(info); }
+                            if (type == "BD" && !summary) { testID[0] = GetRecordID(info); }
                             foundPOSTBD = true;
                         }
                         if (currentTest == FVC) {
                             resultPRE = GetParamsValues(info);
                             if(type == "PRE") {
-                                testID = GetRecordID(info);
+                                if (!summary)
+                                {
+                                    testID[0] = GetRecordID(info);
+                                }
+                                // need to have this 3 elements otherwise I have an error in the save test
+                                // into BP
                                 resultPOST = new List<string> { "", "", "" };
                             }
                             foundPRE = true;
@@ -413,11 +438,11 @@ namespace BpOmniaBridge
                         if (currentTest == FVCPOST && type == "BC")
                         {
                             long currentTime = Convert.ToInt64(info.Ancestors().Elements("Time").First().FirstAttribute.Value);
-                            if (time == 0 || time < currentTime)
+                            if (time == 0 || time < currentTime && !summary)
                             {
                                 time = currentTime;
                                 resultPOST = GetParamsValues(info);
-                                testID = GetRecordID(info);
+                                testID[0] = GetRecordID(info);
                             }
                         }
                         goto nextElement;
@@ -432,7 +457,7 @@ namespace BpOmniaBridge
         done:;
             results.AddRange(resultPRE.ToArray());
             results.AddRange(resultPOST.ToArray());
-            results.Add(testID);
+            results.AddRange(testID.ToArray());
 
             return results;
         }
@@ -502,15 +527,32 @@ namespace BpOmniaBridge
         }
 
         // create PDF test file
-        public Command GeneratePDF(string patientFullName, string patientDateOfBirth, string recordID)
+        public Command GeneratePDF(string patientFullName, string patientDateOfBirth, List<string> recordIDs)
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var filename = DateTime.Today.ToString("dd-MM-yyy") + " - " + patientFullName + " (" + patientDateOfBirth + ")" + ".pdf";
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
-            string[] keys = { "RecordID", "Filename" };
-            string[] values = { recordID, filePath };
-
-            return new CommandList().ExportReport(keys, values);
+            List<string> keys = new List<string> { "Filename" };
+            List<string> values = new List<string> { filePath };
+            if (recordIDs.Count > 1)
+            {
+                int index = 0;
+                foreach (string recordID in recordIDs)
+                {
+                    if(index == 0)
+                    {
+                        keys.Add("RecordID");
+                        values.Add(recordID);
+                    }
+                    else
+                    {
+                        keys.Add("ID"+index.ToString());
+                        values.Add(recordID);
+                    }
+                }
+            }
+            
+            return new CommandList().ExportReport(keys.ToArray(), values.ToArray());
         }
     }
     #endregion

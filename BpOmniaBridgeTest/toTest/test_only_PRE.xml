@@ -20,7 +20,7 @@
       <Smoker>255</Smoker>
       <Height>180</Height>
       <Weight>80</Weight>
-      <Diagnosis>Diagnosis only PRE</Diagnosis>
+      <Diagnosis>Diagnosis only PRE with FVC/FEV1% withing the normal range</Diagnosis>
       <ConfirmedDiag>True</ConfirmedDiag>
       <Diabetes>False</Diabetes>
       <Resync>0</Resync>

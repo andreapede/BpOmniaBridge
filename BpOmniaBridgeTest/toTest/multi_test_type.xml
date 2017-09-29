@@ -34,10 +34,7 @@
       <Company>COSMED</Company>
       <Job>demo subject</Job>
       <Prescriptions>None</Prescriptions>
-      <Diagnosis>The subject has a FEV1/FVC% ratio of 79.1% and a FVC value of 6.07 L which are within the normal limits.
-Test results indicate a NORMAL SPIROMETRY
-
-** Unconfirmed ** - Automatically generated interpretation</Diagnosis>
+      <Diagnosis>Multi test types</Diagnosis>
       <ConfirmedDiag>False</ConfirmedDiag>
       <Diabetes>False</Diabetes>
       <ReferringPhysician>Dr. Kildare</ReferringPhysician>
