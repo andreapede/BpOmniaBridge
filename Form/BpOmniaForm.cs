@@ -269,7 +269,7 @@ namespace BpOmniaBridge
             else
             {
                 List<string> recordIDs = new List<string> { };
-                recordIDs = results.GetRange(7, results.Count - 6);
+                recordIDs = results.GetRange(7, results.Count - 8);
                 currentCommand = archive.GeneratePDF(patient.Name.FullName.ToString(), patient.DOB.ToString("dd-MM-yyyy"), recordIDs);
             }
         }

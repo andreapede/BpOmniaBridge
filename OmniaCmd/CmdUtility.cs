@@ -149,24 +149,36 @@ namespace BpOmniaBridge
         {
             ResultValues = new List<string> { };
             ResultKeys = new List<string> { };
-            if (File.Exists(FilePath))
+            int attempts = 10;
+            while (attempts > 0)
             {
-                //get all the elemnts under the command key
-                IEnumerable<XElement> elements = XDocument.Load(FilePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
-                foreach( XElement element in elements)
+                try
                 {
-                    ResultKeys.Add(element.Name.ToString());
-                    ResultValues.Add(element.Value);
+                    if (File.Exists(FilePath))
+                    {
+                        //get all the elemnts under the command key
+                        IEnumerable<XElement> elements = XDocument.Load(FilePath).Elements("OmniaXB").Elements(CmdSystem).Elements(Cmd).Elements();
+                        foreach (XElement element in elements)
+                        {
+                            ResultKeys.Add(element.Name.ToString());
+                            ResultValues.Add(element.Value);
+                        }
+                        DeleteFile();
+                        Utility.Log("Read => done");
+                    }
+                    else
+                    {
+                        ResultKeys.Add("Result");
+                        ResultValues.Add("NAK");
+                    }
+                    attempts = 0;
                 }
-                DeleteFile();
-                Utility.Log("Read => done");
+                catch (IOException ex)
+                {
+                    Thread.Sleep(10);
+                    attempts--;
+                }
             }
-            else
-            {
-                ResultKeys.Add("Result");
-                ResultValues.Add("NAK");
-            }
-                
         }
 
         private void DeleteFile(string in_out = ".out")
