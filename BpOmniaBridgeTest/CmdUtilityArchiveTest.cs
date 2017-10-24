@@ -76,7 +76,7 @@ namespace BpOmniaBridgeTest
             var archive = new Archive(prmNames, prmValues);
             List<string> result = new List<string> { };
             string filePath;
-
+            
             //test no error raise in case of no test.xml file preset
             filePath = testHelper.CopyFileToTest("no_tests", "tests", ".xml");
             result = archive.ReadExportDataFile();
@@ -131,8 +131,11 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("", result[4]);
             Assert.AreEqual("", result[5]);
             Assert.AreEqual("", result[6]);
-            Assert.AreEqual("5f117269-4e80-41bc-bd8a-6a3b044c654f", result[7]);
-            Assert.AreEqual("PRE_SUMMARY", result[8]);
+            Assert.AreEqual("09986630-0d12-4928-a72b-79f8b1285d0a", result[7]);
+            Assert.AreEqual("c9706196-d993-4b14-99d6-8c48f7ccd693", result[8]);
+            Assert.AreEqual("49274dab-bf35-48ce-b2b2-a0b3304d7b35", result[9]);
+            Assert.AreEqual("2d14048d-a077-401a-85ea-fd2af64b9a10", result[10]);
+            Assert.AreEqual("PRE_SUMMARY", result[11]);
         }   
     }
 }

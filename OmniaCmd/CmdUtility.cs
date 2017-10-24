@@ -408,9 +408,9 @@ namespace BpOmniaBridge
                 IEnumerable<XElement> testInfos = element.Elements();
                 foreach (XElement info in testInfos)
                 {
-                    if (summary)
+                    if (summary && info.Name.ToString() == "RecordID")
                     {
-                        testID.Add(GetRecordID(info));
+                        testID.Add(info.Value);
                     }
 
                     if (info.Name.ToString() == "TestType")
