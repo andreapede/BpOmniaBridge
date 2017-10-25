@@ -73,27 +73,5 @@ namespace BpOmniaBridgeTest
             // refresh appSettings
             BpOmniaBridge.Utility.RefreshConfig();
         }
-
-        IPatient patient;
-        IName name;
-        public IPatient Patient { get => patient; set => patient = value; }
-        public IName Name { get => name; set => name = value; }
-
-        public IPatient GetNewPatient()
-        { 
-            //Create IPatient object
-            Patient.InternalId = 123;
-            Name.First = "James";
-            Name.Middle = "Middle";
-            Name.Last = "Bond";
-            Patient.Name = Name;
-            Patient.DOB = DateTime.Parse("19800101");
-            Patient.Gender = Gender.Male;
-            Patient.Ethnicity = Ethnicity.Australian;
-            Patient.Height = 180;
-            Patient.Weight = 80;
-            
-            return Patient;
-        }
     }
 }

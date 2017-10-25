@@ -123,7 +123,7 @@ namespace BpOmniaBridge
 
         public Command ExportReport(string[] subjNames, string[] subjValues)
         {
-            var cmd = new Command("export_report", "Archive", "ExportReport", true, 0);
+            var cmd = new Command("export_report", "Archive", "ExportReport");
             cmd.AddParams(subjNames, subjValues);
             cmd.Send();
 

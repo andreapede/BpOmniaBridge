@@ -20,3 +20,17 @@ D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.application
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.manifest
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.BpOmniaForm.resources
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.Properties.Resources.resources
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.GenerateResource.Cache
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.CoreCompileInputs.cache
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.pdb
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.config
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.manifest
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.application
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.pdb
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.manifest
+C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
