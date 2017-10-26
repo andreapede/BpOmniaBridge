@@ -175,7 +175,7 @@ namespace BpOmniaBridge
                 }
                 catch (IOException ex)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(500);
                     attempts--;
                 }
             }
