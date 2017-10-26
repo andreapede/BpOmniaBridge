@@ -546,22 +546,27 @@ namespace BpOmniaBridge
             var filePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files", filename);
             List<string> keys = new List<string> { "Filename" };
             List<string> values = new List<string> { filePath };
-            if (recordIDs.Count > 1)
+           
+            int index = 0;
+            foreach (string recordID in recordIDs)
             {
-                int index = 0;
-                foreach (string recordID in recordIDs)
+                if(index == 0)
                 {
-                    if(index == 0)
-                    {
-                        keys.Add("RecordID");
-                        values.Add(recordID);
-                    }
-                    else
-                    {
-                        keys.Add("ID"+index.ToString());
-                        values.Add(recordID);
-                    }
+                    keys.Add("RecordID");
+                    values.Add(recordID);
                 }
+                else
+                {
+                    string id = "ID";
+                    if(index > 1)
+                    {
+                        id += (index-1).ToString();
+                    }
+
+                    keys.Add(id);
+                    values.Add(recordID);
+                }
+                index += 1;
             }
             
             return new CommandList().ExportReport(keys.ToArray(), values.ToArray());

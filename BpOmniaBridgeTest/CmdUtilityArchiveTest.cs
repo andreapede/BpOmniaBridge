@@ -69,7 +69,7 @@ namespace BpOmniaBridgeTest
         }
 
         [TestMethod]
-        public void DataElaborationTest()
+        public void ReadExportDataFileTest()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
             string[] prmValues = { "001", "BP", "Omnia", "Bridge", "19800101", "Male", "Caucasian", "180", "80" };
@@ -136,6 +136,40 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("49274dab-bf35-48ce-b2b2-a0b3304d7b35", result[9]);
             Assert.AreEqual("2d14048d-a077-401a-85ea-fd2af64b9a10", result[10]);
             Assert.AreEqual("PRE_SUMMARY", result[11]);
-        }   
+        }
+
+        [TestMethod]
+        public void GeneratePDFTest()
+        {
+            string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
+            string[] prmValues = { "001", "BP", "Omnia", "Bridge", "19800101", "Male", "Caucasian", "180", "80" };
+            var archive = new Archive(prmNames, prmValues);
+            List<string> recordIDs = new List<string> { "09986630-0d12-4928-a72b-79f8b1285d0a",
+                "c9706196-d993-4b14-99d6-8c48f7ccd693", "49274dab-bf35-48ce-b2b2-a0b3304d7b35" };
+
+            archive.GeneratePDF("PatientName", "01011980", recordIDs);
+
+            var filePath = Path.Combine(testHelper.TempFileFolder(), "export_report.in");
+            IEnumerable<XElement> elements = XDocument.Load(filePath).Elements("OmniaXB").Elements("Archive").Elements("ExportReport").Elements();
+            List<string> keys = new List<string> { };
+            List<string> values = new List<string> { };
+
+            foreach(XElement element in elements)
+            {
+                keys.Add(element.Name.ToString());
+                values.Add(element.Value);
+            }
+
+            Assert.AreEqual("Filename", keys[0]);
+            Assert.AreEqual(Path.Combine(testHelper.PdfFileFolder(), "26-10-2017 - PatientName (01011980).pdf"), values[0]);
+            Assert.AreEqual("RecordID", keys[1]);
+            Assert.AreEqual("09986630-0d12-4928-a72b-79f8b1285d0a", values[1]);
+            Assert.AreEqual("ID", keys[2]);
+            Assert.AreEqual("c9706196-d993-4b14-99d6-8c48f7ccd693", values[2]);
+            Assert.AreEqual("ID1", keys[3]);
+            Assert.AreEqual("49274dab-bf35-48ce-b2b2-a0b3304d7b35", values[3]);
+
+            testHelper.DeleteTempFileIN("export_report");
+        }
     }
 }
