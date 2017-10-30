@@ -161,7 +161,7 @@ namespace BpOmniaBridgeTest
             }
 
             Assert.AreEqual("Filename", keys[0]);
-            Assert.AreEqual(Path.Combine(testHelper.PdfFileFolder(), "26-10-2017 - PatientName (01011980).pdf"), values[0]);
+            Assert.AreEqual(Path.Combine(testHelper.PdfFileFolder(), DateTime.Today.ToString("dd-MM-yyy") + " - PatientName (01011980).pdf"), values[0]);
             Assert.AreEqual("RecordID", keys[1]);
             Assert.AreEqual("09986630-0d12-4928-a72b-79f8b1285d0a", values[1]);
             Assert.AreEqual("ID", keys[2]);
