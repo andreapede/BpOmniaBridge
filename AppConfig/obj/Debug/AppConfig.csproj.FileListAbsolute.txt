@@ -11,3 +11,4 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csproj.CoreCompileInputs.cache
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb
+D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csproj.CoreCompileInputs.cache

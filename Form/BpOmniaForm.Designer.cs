@@ -535,7 +535,7 @@ namespace BpOmniaBridge
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BpOmniaForm";
-            this.Text = "BP/Omnia Bridge v" + Application.ProductVersion;
+            this.Text = "BP/Omnia Bridge v15.0.27004.2005";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);

@@ -13,6 +13,7 @@ using BPS;
 using System.Runtime.InteropServices;
 using System.Configuration;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace BpOmniaBridge
 {

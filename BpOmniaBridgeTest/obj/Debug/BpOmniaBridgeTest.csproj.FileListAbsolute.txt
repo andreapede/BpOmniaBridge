@@ -31,3 +31,4 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\Bp
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\BpOmniaBridge.exe.config
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\BpOmniaBridgeTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\BpOmniaBridge\BpOmniaBridgeTest\obj\Debug\BpOmniaBridgeTest.csproj.CoreCompileInputs.cache
