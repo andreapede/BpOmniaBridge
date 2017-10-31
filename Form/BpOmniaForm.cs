@@ -19,10 +19,10 @@ namespace BpOmniaBridge
 {
     public partial class BpOmniaForm : Form
     {
-        public BPS.BPDevice app;
-        private IPatient patient;
+        public BPDevice app;
+        private dynamic patient;
         private ISpiro spiro;
-        private ITest currentTest;
+        private dynamic currentTest;
         public string subjectID;
         public string visitID;
         public Archive archive;
@@ -36,6 +36,7 @@ namespace BpOmniaBridge
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
         FileSystemWatcher watcher;
+        bool test = false;
 
         public BpOmniaForm()
         {
@@ -44,33 +45,36 @@ namespace BpOmniaBridge
             Utility.Initialize();
             currentStateIndex = 0;
 
-            try
-            {
-                Type type = Type.GetTypeFromProgID("BPS.BPDevice");
-                app = (BPS.BPDevice)Activator.CreateInstance(type);
-            }
-            catch (COMException)
+            if (!test)
             {
                 try
                 {
                     Type type = Type.GetTypeFromProgID("BPS.BPDevice");
-                    app = new BPS.BPDevice();// (BPDevice.Device.BPDevice)Activator.CreateInstance(type);
+                    app = (BPDevice)Activator.CreateInstance(type);
+                }
+                catch (COMException)
+                {
+                    try
+                    {
+                        Type type = Type.GetTypeFromProgID("BPS.BPDevice");
+                        app = new BPDevice();// (BPDevice.Device.BPDevice)Activator.CreateInstance(type);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
+                    Utility.Log("Error => " + ex.Message);
+                    MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-            }
-            catch (Exception ex)
-            {
-                Utility.Log("Error => " + ex.Message);
-                MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             if (app != null)
             {
                 WatchForFileDotOut();
-                app.eOnNewTest += new BPS.BPDevice.DeviceEventHandler(app_eOnNewTest);
+                app.eOnNewTest += new BPDevice.DeviceEventHandler(app_eOnNewTest);
                 StatusBar("After performing the tests in OMNIA, press Save Tests button");
             }
         }
@@ -94,7 +98,7 @@ namespace BpOmniaBridge
         }
 
         // read out file and invoke correct method
-        private void Read(object source, FileSystemEventArgs e)
+        public void Read(object source, FileSystemEventArgs e)
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
@@ -120,7 +124,6 @@ namespace BpOmniaBridge
             if(errorCode != 0)
             {   
                 Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
-                this.TopMost = true;
                 MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
@@ -328,6 +331,22 @@ namespace BpOmniaBridge
                 closeApp();
         }
 
+        #endregion
+
+        #region TestMethods
+        public void SetTestEnv(dynamic monkTest)
+        {
+            test = true;
+            app = new BPDevice();
+            currentTest =  monkTest;
+            patient = currentTest.Patient;
+            PatientPreliminaryCheck();
+        }
+
+        public ISpiro GetResults()
+        {
+            return spiro;
+        }
         #endregion
     }
 }
