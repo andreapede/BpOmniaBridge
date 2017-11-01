@@ -24,5 +24,14 @@ namespace AppConfig
                 w.Write("\r\n" + log);
             }
         }
+
+        public void CreateUtilityFolders()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var tempFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+            var pdfFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
+            Directory.CreateDirectory(tempFilePath);
+            Directory.CreateDirectory(pdfFilePath);
+        }
     }
 }

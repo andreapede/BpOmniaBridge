@@ -15,6 +15,7 @@ namespace AppConfig
             string cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var logFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "autoConfigLog.txt");
             Log log = new Log(logFilePath);
+            log.CreateUtilityFolders();
 
             try
             {
