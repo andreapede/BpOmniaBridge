@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{836BC3B7-918D-46E1-8C6B-A0E961E34C9C}"
 	ProjectSection(SolutionItems) = preProject
 		C:\Users\emanu\Desktop\Tutorial\ReadMe.txt = C:\Users\emanu\Desktop\Tutorial\ReadMe.txt
+		settings.runsettings = settings.runsettings
 		settings.testsettings = settings.testsettings
 	EndProjectSection
 EndProject

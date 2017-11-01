@@ -13,6 +13,7 @@ namespace BpOmniaBridgeTest
         string First { get; set; }
         string Middle { get; set; }
         string Last { get; set; }
+        string FullName { get; set; }
     }
 
     public class DefineIName : IName
@@ -20,12 +21,14 @@ namespace BpOmniaBridgeTest
         private string name;
         private string middle = "Middle";
         private string lastname;
+        private string fullname;
 
         public DefineIName(string name, string lastname)
         {
             First = name;
             Middle = middle;
             Last = lastname;
+            fullname = String.Join(" ", new string[3] { name, middle, lastname });
         }
 
         public string First
@@ -44,6 +47,12 @@ namespace BpOmniaBridgeTest
         {
             set { lastname = value; }
             get { return lastname; }
+        }
+
+        public string FullName
+        {
+            set { fullname = value; }
+            get { return fullname; }
         }
     }
 

@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings name="settings" id="408f50ae-7ffc-46b3-9f31-1f741cd9b060" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<TestSettings name="settings" id="b2023bd4-e3fd-4e9f-9e54-3df1793850c4" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment enabled="false" />
   <NamingScheme baseName="emaglio" appendTimeStamp="false" useDefault="false" />
   <Execution>
-    <Hosts>
-      <AspNet name="ASP.NET" executionType="WebDev" />
-    </Hosts>
-    <Timeouts runTimeout="600000" testTimeout="20000" />
+    <Timeouts runTimeout="1800000" testTimeout="10000" />
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution applicationBaseDirectory="D:\BpOmniaBridge">
           <TestDirectory useLoadContext="true" />
+          <RuntimeResolution>
+            <Directory path="D:\BpOmniaBridge" includeSubDirectories="true" />
+          </RuntimeResolution>
+          <DiscoveryResolution>
+            <Directory path="D:\BpOmniaBridge" includeSubDirectories="true" />
+          </DiscoveryResolution>
         </AssemblyResolution>
       </UnitTestRunConfig>
     </TestTypeSpecific>

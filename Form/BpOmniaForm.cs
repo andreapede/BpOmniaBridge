@@ -14,7 +14,7 @@ namespace BpOmniaBridge
     {
         public BPDevice app;
         private dynamic patient;
-        private ISpiro spiro;
+        private dynamic spiro;
         private dynamic currentTest;
         public string subjectID;
         public string visitID;
@@ -25,7 +25,7 @@ namespace BpOmniaBridge
         public Command currentCommand;
         public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
         public int errorCode = -1;
-        public int currentStateIndex;
+        public int currentStateIndex = 0;
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
         FileSystemWatcher watcher;
@@ -36,7 +36,6 @@ namespace BpOmniaBridge
             InitializeComponent();
             //IntPtr myHandle = this.Handle; NOT SURE ABOUT THIS
             Utility.Initialize();
-            currentStateIndex = 0;
 
             if (!test)
             {
@@ -86,12 +85,18 @@ namespace BpOmniaBridge
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
                 | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = "*.out*";
-            watcher.Created += new FileSystemEventHandler(Read);
+            watcher.Created += new FileSystemEventHandler(CallRead);
             watcher.EnableRaisingEvents = true;
         }
 
+        // using this method to simplier test the form
+        public void CallRead(object source, FileSystemEventArgs e)
+        {
+            Read();
+        }
+
         // read out file and invoke correct method
-        public void Read(object source, FileSystemEventArgs e)
+        public void Read()
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var folderPath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
@@ -327,11 +332,11 @@ namespace BpOmniaBridge
         #endregion
 
         #region TestMethods
-        public void SetTestEnv(dynamic monkTest)
+        public void SetTestEnv(dynamic mockTest)
         {
             test = true;
             app = new BPDevice();
-            currentTest =  monkTest;
+            currentTest =  mockTest;
             patient = currentTest.Patient;
             PatientPreliminaryCheck();
         }
