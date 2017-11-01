@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Configuration;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -97,8 +95,10 @@ namespace BpOmniaBridge
             var omniaPath = ConfigurationManager.AppSettings["OmniaPath"];
             if (!File.Exists(omniaPath))
             {
-                Log("error => incorrect OmniaPath");
-                MessageBox.Show("Please run Omnia before starting the Spirometry test from Best Practice", "Omnia not found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Log("error => Incorrect OmniaPath");
+                MessageBox.Show("Omnia seems not installed in the default folder. " +
+                    "Please run Omnia before starting any Spirometry test from Best Practice and/or modify the .config file (contact Cosmed AP for more info anz@cosmed.com)", 
+                    "Omnia not found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
 

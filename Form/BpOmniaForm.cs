@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using BPS;
 using System.Runtime.InteropServices;
 using System.Configuration;
 using System.Reflection;
-using System.Diagnostics;
 
 namespace BpOmniaBridge
 {
@@ -31,7 +24,7 @@ namespace BpOmniaBridge
         public bool pdfCreated = false;
         public Command currentCommand;
         public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
-        public int errorCode = 0;
+        public int errorCode = -1;
         public int currentStateIndex;
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
@@ -117,7 +110,7 @@ namespace BpOmniaBridge
         
         public void closeApp()
         {
-            if(errorCode != 0)
+            if(errorCode != -1)
             {   
                 Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
                 this.TopMost = true;
