@@ -2,10 +2,6 @@
 using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BpOmniaBridge;
-using BPS;
-using System.Windows.Forms;
-using System.Threading;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace BpOmniaBridgeTest
@@ -25,10 +21,10 @@ namespace BpOmniaBridgeTest
                 { "name", "Firstname" },
                 { "lastname", "Lastname" },
                 { "dob", DateTime.Parse("01/01/1980") },
-                { "gender", "male" },
+                { "gender", "Male" },
                 { "height", 180 },
                 { "weight", 80 },
-                { "ethnicity", "Unknown" }
+                { "ethnicity", "Australian" }
             };
 
             Hashtable user = new Hashtable
@@ -37,14 +33,18 @@ namespace BpOmniaBridgeTest
                 { "name", "User" }
             };
 
+
             SimulateBP BP = new SimulateBP(patient, user);
-            
-            
+
             BpOmniaForm form = new BpOmniaForm { };
             form.SetTestEnv(BP.CurrentTest);
 
-            testHelper.CopyFileToTest("login_ack", "login");
+            Assert.IsTrue(testHelper.CheckFile("login"));
+            testHelper.DeleteTempFileIN("login");
 
+            // simulate Omnia reply
+            testHelper.CopyFileToTest("login_ack", "login");
+            // simulate FileSystemWatcher
             Event += new FileSystemEventHandler(form.Read);
 
         }

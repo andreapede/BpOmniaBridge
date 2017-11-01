@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Xml.Linq;
-using System.Threading;
-using BPS;
 
 namespace BpOmniaBridgeTest
 {
@@ -36,8 +30,7 @@ namespace BpOmniaBridgeTest
         {
             if (fileTo == "same")
                 fileTo = fileFrom;
-            var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
-            string fileToMove = Path.Combine(currentFolder, "toTest", fileFrom + ext);
+            string fileToMove = Path.Combine("D:\\BpOmniaBridge\\BpOmniaBridgeTest\\toTest", fileFrom + ext);
             if (destFolder == "tempFileFolder")
             {
                 destFolder = TempFileFolder();
@@ -72,6 +65,13 @@ namespace BpOmniaBridgeTest
             xml.Save(filePath);
             // refresh appSettings
             BpOmniaBridge.Utility.RefreshConfig();
+        }
+
+        public bool CheckFile(string file_name)
+        {
+            var file_path = Path.Combine(TempFileFolder(), file_name + ".in");
+
+            return File.Exists(file_path);
         }
     }
 }

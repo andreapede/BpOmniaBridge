@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using BPS;
 using System.Runtime.InteropServices;
 using System.Configuration;
 using System.Reflection;
-using System.Diagnostics;
 
 namespace BpOmniaBridge
 {
@@ -31,7 +24,7 @@ namespace BpOmniaBridge
         public bool pdfCreated = false;
         public Command currentCommand;
         public List<string> States = new List<string> { "Login", "Subject", "GetVisitCardList", "VisitCard", "SelectVisitCard", "ShowResultAndWait", "ExportData", "ReadDataAndGeneratePDF", "SaveInBP"};
-        public int errorCode = 0;
+        public int errorCode = -1;
         public int currentStateIndex;
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
@@ -121,7 +114,7 @@ namespace BpOmniaBridge
         
         public void closeApp()
         {
-            if(errorCode != 0)
+            if(errorCode != -1)
             {   
                 Utility.Log(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)));
                 MessageBox.Show(String.Format("Error code {0}: {1}", errorCode, Utility.ErrorList(errorCode)), "An Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -161,21 +154,21 @@ namespace BpOmniaBridge
         public void Subject()
         {
             string[] prmNames = { "ID", "FirstName", "MiddleName", "LastName", "DayOfBirth", "Gender", "EthnicGroup", "Height", "Weight" };
-            try // this is to prevent ISSUE https://github.com/emaglio/BpOmniaBridge/issues/15
+            try
             {
-                var id = patient.InternalId.ToString();
-                var name = patient.Name.First;
-                var middlename = patient.Name.Middle;
-                var lastname = patient.Name.Last;
-                var dob = patient.DOB.ToString("yyyyMMdd");
+                string id = patient.InternalId.ToString();
+                string name = patient.Name.First;
+                string middlename = patient.Name.Middle;
+                string lastname = patient.Name.Last;
+                string dob = patient.DOB.ToString("yyyyMMdd");
 
                 // handle different in gender lists
-                var bpGender = patient.Gender.ToString();
+                string bpGender = patient.Gender.ToString();
                 if (bpGender == "Unknown") { bpGender = "Other"; };
-                var gender = bpGender;
-                var ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
-                var height = patient.Height.ToString();
-                var weight = patient.Weight.ToString();
+                string gender = bpGender;
+                string ethnicity = Utility.MatchEthnicity(patient.Ethnicity.ToString());
+                string height = patient.Height.ToString();
+                string weight = patient.Weight.ToString();
                 string[] prmValues = { id, name, middlename, lastname, dob, gender, ethnicity, height, weight };
                 patientDetails = prmValues;
 
@@ -183,7 +176,7 @@ namespace BpOmniaBridge
                 archive = new Archive(prmNames, prmValues);
                 currentCommand = archive.CreateSubject();
             }
-            catch
+            catch(Exception ex)
             {
                 errorCode = 1;
                 closeApp();
