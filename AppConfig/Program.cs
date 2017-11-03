@@ -16,12 +16,14 @@ namespace AppConfig
             var logFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "autoConfigLog.txt");
             Log log = new Log(logFilePath);
             log.CreateUtilityFolders();
+            log.CreateLogFile();
 
             try
             {
                 Console.WriteLine("BpOmniaBridge is setting up Omnia ACS file:");
                 log.WriteLog("BpOmniaBridge is setting up Omnia ACS file:", true);
 
+                // OMNIA settings
                 var acsFile = Path.Combine(cmnDocPath, "Cosmed", "CosmedLab", "acs.xml");
                 var bridgeTempFile = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
                 XDocument doc = XDocument.Load(acsFile);
@@ -55,6 +57,7 @@ namespace AppConfig
                 Console.WriteLine(" ");
                 Thread.Sleep(1000);
 
+                // Best Practice settings
                 Console.WriteLine("BpOmniaBridge is setting up Best Practice register:");
                 log.WriteLog("BpOmniaBridge is setting up Best Practice register:");
                 string progFolder;
@@ -66,7 +69,7 @@ namespace AppConfig
                 {
                     progFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 }
-                string bridgePath = Path.Combine(progFolder, "Cosmed", "BpOmniaBridge", "BpOmniaBridge.exe");
+                string bridgePath = Path.Combine(progFolder, "COSMED", "BpOmniaBridge", "BpOmniaBridge.exe");
 
                 if (!File.Exists(bridgePath))
                 {
@@ -85,6 +88,7 @@ namespace AppConfig
                 catch
                 {
                     bpRegestry.SubKey = subKey2;
+                    
                     bpRegestry.Write("SpiroPath", bridgePath);
                 }
 

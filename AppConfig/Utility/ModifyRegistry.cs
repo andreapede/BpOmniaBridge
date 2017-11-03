@@ -14,9 +14,7 @@
 
 using System;
 // it's required for reading/writing into the registry:
-using Microsoft.Win32;      
-// and for the MessageBox function:
-using System.Windows; 
+using Microsoft.Win32;
 
 namespace Utility.ModifyRegistry
 {
@@ -60,7 +58,7 @@ namespace Utility.ModifyRegistry
 
 		/* **************************************************************************
 		 * **************************************************************************/
-
+        
 		/// <summary>
 		/// To read a registry key.
 		/// input: KeyName (string)
@@ -111,7 +109,6 @@ namespace Utility.ModifyRegistry
 			// 'cause OpenSubKey open a subKey as read-only
 			RegistryKey sk1 = rk.CreateSubKey(subKey);
             // Save the value
-            sk1.DeleteValue(KeyName);
 			sk1.SetValue(KeyName, Value);
             sk1.Close();
 			return true;
@@ -241,11 +238,13 @@ namespace Utility.ModifyRegistry
 		
 		private void ShowErrorMessage(Exception e, string Title)
 		{
-			//if (showError == true)
-				//MessageBox.Show(e.Message,
-					//			Title
-					//			,MessageBoxButtons.OK
-						//		,MessageBoxIcon.Error);
+            if (showError == true)
+            {
+                //MessageBox.Show(e.Message,
+                  //              Title
+                    //            , MessageBoxButtons.OK
+                      //          , MessageBoxIcon.Error);
+            }
 		}
 	}
 }

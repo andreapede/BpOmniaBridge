@@ -24,7 +24,8 @@ namespace AppConfig
                 w.Write("\r\n" + log);
             }
         }
-
+        
+        //folder where the xml files will be exchanged between OMNIA and BP
         public void CreateUtilityFolders()
         {
             var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -32,6 +33,14 @@ namespace AppConfig
             var pdfFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
             Directory.CreateDirectory(tempFilePath);
             Directory.CreateDirectory(pdfFilePath);
+        }
+
+        //Create utility folder for BpOmniaBridge + log file
+        public void CreateLogFile()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var fullpath = Path.Combine(cmnDocPath, "BpOmniaBridge");
+            Directory.CreateDirectory(fullpath);
         }
     }
 }
