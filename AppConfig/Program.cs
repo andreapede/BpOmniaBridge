@@ -102,8 +102,8 @@ namespace AppConfig
                 Thread.Sleep(500);
                 var fileVersion = FileVersionInfo.GetVersionInfo(bridgePath).FileVersion;
                 bpRegestry.Write("SpiroName", "BP/Omnia Bridge v" + fileVersion);
-                Console.WriteLine("  SprioName -> BP/Omnia Bridge v" + fileVersion +" ");
-                log.WriteLog("SprioName -> BP/Omnia Bridge v" + fileVersion);
+                Console.WriteLine("  SpiroName -> BP/Omnia Bridge v" + fileVersion +" ");
+                log.WriteLog("SpiroName -> BP/Omnia Bridge v" + fileVersion);
                 Thread.Sleep(500);
 
                 Console.WriteLine("");
