@@ -18,6 +18,7 @@ namespace BpOmniaBridge
             {
                 CreateLogFile();
             }
+            DeleteTempFiles();
         }
 
         //folder where the xml files will be exchanged between OMNIA and BP
@@ -156,6 +157,18 @@ namespace BpOmniaBridge
             errors.Add(8, "Something went wrong during result's elaboration");
 
             return errors[index];
+        }
+
+        public static bool DeleteTempFiles()
+        {
+            var cmnDocPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var tempFilePath = Path.Combine(cmnDocPath, "BpOmniaBridge", "temp_files");
+            DirectoryInfo di = new DirectoryInfo(tempFilePath);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            return true;
         }
 
 

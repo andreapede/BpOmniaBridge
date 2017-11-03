@@ -319,7 +319,7 @@ namespace BpOmniaBridge
             results.AddRange(FindDataToImport(filePath, testType));
             results.Add(testType);
 
-            //File.Delete(filePath);
+            File.Delete(filePath);
             var params_string = String.Join(" - ", results.ToArray());
             Utility.Log("action: Bridge => DataFound: " + params_string);
 

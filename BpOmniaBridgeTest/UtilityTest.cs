@@ -86,6 +86,18 @@ namespace BpOmniaBridgeTest
             Assert.AreEqual("Something went wrong during result's elaboration", Utility.ErrorList(8));
         }
 
+        [TestMethod]
+        public void DeleteTempFilesTest()
+        {
+            helper.CopyFileToTest("login_ack", "login1");
+            helper.CopyFileToTest("login_nak", "login2");
+
+            DirectoryInfo di = new DirectoryInfo(helper.TempFileFolder());
+            Assert.AreEqual(2, di.GetFiles().Length);
+            Assert.IsTrue(Utility.DeleteTempFiles());
+            Assert.AreEqual(0, di.GetFiles().Length);
+        }
+
 
         /*
         This test is not running because it changes the LogEnabledFlag in the App.config file but
