@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="BpOmniaBridge.exe" version="0.9.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="BpOmniaBridge" version="1.1.6516.28915" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="BpOmniaBridge" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="BpOmniaBridge.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -70,23 +70,23 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BpOmniaBridge.exe" size="45024">
-      <assemblyIdentity name="BpOmniaBridge" version="1.1.6516.28915" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="BpOmniaBridge" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8dwlQY0F5jbl/gY7krLbvjkXa+4Ro+7GvlfWjpoZjY4=</dsig:DigestValue>
+        <dsig:DigestValue>1roTDK5yXBSrzFwDaj4MVI90kA2HE7KMMC6yn8TWVFs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="BpOmniaBridge.exe.config" size="1228">
+  <file name="BpOmniaBridge.exe.config" size="1290">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>TDbo+sveHLWci9Z9fZ3PfMr6dOavvV8QA047ljxWaiI=</dsig:DigestValue>
+      <dsig:DigestValue>nY2Ms5PRULoCpilL5/n5JZ0KgaTz4nvrwWGGRafQQVk=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
