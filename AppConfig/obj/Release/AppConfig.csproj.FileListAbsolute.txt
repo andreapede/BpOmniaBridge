@@ -1,0 +1,6 @@
+D:\BpOmniaBridge\AppConfig\bin\Release\AppConfig.exe.config
+D:\BpOmniaBridge\AppConfig\bin\Release\AppConfig.exe
+D:\BpOmniaBridge\AppConfig\bin\Release\AppConfig.pdb
+D:\BpOmniaBridge\AppConfig\obj\Release\AppConfig.csproj.CoreCompileInputs.cache
+D:\BpOmniaBridge\AppConfig\obj\Release\AppConfig.exe
+D:\BpOmniaBridge\AppConfig\obj\Release\AppConfig.pdb

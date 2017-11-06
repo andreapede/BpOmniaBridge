@@ -19,7 +19,6 @@ D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe.manifest
 D:\BpOmniaBridge\bin\Debug\BpOmniaBridge.application
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.manifest
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
-D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.BpOmniaForm.resources
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.Properties.Resources.resources
@@ -36,3 +35,4 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.ma
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
 D:\BpOmniaBridge\bin\Debug\BPDevice.dll
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.CoreCompileInputs.cache
+D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache
