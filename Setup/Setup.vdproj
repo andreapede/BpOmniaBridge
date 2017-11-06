@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_21C5DE995B619320D230608AD0B9C286"
-        "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_38F83EA278D50A7C3A3806B97AF5D178"
         "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
         "MsmSig" = "8:_UNDEFINED"
@@ -35,12 +29,6 @@
         {
         "MsmKey" = "8:_556F6EF38E26055CEA159EFD1C75E6F1"
         "OwnerKey" = "8:_FB387C7555104B2EBE4F07E164E0591A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_556F6EF38E26055CEA159EFD1C75E6F1"
-        "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -53,12 +41,6 @@
         {
         "MsmKey" = "8:_64C6246D5AB1A7B5781019B74164C5CE"
         "OwnerKey" = "8:_C8466CF8391605B4B248504774D94AFA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_64C6246D5AB1A7B5781019B74164C5CE"
-        "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -81,14 +63,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C8466CF8391605B4B248504774D94AFA"
-        "OwnerKey" = "8:_FB387C7555104B2EBE4F07E164E0591A"
+        "MsmKey" = "8:_B3E649564DEA471FA257E8AA62006D45"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C8466CF8391605B4B248504774D94AFA"
-        "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
+        "OwnerKey" = "8:_FB387C7555104B2EBE4F07E164E0591A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -101,18 +83,6 @@
         {
         "MsmKey" = "8:_E0587609A47DDC87712CCC13AE6F2647"
         "OwnerKey" = "8:_FB387C7555104B2EBE4F07E164E0591A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E0587609A47DDC87712CCC13AE6F2647"
-        "OwnerKey" = "8:_21C5DE995B619320D230608AD0B9C286"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E0587609A47DDC87712CCC13AE6F2647"
-        "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -155,12 +125,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_97A9DA4F5F8A416A900E6E2D6EFCF078"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_21C5DE995B619320D230608AD0B9C286"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -278,37 +242,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_21C5DE995B619320D230608AD0B9C286"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BpOmniaBridge, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_21C5DE995B619320D230608AD0B9C286"
-                    {
-                    "Name" = "8:BpOmniaBridge.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:BpOmniaBridge.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_7CBB74991A5642F2841D0AB3780FD9E3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_38F83EA278D50A7C3A3806B97AF5D178"
             {
             "AssemblyRegister" = "3:1"
@@ -400,6 +333,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B3E649564DEA471FA257E8AA62006D45"
+            {
+            "SourcePath" = "8:..\\User Manual.pdf"
+            "TargetName" = "8:User Manual.pdf"
+            "Tag" = "8:"
+            "Folder" = "8:_AA4D60E444BB4C7194BFF15752E9C872"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C8466CF8391605B4B248504774D94AFA"
@@ -532,7 +485,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BpOmniaBridge"
         "ProductCode" = "8:{6F256761-B994-481B-8343-D70D3FE7F085}"
-        "PackageCode" = "8:{6B7EB465-5069-431F-B1EE-7C5CDABEC65B}"
+        "PackageCode" = "8:{DE6CE223-2CC3-4E25-BC6E-2409CCD1D75A}"
         "UpgradeCode" = "8:{60983130-791D-4A3B-86E7-099528A71253}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1053,7 +1006,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_97A9DA4F5F8A416A900E6E2D6EFCF078"
             {
-            "SourcePath" = "8:..\\AppConfig\\obj\\Debug\\AppConfig.exe"
+            "SourcePath" = "8:..\\AppConfig\\obj\\Release\\AppConfig.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7CBB74991A5642F2841D0AB3780FD9E3"
@@ -1081,7 +1034,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB387C7555104B2EBE4F07E164E0591A"
             {
-            "SourcePath" = "8:..\\obj\\Debug\\BpOmniaBridge.exe"
+            "SourcePath" = "8:..\\obj\\Release\\BpOmniaBridge.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AA4D60E444BB4C7194BFF15752E9C872"

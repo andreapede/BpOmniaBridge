@@ -21,3 +21,5 @@ D:\BpOmniaBridge\obj\Release\BpOmniaBridge.exe.manifest
 D:\BpOmniaBridge\obj\Release\BpOmniaBridge.application
 D:\BpOmniaBridge\obj\Release\BpOmniaBridge.exe
 D:\BpOmniaBridge\obj\Release\BpOmniaBridge.pdb
+D:\BpOmniaBridge\bin\Release\BpOmniaBridge.exe.CodeAnalysisLog.xml
+D:\BpOmniaBridge\bin\Release\BpOmniaBridge.exe.lastcodeanalysissucceeded
