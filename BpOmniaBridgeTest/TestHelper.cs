@@ -30,7 +30,11 @@ namespace BpOmniaBridgeTest
         {
             if (fileTo == "same")
                 fileTo = fileFrom;
-            string fileToMove = Path.Combine("D:\\BpOmniaBridge\\BpOmniaBridgeTest\\toTest", fileFrom + ext);
+            string currentDir = Directory.GetCurrentDirectory();
+            string toReplace = "bin\\Debug";
+            if (currentDir.Contains("Release")) { toReplace = "bin\\Release"; }
+            currentDir = currentDir.Replace(toReplace, "");
+            string fileToMove = Path.Combine(currentDir, "toTest", fileFrom + ext);
             if (destFolder == "tempFileFolder")
             {
                 destFolder = TempFileFolder();

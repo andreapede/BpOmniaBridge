@@ -35,7 +35,7 @@ namespace BpOmniaBridgeTest
 
             SimulateBP BP = new SimulateBP(patient, user);
 
-            BpOmniaForm form = new BpOmniaForm { };
+            BpOmniaForm form = new BpOmniaForm(true);
             form.SetTestEnv(BP.CurrentTest);
 
             Assert.IsTrue(testHelper.CheckFile("login"));
