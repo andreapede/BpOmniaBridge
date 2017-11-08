@@ -29,13 +29,14 @@ namespace BpOmniaBridge
         public Dictionary<string, List<string>> currentResult;
         public string[] patientDetails;
         FileSystemWatcher watcher;
-        bool test = false;
+        bool test;
 
-        public BpOmniaForm()
+        public BpOmniaForm(bool thisTest = false)
         {
             InitializeComponent();
             //IntPtr myHandle = this.Handle; NOT SURE ABOUT THIS
             Utility.Initialize();
+            test = thisTest;
 
             if (!test)
             {
@@ -334,8 +335,6 @@ namespace BpOmniaBridge
         #region TestMethods
         public void SetTestEnv(dynamic mockTest)
         {
-            test = true;
-            app = new BPDevice();
             currentTest =  mockTest;
             patient = currentTest.Patient;
             PatientPreliminaryCheck();
