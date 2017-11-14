@@ -33,6 +33,4 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.exe
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\bin\Debug\BpOmniaBridge.pdb
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.exe.manifest
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\obj\Debug\BpOmniaBridge.application
-D:\BpOmniaBridge\bin\Debug\BPDevice.dll
 D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csproj.CoreCompileInputs.cache
-D:\BpOmniaBridge\obj\Debug\BpOmniaBridge.csprojResolveAssemblyReference.cache

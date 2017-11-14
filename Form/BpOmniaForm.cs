@@ -13,7 +13,7 @@ namespace BpOmniaBridge
     public partial class BpOmniaForm : Form
     {
         public BPDevice app;
-        private dynamic patient;
+        private IPatient patient;
         private dynamic spiro;
         private dynamic currentTest;
         public string subjectID;
@@ -136,7 +136,7 @@ namespace BpOmniaBridge
         {
             Utility.Log("BP => new_test");
             currentTest = app.CurrentTest;
-            patient = currentTest.Patient;
+            IPatient patient = currentTest.Patient;
             PatientPreliminaryCheck();
         }
 
@@ -313,7 +313,7 @@ namespace BpOmniaBridge
                 spiro.Comment = results.ElementAt(0);
             
             spiro.DateTime = DateTime.Now;
-            spiro.Device = "COSMED Spiro";
+            spiro.Device = "COSMED";
 
             success = spiro.SaveTest();
         noResults:;
@@ -335,6 +335,7 @@ namespace BpOmniaBridge
         #region TestMethods
         public void SetTestEnv(dynamic mockTest)
         {
+            Utility.Log("Bridge => under testing");
             currentTest =  mockTest;
             patient = currentTest.Patient;
             PatientPreliminaryCheck();

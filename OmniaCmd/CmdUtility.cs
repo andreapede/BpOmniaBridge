@@ -514,6 +514,7 @@ namespace BpOmniaBridge
             try
             {
                 diagnosis = XDocument.Load(filePath).Element("COSMED_OMNIA_EXPORT").Element("Subject").Element("Visit").Element("Diagnosis").Value;
+                diagnosis.Replace("%", "%%");
             }
             catch { }
             return diagnosis;
