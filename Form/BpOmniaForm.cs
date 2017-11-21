@@ -57,11 +57,11 @@ namespace BpOmniaBridge
                         throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
                     }
                 }
-               /* catch (Exception ex)
+                catch (Exception ex)
                 {
                     Utility.Log("Error => " + ex.Message);
                     MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }*/
+                }
             }
 
             if (app != null)
@@ -72,9 +72,17 @@ namespace BpOmniaBridge
             }
         }
 
-
-
         #region Method
+       
+        // event to initialize data
+        private void app_eOnNewTest()
+        {
+            Utility.Log("BP => new_test");
+            currentTest = app.CurrentTest;
+            patient = currentTest.Patient;
+            PatientPreliminaryCheck();
+        }
+
         // Folder watcher to create the reading event 
         private void WatchForFileDotOut()
         {
@@ -130,14 +138,6 @@ namespace BpOmniaBridge
                 Utility.Log("Bridge => Closed");
             }
             this.Close();
-        }
-
-        private void app_eOnNewTest()
-        {
-            Utility.Log("BP => new_test");
-            currentTest = app.CurrentTest;
-            IPatient patient = currentTest.Patient;
-            PatientPreliminaryCheck();
         }
 
         private void PatientPreliminaryCheck()
@@ -335,12 +335,23 @@ namespace BpOmniaBridge
         #region TestMethods
         public void SetTestEnv(dynamic mockTest)
         {
+            try
+            {
+                currentTest = mockTest;
+                patient = currentTest.Patient;
+            }
+            catch
+            {
+                MessageBox.Show("Set as 'dynamic' the patient variable and run the tests again\n" +
+                     "REALLY IMPORTANT: reset 'IPatient' after testing otherwise an error will be raised when used with BP",
+                     "Test Enviroment Setup Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                closeApp();
+            }
             Utility.Log("Bridge => under testing");
-            currentTest =  mockTest;
-            patient = currentTest.Patient;
             PatientPreliminaryCheck();
-        }
 
+        }
+        
         public ISpiro GetResults()
         {
             return spiro;
