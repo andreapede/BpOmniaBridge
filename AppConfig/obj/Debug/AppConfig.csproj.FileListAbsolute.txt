@@ -1,8 +1,3 @@
-D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe.config
-D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe
-D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.pdb
-D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
-D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe.config
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.pdb
@@ -10,4 +5,10 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csproj.CoreCompileInputs.cache
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
 C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb
+D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe.config
+D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe
+D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.pdb
+D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csprojResolveAssemblyReference.cache
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csproj.CoreCompileInputs.cache
+D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
+D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb

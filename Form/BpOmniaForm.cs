@@ -57,11 +57,11 @@ namespace BpOmniaBridge
                         throw new Exception(ex.Message + Environment.NewLine + ex.InnerException.Message + " BPDeviceStart");
                     }
                 }
-                catch (Exception ex)
+               /* catch (Exception ex)
                 {
                     Utility.Log("Error => " + ex.Message);
                     MessageBox.Show(ex.Message + ex.StackTrace, "Bp Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                }*/
             }
 
             if (app != null)

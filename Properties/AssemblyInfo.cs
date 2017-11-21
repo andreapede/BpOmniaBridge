@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BpOmniaBridge")]
 [assembly: AssemblyDescription("Allow Omnia to communicate with Best Practice")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Cosmed AP")]
+[assembly: AssemblyCompany("Cosmed AP (EM)")]
 [assembly: AssemblyProduct("BpOmniaBridge")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
