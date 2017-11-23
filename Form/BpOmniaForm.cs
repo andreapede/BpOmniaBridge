@@ -316,8 +316,10 @@ namespace BpOmniaBridge
             spiro.Device = "COSMED";
 
             success = spiro.SaveTest();
-        noResults:;
-            MessageBox.Show(success ? "Data saved successfully." : "Failed saving data, try to click Save Tests again");
+            noResults:;
+            var label = success ? "Data saved successfully." : "Failed saving data, try to click Save Tests again";
+            var icon = success ? MessageBoxIcon.Information : MessageBoxIcon.Error;
+            MessageBox.Show(label, "BP/Omnia Bridge", MessageBoxButtons.OK, icon);
 
             if (success)
                 Utility.Log("action: Bridge => Data successfully saved");

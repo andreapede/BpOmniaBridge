@@ -12,7 +12,7 @@
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message Id="app" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2017-11-06 04:36:25Z" FixCategory="NonBreaking">
+            <Message Id="app" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2017-11-23 03:16:06Z" FixCategory="NonBreaking">
              <Issue Certainty="75" Level="Warning" Path="D:\BpOmniaBridge\Form" File="BpOmniaForm.Designer.cs" Line="19">'BpOmniaForm' contains field 'BpOmniaForm.app' that is of IDisposable type: 'BPDevice'. Change the Dispose method on 'BpOmniaForm' to call Dispose or Close on this field.</Issue>
             </Message>
            </Messages>

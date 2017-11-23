@@ -8,7 +8,6 @@ C:\Users\emaglio\Documents\projects\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.
 D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe.config
 D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.exe
 D:\BpOmniaBridge\AppConfig\bin\Debug\AppConfig.pdb
-D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csprojResolveAssemblyReference.cache
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.csproj.CoreCompileInputs.cache
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.exe
 D:\BpOmniaBridge\AppConfig\obj\Debug\AppConfig.pdb
