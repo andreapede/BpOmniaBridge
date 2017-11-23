@@ -26,15 +26,22 @@ namespace BpOmniaBridgeTest
             return Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
         }
 
+        public string TestProjectFolder()
+        {
+            List<string> folderArray = new List<string>(Directory.GetCurrentDirectory().Split(Path.DirectorySeparatorChar));
+            var projectFolderIndex = folderArray.IndexOf("BpOmniaBridge");
+            var projectFolder = folderArray.GetRange(0, projectFolderIndex + 1);
+            projectFolder.Add("BpOmniaBridgeTest");
+
+            return String.Join(@"\", projectFolder);
+        }
+
         public string CopyFileToTest(string fileFrom, string fileTo = "same", string ext = ".out", string destFolder = "tempFileFolder")
         {
             if (fileTo == "same")
                 fileTo = fileFrom;
-            string currentDir = Directory.GetCurrentDirectory();
-            string toReplace = "bin\\Debug";
-            if (currentDir.Contains("Release")) { toReplace = "bin\\Release"; }
-            currentDir = currentDir.Replace(toReplace, "");
-            string fileToMove = Path.Combine(currentDir, "toTest", fileFrom + ext);
+ 
+            string fileToMove = Path.Combine(TestProjectFolder(), "toTest", fileFrom + ext);
             if (destFolder == "tempFileFolder")
             {
                 destFolder = TempFileFolder();
@@ -77,5 +84,7 @@ namespace BpOmniaBridgeTest
 
             return File.Exists(file_path);
         }
+
+
     }
 }
