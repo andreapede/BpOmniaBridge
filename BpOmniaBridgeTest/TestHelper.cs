@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Xml.Linq;
-using System.Threading;
-using BPS;
 
 namespace BpOmniaBridgeTest
 {
@@ -32,12 +26,22 @@ namespace BpOmniaBridgeTest
             return Path.Combine(cmnDocPath, "BpOmniaBridge", "pdf_files");
         }
 
+        public string TestProjectFolder()
+        {
+            List<string> folderArray = new List<string>(Directory.GetCurrentDirectory().Split(Path.DirectorySeparatorChar));
+            var projectFolderIndex = folderArray.IndexOf("BpOmniaBridge");
+            var projectFolder = folderArray.GetRange(0, projectFolderIndex + 1);
+            projectFolder.Add("BpOmniaBridgeTest");
+
+            return String.Join(@"\", projectFolder);
+        }
+
         public string CopyFileToTest(string fileFrom, string fileTo = "same", string ext = ".out", string destFolder = "tempFileFolder")
         {
             if (fileTo == "same")
                 fileTo = fileFrom;
-            var currentFolder = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "");
-            string fileToMove = Path.Combine(currentFolder, "toTest", fileFrom + ext);
+ 
+            string fileToMove = Path.Combine(TestProjectFolder(), "toTest", fileFrom + ext);
             if (destFolder == "tempFileFolder")
             {
                 destFolder = TempFileFolder();
@@ -73,5 +77,14 @@ namespace BpOmniaBridgeTest
             // refresh appSettings
             BpOmniaBridge.Utility.RefreshConfig();
         }
+
+        public bool CheckFile(string file_name)
+        {
+            var file_path = Path.Combine(TempFileFolder(), file_name + ".in");
+
+            return File.Exists(file_path);
+        }
+
+
     }
 }

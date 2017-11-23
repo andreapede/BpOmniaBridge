@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace BpOmniaBridge
 {
@@ -514,6 +515,7 @@ namespace BpOmniaBridge
             try
             {
                 diagnosis = XDocument.Load(filePath).Element("COSMED_OMNIA_EXPORT").Element("Subject").Element("Visit").Element("Diagnosis").Value;
+                diagnosis = Regex.Replace(diagnosis, @"[^\x20-\x7F]", "");
             }
             catch { }
             return diagnosis;

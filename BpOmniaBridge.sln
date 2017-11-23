@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BpOmniaBridge", "BpOmniaBridge.csproj", "{DB2F8491-3403-4F8F-86B5-405FDCD1244A}"
 EndProject
@@ -10,6 +10,13 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{C22689DA-D5DD-44CB-AC2D-F058F4D2544B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig", "AppConfig\AppConfig.csproj", "{234BB450-3E6C-4AC8-9748-17DB103EF205}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{836BC3B7-918D-46E1-8C6B-A0E961E34C9C}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\emanu\Desktop\Tutorial\ReadMe.txt = C:\Users\emanu\Desktop\Tutorial\ReadMe.txt
+		settings.runsettings = settings.runsettings
+		settings.testsettings = settings.testsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10BE1EB9-38DD-4DBF-AA02-4E7D1BC6C141}
 	EndGlobalSection
 EndGlobal

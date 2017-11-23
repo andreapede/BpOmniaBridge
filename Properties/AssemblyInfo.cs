@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BpOmniaBridge")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Allow Omnia to communicate with Best Practice")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Cosmed AP")]
+[assembly: AssemblyCompany("Cosmed AP (EM)")]
 [assembly: AssemblyProduct("BpOmniaBridge")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

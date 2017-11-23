@@ -30,11 +30,11 @@ namespace BpOmniaBridgeTest
             Utility.CreateLogFile();
             var filepath = Path.Combine(helper.BpOmniaFolder(), "log.txt");
 
-            Assert.AreEqual(true, File.Exists(filepath), "Log file not created");
+            Assert.IsTrue(File.Exists(filepath), "Log file not created");
             var lines = File.ReadAllLines(filepath);
             string lastline = lines.GetValue(lines.Length-1).ToString();
-            Assert.AreEqual(true, lastline.Contains(DateTime.Today.ToLongDateString()), "Log not working");
-            Assert.AreEqual(true, lastline.Contains("Bridge => Started"), "Log not working");
+            Assert.IsTrue(lastline.Contains(DateTime.Today.ToLongDateString()), "Log not working");
+            Assert.IsTrue(lastline.Contains("Bridge => Started"), "Log not working");
         }
 
         [TestMethod]
